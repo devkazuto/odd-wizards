@@ -152,7 +152,7 @@ export default function RewardModalModal({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[350px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent">
                 <div className="w-full text-white">
-                    <div className='rounded-[35px] px-6 py-2 bg-[#171717] border-1 border-[#323237]' >
+                    <div className='rounded-[35px] px-6 py-2 bg-[#171717] border border-[#323237]' >
                         <div className='grid justify-center items-center'>
                             <div>
                                 {
