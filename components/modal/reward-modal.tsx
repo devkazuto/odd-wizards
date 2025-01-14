@@ -155,10 +155,10 @@ export default function RewardModalModal({
                         {
                             isClaimed ? (
                                 <div className='my-2'>
-                                    <Button onClick={() => setOpen(false)} className='w-full bg-green-500 hover:bg-green-400' variant={"default"} >Close</Button>
+                                    <Button onClick={() => setOpen(false)} className='w-full bg-green-500 hover:bg-green-400 rounded-[10px]' variant={"default"} >Close</Button>
                                 </div>
                             ) : (
-                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400' variant={"default"} >Claim Reward</Button>
+                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400 rounded-[10px]' variant={"default"} >Claim Reward</Button>
                             )
                         }
                     </div>
