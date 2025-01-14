@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
-import { updateNftOwner } from '@/lib/soft-staking-service';
-import { fetchStargazeTokens, transferNFT } from '@/lib/utils';
-import { OwnedTokensResponse } from '@/types';
+import { extractCollectionAndTokenId, getToken, transferNFT } from '@/lib/utils';
+import getConfig from '@/config/config';
+import { Token } from '@/types';
 
+const config = getConfig();
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
@@ -11,6 +12,13 @@ export async function POST(request: NextRequest) {
             staker_address,
             collection_address,
         } = body;
+
+        if(!config){
+            return NextResponse.json(
+                { message: 'Config not found' },
+                { status: 400 }
+            );
+        }
 
         const collection = await prisma.mst_collection.findFirst({
             where: { collection_address: collection_address },
@@ -58,7 +66,36 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // await transferNFT();
+        if(reward.distribusi_is_claimed == "Y"){
+            return NextResponse.json(
+                { message: 'Reward is claimed' },
+                { status: 400 }
+            );
+        }
+
+        const { collection: rewardCollection, tokenId } = extractCollectionAndTokenId(reward.distribusi_reward ?? "");
+
+        if(!rewardCollection || !tokenId){
+            return NextResponse.json(
+                { message: 'Reward not found' },
+                { status: 400 }
+            );
+        }
+
+        const token: Token = await getToken(rewardCollection, tokenId);
+
+        const resp = await transferNFT(config.mnemonic_reward_wallet, token.collection.contractAddress, staker_address, tokenId);
+        const txHash = resp.transactionHash;
+
+        await prisma.trn_distribusi_reward.update({
+            where: {
+                distribusi_id: reward.distribusi_id
+            },
+            data: {
+                distribusi_tx_hash: txHash,
+                distribusi_is_claimed: "Y"
+            }
+        });
 
         return NextResponse.json(
             {
@@ -70,10 +107,10 @@ export async function POST(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Stake Creation Error:', error);
+        console.error('Claim Reward Error:', error);
         return NextResponse.json(
             {
-                message: 'Failed to create Stake',
+                message: 'Failed to Claim Reward',
                 error: error instanceof Error ? error.message : 'Unknown error'
             },
             { status: 400 }

@@ -32,6 +32,8 @@ export default function RewardModalModal({
 
     const [token, setToken] = useState<Token>();
     const [isClaimed, setIsClaimed] = useState<boolean>(false);
+    const [txHash, setTxHash] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(false);
     const { toast, promiseToast } = useToast();
 
     useEffect(() => {
@@ -39,9 +41,12 @@ export default function RewardModalModal({
     }, [wallet]);
 
     async function fetchData() {
+        setLoading(true);
         let resp = await axios.get(`/api/soft-staking/reward?wallet_address=${wallet}&collection_address=${config?.collection_address}`);
         setToken(resp.data.data.token);
         setIsClaimed(resp.data.data.isClaimed);
+        setTxHash(resp.data.data.txHash);
+        setLoading(false);
         if (!resp.data.data.isClaimed) {
             triggerConffeti();
         }
@@ -78,6 +83,7 @@ export default function RewardModalModal({
 
     const claimReward = () => {
         try {
+            setLoading(true);
             promiseToast(doClaimReward(), {
                 loading: {
                     title: "Processing...",
@@ -86,12 +92,14 @@ export default function RewardModalModal({
                 success: (result) => {
                     triggerConffeti();
                     fetchData();
+                    setLoading(false);
                     return {
                         title: "Success!",
                         description: "Claim Reward Successfully"
                     }
                 },
                 error: (error: AxiosResponse | any) => {
+                    setLoading(false);
                     return {
                         title: "Ups! Something wrong.",
                         description: error?.response?.data?.message || 'Internal server error.'
@@ -141,7 +149,7 @@ export default function RewardModalModal({
                         {
                             isClaimed && <div className='flex items-center justify-center truncate gap-2'>
                                 <span className='text-xs md:!text-sm text-gray-400'>Your reward has claimed tx hash:</span>
-                                <Link className='text-xs md:!text-sm text-gray-400' href="https://www.mintscan.io/stargaze/tx/FCB66253EA17251182FC6C8C5E87A6907F4CCD9F42B839382F6FF188E0622EBB" target="_blank">{formatAddress("FCB66253EA17251182FC6C8C5E87A6907F4CCD9F42B839382F6FF188E0622EBB")}</Link>
+                                <Link className='text-xs md:!text-sm text-gray-400' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
                             </div>
                         }
                         {
@@ -150,7 +158,7 @@ export default function RewardModalModal({
                                     <Button onClick={() => setOpen(false)} className='w-full bg-green-500 hover:bg-green-400' variant={"default"} >Close</Button>
                                 </div>
                             ) : (
-                                <Button onClick={claimReward} className='w-full bg-green-500 hover:bg-green-400' variant={"default"} >Claim Reward</Button>
+                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400' variant={"default"} >Claim Reward</Button>
                             )
                         }
                     </div>

@@ -34,7 +34,7 @@ import moment from 'moment';
 import { promiseToast } from "@/components/ui/use-toast";
 import { useChain } from "@cosmos-kit/react";
 import { MagicCard } from "@/components/ui/magic-card";
-import { cn, formatDecimal, getToken } from "@/lib/utils";
+import { cn, extractCollectionAndTokenId, formatDecimal, getToken } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowUp, ChevronUp, ChevronDown } from "lucide-react";
 
@@ -153,24 +153,6 @@ export default function Stake() {
                 };
         }
     };
-
-    function extractCollectionAndTokenId(url: string) {
-        const regex = /\/m\/([^/]+)\/(\d+)/;
-        const match = url?.match(regex);
-
-        if (match) {
-            return {
-                collection: match[1],
-                tokenId: match[2],
-            };
-        } else {
-            // throw new Error("URL format is invalid");
-            return {
-                collection: undefined,
-                tokenId: undefined,
-            };
-        }
-    }
 
     useEffect(() => {
         async function fetchData() {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
 import { getTotalPoints } from '@/lib/soft-staking-service';
-import { getToken } from '@/lib/utils';
+import { extractCollectionAndTokenId, getToken } from '@/lib/utils';
 
 export async function GET(request: NextRequest) {
     try {
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
                 data: {
                     token: token,
                     isClaimed: reward.distribusi_is_claimed == "Y",
-                    txhash: reward.distribusi_tx_hash
+                    txHash: reward.distribusi_tx_hash
                 }
             },
             { status: 200 }
@@ -86,23 +86,5 @@ export async function GET(request: NextRequest) {
             },
             { status: 400 }
         );
-    }
-}
-
-function extractCollectionAndTokenId(url: string) {
-    const regex = /\/m\/([^/]+)\/(\d+)/;
-    const match = url?.match(regex);
-
-    if (match) {
-        return {
-            collection: match[1],
-            tokenId: match[2],
-        };
-    } else {
-        // throw new Error("URL format is invalid");
-        return {
-            collection: undefined,
-            tokenId: undefined,
-        };
     }
 }

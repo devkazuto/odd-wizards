@@ -13,7 +13,8 @@ const config = (network: string) => {
         price_type: {
           "WZRD": env.NEXT_PUBLIC_COLLECTION_ADDRESS || 'stars1n3hf6qf3azpx0ml9axn9pdgypr3sm07cgcmg0es7lq26vamhnmss742w7l',
         },
-        owners: ["stars1eqjmq52czppu4y7vy2qn0dvfjuyqelrwny4alg"]
+        owners: ["stars1eqjmq52czppu4y7vy2qn0dvfjuyqelrwny4alg"],
+        mnemonic_reward_wallet: env.REWARD_WALLET_MNEMONIC || ''
       }
     case "mainnet":
       return {
@@ -25,7 +26,8 @@ const config = (network: string) => {
         price_type: {
           "WZRD": env.NEXT_PUBLIC_COLLECTION_ADDRESS || 'stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7',
         },
-        owners: ["stars1eqjmq52czppu4y7vy2qn0dvfjuyqelrwny4alg", "stars1tc6prqsj5s3qqpkpam3jpjxh8gf8exgf7vp8z0", "stars130tcpz6l0j9f382prlj67r29jmr25cgpacmd7r"]
+        owners: ["stars1eqjmq52czppu4y7vy2qn0dvfjuyqelrwny4alg", "stars1tc6prqsj5s3qqpkpam3jpjxh8gf8exgf7vp8z0", "stars130tcpz6l0j9f382prlj67r29jmr25cgpacmd7r"],
+        mnemonic_reward_wallet: env.REWARD_WALLET_MNEMONIC || ''
       }
   }
 }
