@@ -13,6 +13,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import { useToast } from '../ui/use-toast';
 import { formatAddress } from '@/lib/utils';
+import ScratchToReveal from '../ui/scratch-to-reveal';
 
 const config = getConfig();
 
@@ -122,48 +123,108 @@ export default function RewardModalModal({
         });
     }
 
+    const doShare = async () => {
+        const tweetText = `Just won this from https://www.oddsgarden.io/\nhttps://www.stargaze.zone/m/oddswizard/7692\n\nThank you!🥳\n\n#oddsgarden #stargaze`;
+        const encodedTweetText = encodeURIComponent(tweetText);
+        const mobileTweetUrl = `twitter://post?message=${encodedTweetText}`; // Mobile app scheme
+        const webTweetUrl = `https://x.com/intent/tweet?text=${encodedTweetText}`;
+
+        // Detect if the user is on mobile
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            window.location.href = mobileTweetUrl;
+        } else {
+            // Create temporary link element for web
+            const link = document.createElement('a');
+            link.href = webTweetUrl;
+            link.target = '_blank';
+            // link.rel = 'noopener noreferrer'; // Security best practice for target="_blank"
+            document.body.appendChild(link);
+
+            // Trigger click and remove element
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[350px] rounded-xl bg-black px-2 py-2">
-                <div className="w-full bg-black text-white">
-                    <div className='grid justify-center items-center'>
-                        <div>
-                            <span className='font-bold text-xl'>Congratulations 🎉</span>
+            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[280px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent">
+                <div className="w-full text-white">
+                    <div className='rounded-[30px] px-6 py-2 bg-[#171717] border-2 border-[#323237]' >
+                        <div className='grid justify-center items-center'>
+                            <div>
+                                {
+                                    isClaimed ? (
+                                        <span className='font-bold text-xl'>🥳 Claimed 🥳</span>
+                                    ) : (
+                                        <span className='font-bold text-xl'>👑 Congratulations 👑</span>
+                                    )
+                                }
+                            </div>
+                            {
+                                isClaimed ? (
+                                    <div className='flex items-center justify-center truncate gap-2'>
+                                        <span className='text-xs md:!text-sm text-gray-400'>Tx Hash:</span>
+                                        <Link className='text-xs md:!text-sm text-gray-400' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
+                                    </div>
+                                ) : (
+                                    <div className='flex items-center gap-2 truncate'>
+                                        <span className="text-sm text-gray-400">You get a prize</span>
+                                        <Link href={`https://www.stargaze.zone/m/${token?.collection.contractAddress}/${token?.tokenId}`} target="_blank">
+                                            <span className='text-sm font-bold'>{token?.name}</span>
+                                        </Link>
+                                    </div>
+                                )
+                            }
                         </div>
-                        <div className='flex items-center gap-2'>
-                            <span className="text-sm text-gray-400">You get a prize</span>
-                            <Link href={`https://www.stargaze.zone/m/${token?.collection.contractAddress}/${token?.tokenId}`} target="_blank">
-                                <span className='text-sm font-bold'>{token?.name}</span>
-                            </Link>
+                        <div>
+                            <div className="bg-center aspect-square rounded-xl overflow-hidden my-2">
+                                {
+                                    isClaimed ? (
+                                        <div
+                                            className="w-[250px] h-full bg-cover transition-transform duration-300 hover:scale-105"
+                                            style={{
+                                                backgroundImage: `url('${token?.media.url}')`,
+                                            }}
+                                        ></div>
+                                    ) : (
+                                        <ScratchToReveal
+                                            width={250}
+                                            height={250}
+                                            minScratchPercentage={70}
+                                            className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
+                                            onComplete={() => { }}
+                                            gradientColors={["#A97CF8", "#F38CB8", "#FDCC92"]}
+                                        >
+                                            {/* <p className="text-9xl">😎</p> */}
+                                            <div
+                                                className="w-full h-full bg-cover transition-transform duration-300 hover:scale-105"
+                                                style={{
+                                                    backgroundImage: `url('${token?.media.url}')`,
+                                                }}
+                                            ></div>
+                                        </ScratchToReveal>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
-                    <div className='px-2 pb-2'>
-                        <div className="bg-center aspect-square rounded-xl overflow-hidden my-2">
-                            <div
-                                className="w-full h-full bg-cover transition-transform duration-300 hover:scale-105"
-                                style={{
-                                    backgroundImage: `url('${token?.media.url}')`,
-                                }}
-                            ></div>
-                        </div>
-                        {
-                            isClaimed && <div className='flex items-center justify-center truncate gap-2'>
-                                <span className='text-xs md:!text-sm text-gray-400'>Your reward has claimed tx hash:</span>
-                                <Link className='text-xs md:!text-sm text-gray-400' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
-                            </div>
-                        }
+                    <div className='mt-2'>
                         {
                             isClaimed ? (
-                                <div className='my-2'>
-                                    <Button onClick={() => setOpen(false)} className='w-full bg-green-500 hover:bg-green-400 rounded-[10px]' variant={"default"} >Close</Button>
+                                <div className='my-2 flex items-center gap-2'>
+                                    <Button onClick={() => setOpen(false)} className='w-full bg-red-500 hover:bg-red-400 rounded-[100px] text-black' variant={"default"} >Close</Button>
+                                    <Button onClick={doShare} className='w-full bg-blue-500 hover:bg-blue-400 rounded-[100px] text-black' variant={"default"} >Share</Button>
                                 </div>
                             ) : (
-                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400 rounded-[10px]' variant={"default"} >Claim Reward</Button>
+                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400 rounded-[100px] text-black' variant={"default"} >Claim Reward</Button>
                             )
                         }
                     </div>
                 </div>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 }
