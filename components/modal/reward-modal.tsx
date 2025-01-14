@@ -35,6 +35,7 @@ export default function RewardModalModal({
     const [isClaimed, setIsClaimed] = useState<boolean>(false);
     const [txHash, setTxHash] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [complete, setComplete] = useState<boolean>(false);
     const { toast, promiseToast } = useToast();
 
     useEffect(() => {
@@ -150,9 +151,9 @@ export default function RewardModalModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[350px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent">
+            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[350px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent  focus-visible:outline-none focus-visible:ring-0 ">
                 <div className="w-full text-white">
-                    <div className='rounded-[35px] px-6 py-2 bg-[#171717] border border-[#323237]' >
+                    <div className='rounded-[35px] px-6 py-3 bg-[#171717] border border-[#323237]' >
                         <div className='grid justify-center items-center'>
                             <div>
                                 {
@@ -165,15 +166,15 @@ export default function RewardModalModal({
                             </div>
                             {
                                 isClaimed ? (
-                                    <div className='flex items-center justify-center truncate gap-2'>
+                                    <div className='flex items-center justify-center truncate gap-2 -mt-1'>
                                         <span className='text-xs md:!text-sm text-gray-400'>Tx Hash:</span>
-                                        <Link className='text-xs md:!text-sm text-gray-400' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
+                                        <Link className='text-xs md:!text-sm text-[#DB2877]' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
                                     </div>
                                 ) : (
-                                    <div className='flex items-center gap-2 truncate'>
+                                    <div className='flex items-center justify-center gap-2 truncate -mt-1'>
                                         <span className="text-sm text-gray-400">You get a prize</span>
                                         <Link href={`https://www.stargaze.zone/m/${token?.collection.contractAddress}/${token?.tokenId}`} target="_blank">
-                                            <span className='text-sm font-bold'>{token?.name}</span>
+                                            <span className='text-sm text-[#DB2877]'>{token?.name}</span>
                                         </Link>
                                     </div>
                                 )
@@ -193,7 +194,7 @@ export default function RewardModalModal({
                                         <ScratchToReveal
                                             minScratchPercentage={70}
                                             className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
-                                            onComplete={() => { }}
+                                            onComplete={() => { setComplete(true) }}
                                             gradientColors={["#A97CF8", "#F38CB8", "#FDCC92"]}
                                         >
                                             {/* <p className="text-9xl">😎</p> */}
@@ -209,15 +210,15 @@ export default function RewardModalModal({
                             </div>
                         </div>
                     </div>
-                    <div className='mt-2'>
+                    <div className='mt-3'>
                         {
                             isClaimed ? (
                                 <div className='my-2 flex items-center gap-2'>
-                                    <Button onClick={() => setOpen(false)} className='w-full bg-red-500 hover:bg-red-400 rounded-[100px] text-black' variant={"default"} >Close</Button>
-                                    <Button onClick={doShare} className='w-full bg-blue-500 hover:bg-blue-400 rounded-[100px] text-black' variant={"default"} >Share</Button>
+                                    <Button onClick={() => setOpen(false)} className='w-full bg-red-500 hover:bg-red-400 rounded-[100px] text-black font-black' variant={"default"} >Close</Button>
+                                    <Button onClick={doShare} className='w-full bg-blue-500 hover:bg-blue-400 rounded-[100px] text-black font-black' variant={"default"} >Share</Button>
                                 </div>
                             ) : (
-                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400 rounded-[100px] text-black' variant={"default"} >Claim Reward</Button>
+                                <Button onClick={claimReward} disabled={loading || !complete} className='w-full bg-green-500 hover:bg-green-400 rounded-[100px] text-black font-black' variant={"default"} >Claim Reward</Button>
                             )
                         }
                     </div>
