@@ -124,7 +124,7 @@ export default function RewardModalModal({
     }
 
     const doShare = async () => {
-        const tweetText = `Just won this from https://www.oddsgarden.io/\nhttps://www.stargaze.zone/m/oddswizard/7692\n\nThank you!🥳\n\n#oddsgarden #stargaze`;
+        const tweetText = `Just won this from https://www.oddsgarden.io/\nhttps://www.stargaze.zone/m/${token?.collection.contractAddress}/${token?.tokenId}\n\nThank you!🥳\n\n#oddsgarden #stargaze`;
         const encodedTweetText = encodeURIComponent(tweetText);
         const mobileTweetUrl = `twitter://post?message=${encodedTweetText}`; // Mobile app scheme
         const webTweetUrl = `https://x.com/intent/tweet?text=${encodedTweetText}`;
@@ -150,16 +150,16 @@ export default function RewardModalModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[280px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent">
+            <DialogContent isClose={false} className="max-w-[95%] md:!max-w-[350px] rounded-xl bg-black px-2 py-2 !bg-transparent !border-0 !border-transparent">
                 <div className="w-full text-white">
-                    <div className='rounded-[30px] px-6 py-2 bg-[#171717] border-2 border-[#323237]' >
+                    <div className='rounded-[35px] px-6 py-2 bg-[#171717] border-2 border-[#323237]' >
                         <div className='grid justify-center items-center'>
                             <div>
                                 {
                                     isClaimed ? (
-                                        <span className='font-bold text-xl'>🥳 Claimed 🥳</span>
+                                        <span className='font-bold text-lg md:!text-xl'>🥳 Claimed 🥳</span>
                                     ) : (
-                                        <span className='font-bold text-xl'>👑 Congratulations 👑</span>
+                                        <span className='font-bold text-lg md:!text-xl'>👑 Congratulations 👑</span>
                                     )
                                 }
                             </div>
@@ -184,15 +184,13 @@ export default function RewardModalModal({
                                 {
                                     isClaimed ? (
                                         <div
-                                            className="w-[250px] h-full bg-cover transition-transform duration-300 hover:scale-105"
+                                            className="w-full h-full bg-cover transition-transform duration-300 hover:scale-105"
                                             style={{
                                                 backgroundImage: `url('${token?.media.url}')`,
                                             }}
                                         ></div>
                                     ) : (
                                         <ScratchToReveal
-                                            width={250}
-                                            height={250}
                                             minScratchPercentage={70}
                                             className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
                                             onComplete={() => { }}

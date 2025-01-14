@@ -4,8 +4,6 @@ import { motion, useAnimation } from "motion/react";
 
 interface ScratchToRevealProps {
   children: React.ReactNode;
-  width: number;
-  height: number;
   minScratchPercentage?: number;
   className?: string;
   onComplete?: () => void;
@@ -13,38 +11,51 @@ interface ScratchToRevealProps {
 }
 
 const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
-  width,
-  height,
   minScratchPercentage = 50,
   onComplete,
   children,
   className,
   gradientColors = ["#A97CF8", "#F38CB8", "#FDCC92"],
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isScratching, setIsScratching] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-
   const controls = useAnimation();
 
+  // Handle canvas resize
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (canvas && ctx) {
-      ctx.fillStyle = "#ccc";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      const gradient = ctx.createLinearGradient(
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      );
-      gradient.addColorStop(0, gradientColors[0]);
-      gradient.addColorStop(0.5, gradientColors[1]);
-      gradient.addColorStop(1, gradientColors[2]);
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
+    const resizeCanvas = () => {
+      const container = containerRef.current;
+      const canvas = canvasRef.current;
+      if (container && canvas) {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        
+        // Redraw gradient after resize
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          const gradient = ctx.createLinearGradient(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+          gradient.addColorStop(0, gradientColors[0]);
+          gradient.addColorStop(0.5, gradientColors[1]);
+          gradient.addColorStop(1, gradientColors[2]);
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+    };
+
+    // Initial size
+    resizeCanvas();
+
+    // Add resize listener
+    window.addEventListener('resize', resizeCanvas);
+    return () => window.removeEventListener('resize', resizeCanvas);
   }, [gradientColors]);
 
   useEffect(() => {
@@ -113,7 +124,6 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
       transition: { duration: 0.5 },
     });
 
-    // Call onComplete after animation finishes
     if (onComplete) {
       onComplete();
     }
@@ -146,10 +156,9 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
 
   return (
     <motion.div
-      className={cn("relative select-none", className)}
+      ref={containerRef}
+      className={cn("relative select-none w-full h-full", className)}
       style={{
-        width,
-        height,
         cursor:
           "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNSIgc3R5bGU9ImZpbGw6I2ZmZjtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MXB4OyIgLz4KPC9zdmc+'), auto",
       }}
@@ -157,9 +166,7 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
     >
       <canvas
         ref={canvasRef}
-        width={width}
-        height={height}
-        className="absolute left-0 top-0"
+        className="absolute left-0 top-0 w-full h-full"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       ></canvas>
