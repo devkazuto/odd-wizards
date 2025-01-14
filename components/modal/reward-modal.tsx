@@ -35,7 +35,7 @@ export default function RewardModalModal({
     const [isClaimed, setIsClaimed] = useState<boolean>(false);
     const [txHash, setTxHash] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
-    const [complete, setComplete] = useState<boolean>(false);
+    // const [complete, setComplete] = useState<boolean>(false);
     const { toast, promiseToast } = useToast();
 
     useEffect(() => {
@@ -166,12 +166,12 @@ export default function RewardModalModal({
                             </div>
                             {
                                 isClaimed ? (
-                                    <div className='flex items-center justify-center truncate gap-2 -mt-1'>
+                                    <div className='flex items-center justify-center truncate gap-2'>
                                         <span className='text-xs md:!text-sm text-gray-400'>Tx Hash:</span>
                                         <Link className='text-xs md:!text-sm text-[#DB2877]' href={`https://www.mintscan.io/stargaze/tx/${txHash}`} target="_blank">{formatAddress(`${txHash}`)}</Link>
                                     </div>
                                 ) : (
-                                    <div className='flex items-center justify-center gap-2 truncate -mt-1'>
+                                    <div className='flex items-center justify-center gap-2 truncate'>
                                         <span className="text-sm text-gray-400">You get a prize</span>
                                         <Link href={`https://www.stargaze.zone/m/${token?.collection.contractAddress}/${token?.tokenId}`} target="_blank">
                                             <span className='text-sm text-[#DB2877]'>{token?.name}</span>
@@ -194,7 +194,7 @@ export default function RewardModalModal({
                                         <ScratchToReveal
                                             minScratchPercentage={70}
                                             className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
-                                            onComplete={() => { setComplete(true) }}
+                                            onComplete={() => { }}
                                             gradientColors={["#A97CF8", "#F38CB8", "#FDCC92"]}
                                         >
                                             {/* <p className="text-9xl">😎</p> */}
@@ -218,7 +218,7 @@ export default function RewardModalModal({
                                     <Button onClick={doShare} className='w-full bg-blue-500 hover:bg-blue-400 rounded-[100px] text-black font-black' variant={"default"} >Share</Button>
                                 </div>
                             ) : (
-                                <Button onClick={claimReward} disabled={loading || !complete} className='w-full bg-green-500 hover:bg-green-400 rounded-[100px] text-black font-black' variant={"default"} >Claim Reward</Button>
+                                <Button onClick={claimReward} disabled={loading} className='w-full bg-green-500 hover:bg-green-400 rounded-[100px] text-black font-black' variant={"default"} >Claim Reward</Button>
                             )
                         }
                     </div>
