@@ -195,7 +195,7 @@ export default function RewardModalModal({
                                             minScratchPercentage={70}
                                             className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
                                             onComplete={() => { }}
-                                            gradientColors={["#A97CF8", "#F38CB8", "#FDCC92"]}
+                                            gradientColors={["#22C55D", "#22c5a9", "#22A4C5"]}
                                         >
                                             {/* <p className="text-9xl">😎</p> */}
                                             <div
