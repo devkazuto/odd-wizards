@@ -28,7 +28,7 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
     const resizeCanvas = () => {
       const container = containerRef.current;
       const canvas = canvasRef.current;
-      if (container && canvas) {
+      if (container && canvas && !isComplete) {  // Only resize if not complete
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
         
@@ -56,26 +56,28 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
     // Add resize listener
     window.addEventListener('resize', resizeCanvas);
     return () => window.removeEventListener('resize', resizeCanvas);
-  }, [gradientColors]);
+  }, [gradientColors, isComplete]);
 
   useEffect(() => {
     const handleDocumentMouseMove = (event: MouseEvent) => {
-      if (!isScratching) return;
+      if (!isScratching || isComplete) return;  // Don't scratch if complete
       scratch(event.clientX, event.clientY);
     };
 
     const handleDocumentTouchMove = (event: TouchEvent) => {
-      if (!isScratching) return;
+      if (!isScratching || isComplete) return;  // Don't scratch if complete
       const touch = event.touches[0];
       scratch(touch.clientX, touch.clientY);
     };
 
     const handleDocumentMouseUp = () => {
+      if (isComplete) return;  // Don't check if already complete
       setIsScratching(false);
       checkCompletion();
     };
 
     const handleDocumentTouchEnd = () => {
+      if (isComplete) return;  // Don't check if already complete
       setIsScratching(false);
       checkCompletion();
     };
@@ -97,13 +99,18 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
       document.removeEventListener("touchend", handleDocumentTouchEnd);
       document.removeEventListener("touchcancel", handleDocumentTouchEnd);
     };
-  }, [isScratching]);
+  }, [isScratching, isComplete]);
 
-  const handleMouseDown = () => setIsScratching(true);
+  const handleMouseDown = () => {
+    if (!isComplete) setIsScratching(true);  // Only allow scratching if not complete
+  };
 
-  const handleTouchStart = () => setIsScratching(true);
+  const handleTouchStart = () => {
+    if (!isComplete) setIsScratching(true);  // Only allow scratching if not complete
+  };
 
   const scratch = (clientX: number, clientY: number) => {
+    if (isComplete) return;  // Don't scratch if complete
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (canvas && ctx) {
@@ -149,6 +156,7 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
       if (percentage >= minScratchPercentage) {
         setIsComplete(true);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.style.display = 'none';  // Hide the canvas when complete
         startAnimation();
       }
     }
@@ -159,8 +167,9 @@ const ScratchToReveal: React.FC<ScratchToRevealProps> = ({
       ref={containerRef}
       className={cn("relative select-none w-full h-full", className)}
       style={{
-        cursor:
-          "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNSIgc3R5bGU9ImZpbGw6I2ZmZjtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MXB4OyIgLz4KPC9zdmc+'), auto",
+        cursor: isComplete
+          ? "default"
+          : "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNSIgc3R5bGU9ImZpbGw6I2ZmZjtzdHJva2U6IzAwMDtzdHJva2Utd2lkdGg6MXB4OyIgLz4KPC9zdmc+'), auto",
       }}
       animate={controls}
     >

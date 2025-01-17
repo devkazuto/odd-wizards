@@ -374,11 +374,14 @@ const RaffleCardCustom = ({ data }: RaffleCardCustomProps) => {
                             <div className="px-2">
                                 {Object.values(summedParticipants)?.map((item, index) => (
                                     <div key={index} className="flex justify-between items-center my-2">
-                                        <Link href={`https://www.stargaze.zone/p/${item.participant_address}/tokens`} target="_blank">
-                                            <span className="text-[#DB2877]">
-                                                {formatAddress(item.participant_address ?? undefined)}
-                                            </span>
-                                        </Link>
+                                        <div className="flex items-center gap-3">
+                                            <span className="opacity-50">{index + 1}.</span>
+                                            <Link href={`https://www.stargaze.zone/p/${item.participant_address}/tokens`} target="_blank">
+                                                <span className="text-[#DB2877]">
+                                                    {formatAddress(item.participant_address ?? undefined)}
+                                                </span>
+                                            </Link>
+                                        </div>
                                         <span className="">
                                             {formatDecimal(item.total_amount, 2)} Ticket
                                         </span>

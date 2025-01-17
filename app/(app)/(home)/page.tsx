@@ -114,7 +114,7 @@ const imageList = [
 
 export default function Home() {
   return (
-    <div className="relative bg-black w-full">
+    <div className="relative bg-black w-full h-screen overflow-hidden">
       <div className="relative">
         <Header />
         <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full" />
@@ -123,11 +123,11 @@ export default function Home() {
           <source src="/images/home.mp4" type="video/mp4" />
           <img src="/images/hero.png" className="w-full" />
         </video>
-        <div className="absolute bottom-0 w-full h-[100px] bg-gradient-to-b from-transparent to-black">
+        {/* <div className="absolute bottom-0 w-full h-[100px] bg-gradient-to-b from-transparent to-black">
           <div className="md:!hidden w-full bg-transparent px-4 py-12 text-center">
-            <div className="flex justify-center">
+            <div className="flex justify-center"> */}
               {/* <h1 className="text-4xl md:!text-6xl text-white font-black">Stake, Win, and LFGODDS!</h1> */}
-              <CustomGradualSpacing
+              {/* <CustomGradualSpacing
                 className="font-display text-center text-4xl font-black md:leading-[5rem]"
                 text="Stake, Win, and"
               />
@@ -144,11 +144,11 @@ export default function Home() {
               <p className="text-sm md:!text-xl text-gray-400 leading-none">and win prizes.</p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className="hidden md:!block w-full bg-black px-4 py-12 text-center">
+      {/* <div className="hidden md:!block w-full bg-black px-4 py-12 text-center"> */}
         {/* <h1 className="text-4xl md:!text-6xl text-white font-black">Stake, Win, and LFGODDS!</h1> */}
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <CustomGradualSpacing
             className="font-display text-center text-2xl md:!text-6xl font-black md:leading-[5rem] text-transparent bg-clip-text bg-gradient-to-b from-gray-300 to-white"
             text="Stake, Win, and LFGODDS!"
@@ -179,7 +179,7 @@ export default function Home() {
       </div>
       <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-8 md:py-16">
         <Footer className="my-0" />
-      </div>
-    </div>
+      </div>*/}
+    </div> 
   );
 }

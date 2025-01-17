@@ -45,6 +45,7 @@ _If you are looking for a React admin dashboard starter, here is the [repo](http
 | [Not Found](https://next-shadcn-dashboard-starter.vercel.app/dashboard/notfound)  | Not Found Page Added in the root level                                                                |
 | -                                                                                 | -                                                                                                     |
 
+
 ## Getting Started
 
 Follow these steps to clone the repository and start the development server:
