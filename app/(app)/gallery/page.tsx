@@ -60,12 +60,12 @@ export default function Gallery() {
         <div className="relative bg-black w-full">
             <Header />
             <div className="min-h-screen flex flex-col  items-center justify-center pt-28">
-                <div className="flex flex-col items-center justify-center my-8 px-20">
+                <div className="flex flex-col items-center justify-center my-12 px-20">
                     <CustomGradualSpacing
                         className="font-display text-center text-4xl md:!text-6xl font-black md:leading-[5rem]"
                         text="Make NFTs Great Again!"
                     />
-                    <div className="mt-2 px-32">
+                    <div className="mt-6 px-32">
                         <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">The next Blue chip in Internet, powered by <Link href="https://www.stargaze.zone" className="text-[#DB2877]" >Stargaze.</Link></p>
                     </div>
                 </div>
