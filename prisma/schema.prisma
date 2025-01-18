@@ -23,6 +23,7 @@ model mst_users {
 
 model mst_collection {
   collection_id          Int     @id @default(autoincrement())
+  collection_code        String?
   collection_address     String?
   collection_name        String?
   collection_description String?

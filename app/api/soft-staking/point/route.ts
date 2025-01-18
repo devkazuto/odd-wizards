@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         }
 
         const collection = await prisma.mst_collection.findFirst({
-            where: { collection_address: collection_address },
+            where: { collection_code: collection_address },
             include: {
                 mst_staker: false
             }
