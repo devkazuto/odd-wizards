@@ -8,6 +8,8 @@ import GenerateImage from "@/components/gallery/GenerateImage";
 import TabsGalleryMobile from "@/components/TabsGalleryMobile";
 import Marquee from "react-fast-marquee";
 import Snowfall from 'react-snowfall';
+import CustomGradualSpacing from "@/components/CustomGradouselSpacing";
+import Link from "next/link";
 
 const collections: CollectionCardType[] = [
     {
@@ -57,7 +59,16 @@ export default function Gallery() {
     return (
         <div className="relative bg-black w-full">
             <Header />
-            <div className="min-h-screen flex items-center justify-center pt-28">
+            <div className="min-h-screen flex flex-col  items-center justify-center pt-28">
+                <div className="flex flex-col items-center justify-center my-8 px-20">
+                    <CustomGradualSpacing
+                        className="font-display text-center text-4xl md:!text-6xl font-black md:leading-[5rem]"
+                        text="Make NFTs Great Again!"
+                    />
+                    <div className="mt-2 px-32">
+                        <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">The next Blue chip in Internet, powered by <Link href="https://www.stargaze.zone" className="text-[#DB2877]" >Stargaze.</Link></p>
+                    </div>
+                </div>
                 {/* <div className="grid grid-cols-1 md:!grid-cols-3 w-full px-10 md:!px-28"> */}
                 <Marquee speed={100}>
                     {[...collections, ...collections].map((item, index) => (
