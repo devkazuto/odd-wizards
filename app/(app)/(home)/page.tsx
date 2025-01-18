@@ -117,7 +117,7 @@ export default function Home() {
     <div className="relative bg-black w-full h-screen overflow-hidden">
       <div className="relative">
         <Header />
-        <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full" />
+        <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full scale-125" />
         {/* <img src="/images/wizard.gif" className="md:!hidden h-screen w-full" /> */}
         <video autoPlay loop muted className="hidden md:!block w-full">
           <source src="/images/home.mp4" type="video/mp4" />
