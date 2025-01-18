@@ -144,7 +144,7 @@ const StakeCard: FC = () => {
                       ref={claimRef}
                       variant={"ghost"}
                       onClick={doStakeAndClaim}
-                      className="w-full px-8 py-3 h-max text-[14px] md:!text-xl font-black text-black rounded-xl bg-green-500 hover:bg-green-400 hover:text-black"
+                      className="w-full px-8 py-3 h-max text-[15px] md:!text-xl font-bold text-black rounded-xl bg-green-500 hover:bg-green-400 hover:text-black"
                     >Stake and Claim</Button>) :
                     (<StakeButton />)
                 }

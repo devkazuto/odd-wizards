@@ -12,8 +12,8 @@ const StakeSection = ({
   collection
 }: StakeSectionProps) => {
   return (
-    <div className="relative bg-black rounded-t-[100px]">
-      <div className="absolute -top-4 md:!-top-32 left-6 right-6 md:left-20 md:right-20">
+    <div className="relative">
+      <div className="absolute md:top-0 left-6 right-6 md:left-20 md:right-20">
         <div className="hidden md:!flex w-full">
           <StakeCard />
         </div>
@@ -21,7 +21,7 @@ const StakeSection = ({
           <StakeCardMobile />
         </div>
       </div>
-      <div className="h-[220px] md:!h-[140px]" />
+      <div className="h-[250px] md:!h-[275px]" />
       {/* <BoxLeaderboard /> */}
       <BoxStatStake collection={collection} />
     </div>

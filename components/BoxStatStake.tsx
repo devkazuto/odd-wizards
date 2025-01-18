@@ -43,7 +43,7 @@ export const BoxStatStake = ({
 
   return (
     <div hidden={!address}>
-      <div>
+      <div hidden={loading}>
         <div className="relative flex gap-2 md:!gap-6 w-full px-4 md:px-12 lg:px-20">
           <div className="w-full grid md:grid-cols-3 gap-x-4">
             <div className="flex bg-[#171717] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
