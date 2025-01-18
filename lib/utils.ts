@@ -78,19 +78,19 @@ export default function calculatePoint(
       // Calculate points for minute-based rewards
       const minutesPassed = timeDifferenceMs / (1000 * 60);
       const minuteReward = minutesPassed * (attrreward.attr_reward || 0) / 60;
-      return Math.min(minuteReward, attrreward.attr_reward || 0);
+      return minuteReward || 0;
 
     case REWARD_PERIODE.HOUR:
       // Calculate points for hour-based rewards
       const hoursPassed = timeDifferenceMs / (1000 * 60 * 60);
       const hourReward = hoursPassed * (attrreward.attr_reward || 0) / 24;
-      return Math.min(hourReward, attrreward.attr_reward || 0);
+      return hourReward || 0;
 
     case REWARD_PERIODE.DAY:
       // Calculate points for day-based rewards
       const daysPassed = timeDifferenceMs / (1000 * 60 * 60 * 24);
       const dayReward = daysPassed * (attrreward.attr_reward || 0);
-      return Math.min(dayReward, attrreward.attr_reward || 0);
+      return dayReward || 0;
 
     default:
       // If an unknown period is provided, return 0

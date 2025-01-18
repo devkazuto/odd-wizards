@@ -25,7 +25,7 @@ export default function Stake({ params }: { params: { collection: string } }) {
                     className="font-display text-center text-4xl md:!text-6xl font-black md:leading-[5rem]"
                     text="Odds Wizard"
                 />
-                <div className="my-8 px-18">
+                <div className="my-8 px-32">
                     <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">Bad kids is a collection of 9,999 bad drawings of kids. Some people like the pictures and some people are bad kids themselves. You can buy them if you want to or you can just look at them, that’s ok too.</p>
                 </div>
             </div>
