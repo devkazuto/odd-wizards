@@ -22,7 +22,7 @@ export default function Stake({ params }: { params: { collection: string } }) {
             </div>
             <div className="flex flex-col items-center justify-center mt-8 px-20">
                 <CustomGradualSpacing
-                    className="font-display text-center text-4xl font-black md:leading-[5rem]"
+                    className="font-display text-center text-4xl md:!text-6xl font-black md:leading-[5rem]"
                     text="Odds Wizard"
                 />
                 <div className="my-8">
