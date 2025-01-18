@@ -32,7 +32,7 @@ const StakeCard: FC = () => {
     setIsFetch(false);
     async function fetchData() {
       try {
-        let resp = await axios.get(`/api/soft-staking/point?wallet_address=${address}&collection_address=${config?.collection_address}`)
+        let resp = await axios.get(`/api/soft-staking/available-point?wallet_address=${address}&collection_address=${config?.collection_address}`)
         let data = resp.data.data;
         // setPoints(data.points);
         setStaker(data.staker);

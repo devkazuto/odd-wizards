@@ -47,25 +47,34 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const stakerTotalPoints = staker?.staker_total_points
+        const resp = await getTotalPoints(staker_address, collection_address);
+
+        if (resp.point == 0) {
+            return NextResponse.json(
+                { message: 'No points available to claim' },
+                { status: 400 }
+            );
+        }
+
+        const stakerTotalPoints = staker.staker_total_points
             ? staker.staker_total_points.toString()
             : null;
 
         return NextResponse.json(
             {
-                message: 'Get points successfully',
+                message: 'Get available points successfully',
                 data: {
-                    point: stakerTotalPoints,
-                    totalStake: staker.staker_nft_staked
+                    staker: { ...staker, staker_total_points: stakerTotalPoints },
+                    points: resp.point
                 }
             },
             { status: 200 }
         );
     } catch (error) {
-        console.error('Get points Error:', error);
+        console.error('Get available points Error:', error);
         return NextResponse.json(
             {
-                message: 'Failed to Get points',
+                message: 'Failed to Get available points',
                 error: error instanceof Error ? error.message : 'Unknown error'
             },
             { status: 400 }

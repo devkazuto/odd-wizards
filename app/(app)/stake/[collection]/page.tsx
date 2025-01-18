@@ -4,7 +4,7 @@ import CustomGradualSpacing from "@/components/CustomGradouselSpacing";
 import { useState } from "react";
 import { Footer } from "@/components/layout/footer";
 import StakeSection from "@/components/home/StakeSection";
-export default function Stake() {
+export default function Stake({ params }: { params: { collection: string } }) {
 
     return (
         <div className="relative bg-black w-full">
@@ -26,7 +26,7 @@ export default function Stake() {
             </div>
             <div className="w-full h-[125px] bg-black" />
             <div>
-                <StakeSection />
+                <StakeSection collection={params.collection} />
             </div>
             <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-12 md:py-16">
                 <Footer className="my-0" />
