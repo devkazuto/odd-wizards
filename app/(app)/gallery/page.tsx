@@ -73,7 +73,7 @@ export default function Gallery() {
 
                 {/* </div> */}
             </div>
-            <div className="mt-8 md:!my-20 text-center">
+            {/* <div className="mt-8 md:!my-20 text-center">
                 <h1 className="text-2xl md:!text-6xl text-white font-black">Create something fun!</h1>
                 <div className="mt-2 md:!mt-6">
                     <p className="text-sm md:!text-3xl text-gray-400 leading-tight">Click “random” for unlimited possibilities.</p>
@@ -87,7 +87,7 @@ export default function Gallery() {
                     <TabsGalleryMobile tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                 </div>
                 <GenerateImage collection={activeTab} />
-            </div>
+            </div> */}
             <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-16">
                 <Footer className="my-0" />
             </div>
