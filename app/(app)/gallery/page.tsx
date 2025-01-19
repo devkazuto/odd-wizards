@@ -66,7 +66,7 @@ export default function Gallery() {
                         text="Make NFTs Great Again!"
                     />
                     <div className="mt-4 px-10 md:!px-32">
-                        <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">The next Blue chip in Internet, powered by <Link href="https://www.stargaze.zone" className="text-[#DB2877]" >Stargaze.</Link></p>
+                        <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">The next Blue chip on Internet, powered by <Link href="https://www.stargaze.zone" className="text-[#DB2877]" >Stargaze.</Link></p>
                     </div>
                 </div>
                 {/* <div className="grid grid-cols-1 md:!grid-cols-3 w-full px-10 md:!px-28"> */}
