@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useChain } from "@cosmos-kit/react";
 import { useUser } from "@/hooks/useUser";
 import axios from "axios";
+import { ChevronDownIcon } from "lucide-react";
 
 export default function HeaderMobile() {
 
@@ -25,6 +26,7 @@ export default function HeaderMobile() {
     const path = usePathname();
     const { isOpened, setOpen } = useNavbarMobile();
     const [opend, setOpend] = useState<boolean>(isOpened);
+    const [stakeOpen, setStakeOpen] = useState<boolean>(false);
 
     useEffect(() => {
 
@@ -155,28 +157,44 @@ export default function HeaderMobile() {
                             <Link
                                 onClick={() => setOpen(false)}
                                 href="/about"
-                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform hover:animate-shake", path == "/" || path == "/about" ? "text-white" : "text-gray-200")}
+                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform", path == "/" || path == "/about" ? "text-white" : "text-gray-200 hover:text-white")}
                             >
                                 About
                             </Link>
                             <Link
                                 onClick={() => setOpen(false)}
                                 href="/gallery"
-                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform hover:animate-shake", path == "/" || path == "/gallery" ? "text-white" : "text-gray-200")}
+                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform", path == "/" || path == "/gallery" ? "text-white" : "text-gray-200 hover:text-white")}
                             >
                                 Gallery
                             </Link>
-                            <Link
-                                onClick={() => setOpen(false)}
-                                href="/stake"
-                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform hover:animate-shake", path == "/" || path == "/stake" ? "text-white" : "text-gray-200")}
-                            >
-                                Stake
-                            </Link>
+                            <div>
+                                <div onClick={() => {setStakeOpen(!stakeOpen)}}
+                                    className="flex items-center gap-1 max-w-max mx-auto cursor-pointer ">
+                                    <span
+
+                                        className={cn("text-xl max-w-max mx-auto font-bold transition-transform", path == "/" || path == "/stake" ? "text-white" : "text-gray-200 hover:text-white")}
+                                    >
+                                        Stake
+                                    </span>
+                                    <ChevronDownIcon
+                                        className={cn("relative top-[1px] ml-1 h-6 w-6 transition duration-300", stakeOpen && "rotate-180")}
+                                        aria-hidden="true"
+                                    />
+                                </div>
+                                <div hidden={!stakeOpen} className="mt-2">
+                                    <div className="grid gap-1" >
+                                        <Link onClick={() => setOpen(false)} href="/stake/oddswizards">
+                                            Odd Wizards
+                                        </Link>
+                                        <span className="opacity-50">Bad Kids (Soon)</span>
+                                    </div>
+                                </div>
+                            </div>
                             <Link
                                 onClick={() => setOpen(false)}
                                 href="/raffle"
-                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform hover:animate-shake", path == "/" || path == "/raffle" ? "text-white" : "text-gray-200")}
+                                className={cn("text-xl max-w-max mx-auto font-bold transition-transform", path == "/" || path == "/raffle" ? "text-white" : "text-gray-200 hover:text-white")}
                             >
                                 Raffle
                             </Link>
