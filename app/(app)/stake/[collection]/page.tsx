@@ -26,7 +26,7 @@ export default function Stake({ params }: { params: { collection: string } }) {
                     text="Odds Wizard"
                 />
                 <div className="my-8 px-5 md:px-32">
-                    <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">Dive into the magic of Odds World, a mystical spot where rebellious yet big-hearted and passionate wizards hang out in the Cosmos. They're all about critical thinking and are super driven to succeed.</p>
+                    <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">Dive into the magic of Odds World, a mystical spot where rebellious yet big-hearted and passionate wizards hang out in the Cosmos. They&apos;re all about critical thinking and are super driven to succeed.</p>
                 </div>
             </div>
             {/* <div className="w-full h-[150px] bg-black" /> */}
