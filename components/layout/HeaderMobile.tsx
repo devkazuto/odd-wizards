@@ -184,10 +184,10 @@ export default function HeaderMobile() {
                                 </div>
                                 <div hidden={!stakeOpen} className="mt-2">
                                     <div className="grid gap-1" >
-                                        <Link onClick={() => setOpen(false)} href="/stake/oddswizards">
+                                        <Link onClick={() => setOpen(false)} href="/stake/oddswizards" className="font-semibold">
                                             Odd Wizards
                                         </Link>
-                                        <span className="opacity-50">Bad Kids (Soon)</span>
+                                        <span className="opacity-50 font-semibold">Bad Kids (Soon)</span>
                                     </div>
                                 </div>
                             </div>
