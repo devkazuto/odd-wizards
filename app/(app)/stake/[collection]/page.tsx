@@ -9,16 +9,16 @@ export default function Stake({ params }: { params: { collection: string } }) {
     return (
         <div className="relative bg-black w-full">
             <Header />
-            <div className="bg-black w-full h-[300px] md:h-full relative">
-                <div className="absolute top-0 w-full h-[150px] md:h-[250px] bg-gradient-to-b from-black to-transparent z-10" />
-                <div className="absolute bottom-0 w-full h-[150px] md:h-[250px] bg-gradient-to-b from-transparent to-black z-10" />
+            <div className="bg-black w-full h-[175px] md:h-full relative">
+                <div className="absolute top-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-black to-transparent z-10" />
+                <div className="absolute bottom-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-transparent to-black z-10" />
                 {/* <div className="absolute top-0 left-0 right-0 bottom-0 "> */}
                     <video autoPlay loop muted className="w-full h-full scale-150 md:scale-100">
                         <source src="/images/stake/banner-odds.mp4" type="video/mp4" />
                         <img src="/images/stake/banner-odds.png" className="w-full" />
                     </video>
                 {/* </div> */}
-                <div className="bg-[url('/images/wizard.gif')] bg-cover bg-center w-[125px] h-[125px] md:w-[175px] md:h-[175px] absolute bottom-0 left-1/2 transform -translate-x-1/2 rounded-full z-20" />
+                <div className="bg-[url('/images/wizard.gif')] bg-cover bg-center w-[100px] h-[100px] md:w-[175px] md:h-[175px] absolute bottom-0 left-1/2 transform -translate-x-1/2 rounded-full z-20" />
             </div>
             <div className="flex flex-col items-center justify-center mt-8 px-5 md:px-20">
                 <CustomGradualSpacing
