@@ -118,11 +118,17 @@ export default function Home() {
       <div className="relative">
         <Header />
         {/* <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full scale-125" /> */}
-        <video autoPlay loop muted className="md:!hidden w-full h-full">
+        <video autoPlay
+          loop
+          muted
+          playsInline className="md:!hidden w-full h-full">
           <source src="/images/mobile-home.mp4" type="video/mp4" />
         </video>
         {/* <img src="/images/wizard.gif" className="md:!hidden h-screen w-full" /> */}
-        <video autoPlay loop muted className="hidden md:!block w-full h-full">
+        <video autoPlay
+          loop
+          muted
+          playsInline className="hidden md:!block w-full h-full">
           <source src="/images/Home-Odds.mp4" type="video/mp4" />
         </video>
         {/* <div className="absolute bottom-0 w-full h-[100px] bg-gradient-to-b from-transparent to-black">
