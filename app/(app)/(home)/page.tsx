@@ -120,7 +120,7 @@ export default function Home() {
         <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full scale-125" />
         {/* <img src="/images/wizard.gif" className="md:!hidden h-screen w-full" /> */}
         <video autoPlay loop muted className="hidden md:!block w-full">
-          <source src="/images/home.mp4" type="video/mp4" />
+          <source src="/images/Home-Odds.mp4" type="video/mp4" />
           <img src="/images/hero.png" className="w-full" />
         </video>
         {/* <div className="absolute bottom-0 w-full h-[100px] bg-gradient-to-b from-transparent to-black">
