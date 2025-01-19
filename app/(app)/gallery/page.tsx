@@ -62,10 +62,10 @@ export default function Gallery() {
             <div className="min-h-screen flex flex-col  items-center justify-center pt-28">
                 <div className="flex flex-col items-center justify-center mt-6 mb-10 px-20">
                     <CustomGradualSpacing
-                        className="font-display text-center text-3xl md:!text-6xl font-black md:leading-[5rem]"
+                        className="font-display text-center text-[25px] md:!text-6xl font-black md:leading-[5rem]"
                         text="Make NFTs Great Again!"
                     />
-                    <div className="mt-4 px-10 md:!px-32">
+                    <div className="mt-4 px-10 md:!px-40">
                         <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">The next Blue chip on Internet, powered by <Link href="https://www.stargaze.zone" className="text-[#DB2877]" >Stargaze.</Link></p>
                     </div>
                 </div>
