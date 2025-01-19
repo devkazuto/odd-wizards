@@ -23,7 +23,7 @@ const collections: CollectionCardType[] = [
     {
         id: "oddswizard",
         address: "stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7",
-        image: "/images/wizard-crown.png",
+        image: "/images/Odds-Wizard.png",
         imageGif: "/images/Odds-Wizard.gif",
         name: "Odds Wizard",
         link: "https://www.stargaze.zone/m/oddswizard/tokens"
@@ -37,12 +37,12 @@ const collections: CollectionCardType[] = [
         link: "https://www.stargaze.zone/m/steamland/tokens"
     },
     {
-        id: "pinkispunk",
-        address: "stars17dgzvjlut0m5jqhgjpwn6pvmlv447rkmdpnltw5eeq8upzgv4hsq4y4d52",
-        image: "/images/Pink-is-Punk.png",
-        imageGif: "/images/Pink-is-Punk.gif",
-        name: "Pink Is Punk",
-        link: "https://www.stargaze.zone/m/pinkispunk/tokens"
+        id: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
+        address: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
+        image: "/images/Bad-kids.png",
+        imageGif: "/images/Bad-kids.gif",
+        name: "Bad Kids",
+        link: "https://www.stargaze.zone/m/stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420/tokens"
     }
 ]
 
