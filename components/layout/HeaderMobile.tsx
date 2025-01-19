@@ -177,10 +177,10 @@ export default function HeaderMobile() {
                                     >
                                         Stake
                                     </span>
-                                    <ChevronDownIcon
+                                    {/* <ChevronDownIcon
                                         className={cn("relative top-[1px] ml-1 h-6 w-6 transition duration-300", stakeOpen && "rotate-180")}
                                         aria-hidden="true"
-                                    />
+                                    /> */}
                                 </div>
                                 <div hidden={!stakeOpen} className="mt-2">
                                     <div className="grid gap-1" >
