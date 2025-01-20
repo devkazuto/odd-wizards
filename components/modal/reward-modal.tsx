@@ -155,7 +155,7 @@ export default function RewardModalModal({
                 <div className="w-full text-white">
                     <div className='rounded-[35px] px-6 py-3 bg-[#171717] border border-[#323237]' >
                         <div className='grid justify-center items-center'>
-                            <div>
+                            <div className='flex justify-center items-center'>
                                 {
                                     isClaimed ? (
                                         <span className='font-bold text-lg md:!text-xl'>🥳 Claimed 🥳</span>
