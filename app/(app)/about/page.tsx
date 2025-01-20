@@ -17,8 +17,14 @@ export default function About() {
                 <div className="relative h-full flex items-center justify-center">
                     {/* <img src="/images/about.gif" className="absolute top-0 z-0 w-full" /> */}
                     <div className="text-center w-full px-10 md:!px-40 mt-20 md:!mt-28">
-                       <div className="relative text-xl md:text-3xl font-bold my-6 text-center">
+                        <div className="hidden md:!flex justify-center relative text-xl md:text-3xl font-bold my-6 text-center">
                             There is no challenge right now, stay tuned
+                        </div>
+                        <div className="relative text-xl md:hidden font-bold text-center">
+                            There is no challenge
+                        </div>
+                        <div className="relative text-xl md:hidden font-bold text-center">
+                            right now, stay tuned!
                         </div>
                     </div>
                 </div>
