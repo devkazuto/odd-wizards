@@ -113,7 +113,7 @@ const StakeCard: FC = () => {
 }
 
   return (
-    <div className="w-full bg-[#171717] border-2 border-[#323237] p-4 md:px-12 md:p-8 rounded-[50px] flex items-center gap-x-4">
+    <div className="w-full bg-[url('/images/Account.gif')] bg-cover bg-center border border-[#323237] p-4 md:px-12 md:p-8 rounded-[50px] flex items-center gap-x-4">
       <InfoModal isOpen={infoModal} onClose={() => {setInfoModal(false)}} loading={false} />
       <img src="https://ipfs-gw.stargaze-apis.com/ipfs/bafybeidhudswmq6jlu54ixz45rsdbncrj62hx5paz2pdil52q7jtilqdvu/IMG_7278.gif" className="shrink-0 h-[105px] md:!h-[175px] rounded-[35px] mx-auto" />
       <div className="w-full p-2 md:p-4">

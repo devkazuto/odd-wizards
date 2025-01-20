@@ -114,7 +114,7 @@ const StakeCardMobile: FC = () => {
     }
 
     return (
-        <div className="w-full bg-[#171717] border-2 border-[#323237] w-full p-4 py-6 md:p-8 rounded-[25px]">
+        <div className="w-full bg-[url('/images/Account.gif')] bg-cover bg-center border border-[#323237] w-full p-4 py-6 md:p-8 rounded-[25px]">
             <InfoModal isOpen={infoModal} onClose={() => { setInfoModal(false) }} loading={false} />
             <div className="flex items-center gap-x-4">
                 <img src="/images/stake-wizard.gif" className="shrink-0 h-[105px] md:!h-[175px] rounded-[35px] mx-auto" />
