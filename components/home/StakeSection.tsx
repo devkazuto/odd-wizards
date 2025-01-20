@@ -21,7 +21,7 @@ const StakeSection = ({
           <StakeCardMobile />
         </div>
       </div>
-      <div className="h-[250px] md:!h-[275px]" />
+      <div className="h-[245px] md:!h-[265px]" />
       {/* <BoxLeaderboard /> */}
       <BoxStatStake collection={collection} />
     </div>
