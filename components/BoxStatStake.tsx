@@ -46,7 +46,7 @@ export const BoxStatStake = ({
       <div hidden={loading}>
         <div className="relative flex gap-2 md:!gap-6 w-full px-6 md:!px-20 lg:px-20">
           <div className="w-full grid md:grid-cols-3 gap-x-4">
-            <div className="flex bg-[#171717] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+            <div className="flex bg-[url('/images/Cosmos.gif')] bg-cover bg-center border-2 border-green-500 flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
               <div className="flex items-center gap-4">
                 <div className="w-[40px] h-[40px] md:w-[70px] md:h-[70px] bg-amber-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Link href={`/p/${address}`} >
@@ -70,7 +70,7 @@ export const BoxStatStake = ({
                 </div>
               </div>
             </div>
-            <div className="hidden md:!flex bg-[#171717] border-2 border-[#323237] flex-grow items-center p-4 px-8 gap-6 w-[60px] h-[68px] md:w-[105px] md:h-[105px] md:w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+            <div className="hidden md:!flex bg-[url('/images/About.gif')] bg-cover bg-center border-2 border-green-500 flex-grow items-center p-4 px-8 gap-6 w-[60px] h-[68px] md:w-[105px] md:h-[105px] md:w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
               <div>
                 <img src="/images/Icon/wzrd.png" className="h-[55px]" />
               </div>
@@ -82,7 +82,7 @@ export const BoxStatStake = ({
                 </p>
               </div>
             </div>
-            <div className="hidden md:!flex bg-[#171717] border-2 border-[#323237] flex-grow items-center p-4 px-8 gap-8 w-[60px] h-[68px] md:w-[105px] md:h-[105px] md:w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+            <div className="hidden md:!flex  bg-[url('/images/Lab.gif')] bg-cover bg-center border-2 border-green-500 flex-grow items-center p-4 px-8 gap-8 w-[60px] h-[68px] md:w-[105px] md:h-[105px] md:w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
               <div className="text-6xl">
                 <img src="/images/Token.png" className="h-[50px]" />
               </div>
@@ -97,7 +97,7 @@ export const BoxStatStake = ({
           </div>
         </div>
         <div className={cn("w-full grid grid-cols-2 md:!hidden px-6 gap-x-2 mt-2")}>
-          <div className="flex bg-[#171717] border-2 border-[#323237] flex-grow items-center justify-center p-4 px-8 gap-6 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+          <div className="flex bg-[url('/images/About.gif')] border-2 border-green-500 flex-grow items-center justify-center p-4 px-8 gap-6 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
             {/* <div>
               <img src="/images/Icon/wzrd.png" className="shrink-0 h-[40px]" />
             </div> */}
@@ -109,7 +109,7 @@ export const BoxStatStake = ({
               </p>
             </div>
           </div>
-          <div className="flex bg-[#171717] border-2 border-[#323237] bg-cover bg-center flex-grow items-center justify-center p-4 px-8 gap-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+          <div className="flex  bg-[url('/images/Lab.gif')] bg-cover bg-center border-2 border-green-500 bg-cover bg-center flex-grow items-center justify-center p-4 px-8 gap-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
             {/* <div className="text-6xl">
               <img src="/images/Token.png" className="shrink-0 h-[35px]" />
             </div> */}
