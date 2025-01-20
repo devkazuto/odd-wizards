@@ -372,21 +372,23 @@ const RaffleCardCustom = ({ data }: RaffleCardCustomProps) => {
                         <span className="opacity-50 my-2">Raffle Participants</span>
                         <ScrollArea className="h-[360px] md:!h-[345px]"> {/* Fixed height to match front card image */}
                             <div className="px-2">
-                                {Object.values(summedParticipants)?.map((item, index) => (
-                                    <div key={index} className="flex justify-between items-center my-2">
-                                        <div className="flex items-center gap-3">
-                                            <span className="opacity-50">{index + 1}.</span>
-                                            <Link href={`https://www.stargaze.zone/p/${item.participant_address}/tokens`} target="_blank">
-                                                <span className="text-[#DB2877]">
-                                                    {formatAddress(item.participant_address ?? undefined)}
-                                                </span>
-                                            </Link>
+                                {Object.values(summedParticipants)
+                                    ?.sort((a, b) => b.total_amount - a.total_amount)
+                                    ?.map((item, index) => (
+                                        <div key={index} className="flex justify-between items-center my-2">
+                                            <div className="flex items-center gap-3">
+                                                <span className="opacity-50">{index + 1}.</span>
+                                                <Link href={`https://www.stargaze.zone/p/${item.participant_address}/tokens`} target="_blank">
+                                                    <span className="text-[#DB2877]">
+                                                        {formatAddress(item.participant_address ?? undefined)}
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <span className="">
+                                                {formatDecimal(item.total_amount, 2)} Ticket
+                                            </span>
                                         </div>
-                                        <span className="">
-                                            {formatDecimal(item.total_amount, 2)} Ticket
-                                        </span>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         </ScrollArea>
                     </div>

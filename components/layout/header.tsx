@@ -181,12 +181,12 @@ export default function Header() {
                   <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-2xl font-bold", path == "/" ? "text-[#156E7E] hover:text-[#156E7E] hover:opacity-70" : (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
                   <NavigationMenuContent className="p-0">
                     <div className="grid gap-2 w-[200px] p-4 !bg-white">
-                      <Link href="/stake/oddswizards" className="grid grid-cols-10 items-center hover:scale-105">
+                      <Link href="/stake/oddswizards" className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
                         <span className="col-span-2 mx-auto">🧙‍♂️</span>
                         <span className="text-[#156E7E] col-span-8">Odd Wizards</span>
                       </Link>
                       {/* <Link href="/stake"> */}
-                        <div className="grid grid-cols-10 items-center hover:scale-105">
+                        <div className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
                           <img src="/images/badkids.png" className="h-[15px] col-span-2 mx-auto" />
                           <span className="text-[#156E7E] opacity-30 col-span-8">Bad Kids (Soon)</span>
                         </div>
