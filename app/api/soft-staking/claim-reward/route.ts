@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
             collection_address,
         } = body;
 
-        if(!config){
+        if (!config) {
             return NextResponse.json(
                 { message: 'Config not found' },
                 { status: 400 }
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
-    
+
         // Check if staker already exists
         let staker = await prisma.mst_staker.findFirst({
             where: {
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
                     staker_collection_id: collection.collection_id,
                     staker_total_points: 0
                 }
-            });  
-        } 
+            });
+        }
 
         const reward = await prisma.trn_distribusi_reward.findFirst({
             where: {
@@ -59,14 +59,14 @@ export async function POST(request: NextRequest) {
             }
         });
 
-        if(!reward){
+        if (!reward) {
             return NextResponse.json(
                 { message: 'Reward not found' },
                 { status: 400 }
             );
         }
 
-        if(reward.distribusi_is_claimed == "Y"){
+        if (reward.distribusi_is_claimed == "Y") {
             return NextResponse.json(
                 { message: 'Reward is claimed' },
                 { status: 400 }
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
 
         const { collection: rewardCollection, tokenId } = extractCollectionAndTokenId(reward.distribusi_reward ?? "");
 
-        if(!rewardCollection || !tokenId){
+        if (!rewardCollection || !tokenId) {
             return NextResponse.json(
                 { message: 'Reward not found' },
                 { status: 400 }
@@ -84,28 +84,50 @@ export async function POST(request: NextRequest) {
 
         const token: Token = await getToken(rewardCollection, tokenId);
 
-        const resp = await transferNFT(config.mnemonic_reward_wallet, token.collection.contractAddress, staker_address, tokenId);
-        const txHash = resp.transactionHash;
+        try {
+            const resp = await transferNFT(config.mnemonic_reward_wallet, token.collection.contractAddress, staker_address, tokenId);
+            const txHash = resp.transactionHash;
 
-        await prisma.trn_distribusi_reward.update({
-            where: {
-                distribusi_id: reward.distribusi_id
-            },
-            data: {
-                distribusi_tx_hash: txHash,
-                distribusi_is_claimed: "Y"
-            }
-        });
-
-        return NextResponse.json(
-            {
-                message: 'Claim reward successfully',
+            await prisma.trn_distribusi_reward.update({
+                where: {
+                    distribusi_id: reward.distribusi_id
+                },
                 data: {
-
+                    distribusi_tx_hash: txHash,
+                    distribusi_is_claimed: "Y"
                 }
-            },
-            { status: 200 }
-        );
+            });
+
+            return NextResponse.json(
+                {
+                    message: 'Claim reward successfully',
+                    data: {
+
+                    }
+                },
+                { status: 200 }
+            );
+        } catch (error) {
+            await prisma.trn_distribusi_reward.update({
+                where: {
+                    distribusi_id: reward.distribusi_id
+                },
+                data: {
+                    distribusi_tx_hash: undefined,
+                    distribusi_is_claimed: "Y"
+                }
+            });
+
+            return NextResponse.json(
+                {
+                    message: 'Claim reward successfully',
+                    data: {
+
+                    }
+                },
+                { status: 200 }
+            );
+        }
     } catch (error) {
         console.error('Claim Reward Error:', error);
         return NextResponse.json(

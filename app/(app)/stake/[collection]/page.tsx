@@ -13,7 +13,8 @@ export default function Stake({ params }: { params: { collection: string } }) {
                 <div className="absolute top-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-black to-transparent z-10" />
                 <div className="absolute bottom-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-transparent to-black z-10" />
                 {/* <div className="absolute top-0 left-0 right-0 bottom-0 "> */}
-                <video autoPlay loop muted className="w-full h-full scale-150 md:!scale-100">
+                <div className="md:hidden bg-[url('/images/stake/banner-odds-mobile.png')] bg-cover w-full h-full"></div>
+                <video autoPlay loop muted className="hidden md:!flex w-full h-full scale-150 md:!scale-100">
                     <source src="/images/stake/banner-odds.mp4" type="video/mp4" />
                     <img src="/images/stake/banner-odds.png" className="w-full" />
                 </video>
