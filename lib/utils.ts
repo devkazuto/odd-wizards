@@ -12,6 +12,7 @@ import moment from 'moment';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { GasPrice } from "@cosmjs/stargate";
+import { OPERATOR_CONSTANTS } from '@/constants/filterConstant';
 
 const config = getConfig();
 
@@ -696,4 +697,57 @@ export async function transferNFT(
       console.error("Error during transfer:", error);
       throw error;
   }
+}
+
+
+export const arrayToString = (arr: any) => {
+  return '[' + arr.join(', ') + ']';
+}
+
+export const addSearch = (column: any, value: any | undefined, opr: any, opr2?: any) => {
+  if (!value) return;
+  return {
+    column,
+    value,
+    opr,
+    opr2
+  }
+}
+
+export const buildSearch = (data: any, params: any) => {
+  if (!data) return;
+
+  let filterStr = "";
+  let i = 0;
+  for (let filter of data) {
+    if (!filter) continue;
+    let comma = i > 0 ? "," : "";
+    if (OPERATOR_CONSTANTS.LIKE == filter.opr) {
+      filterStr += `${comma}${filter.column}=%${filter.value}%`;
+    } else {
+
+      if (Array.isArray(filter.value)) {
+        if (filter.value.length == 0) continue;
+        let value = encodeURIComponent("[" + buildSearch(filter.value, undefined) + "]");
+
+        filterStr += `${comma}${filter.column}${filter.opr}${value}`;
+      } else {
+        filterStr += `${comma}${filter.column}${filter.opr}${filter.value}`;
+      }
+    }
+
+    if (filter.opr2 != undefined && filter.opr2 != null) {
+      filterStr += ":" + filter.opr2;
+    }
+
+    i++;
+  }
+
+  if (filterStr == "") return;
+
+  if (params) {
+    params["filter"] = filterStr;
+  }
+
+  return filterStr;
 }
