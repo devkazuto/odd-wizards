@@ -21,6 +21,31 @@ model mst_users {
   participant trn_participant[]
 }
 
+model mst_project {
+  project_id             Int    @id @default(autoincrement())
+  project_name           String?
+  project_description    String?
+  project_banner         String?
+  project_status         String?
+  project_is_leaderboard String? @default("N")
+  project_footer_discord String?
+  project_footer_twitter String?
+  project_footer_discord_color String?
+  project_footer_twitter_color String?
+  rewards mst_reward[]
+  collections mst_collection[]
+}
+
+model mst_reward {
+  reward_id             Int    @id @default(autoincrement())
+  reward_project_id     Int?
+  reward_name           String?
+  reward_image_url      String?
+  reward_collection     String?
+  reward_token_id       String?
+  project mst_project? @relation(fields: [reward_project_id], references: [project_id])
+}
+
 model mst_collection {
   collection_id          Int     @id @default(autoincrement())
   collection_code        String?
@@ -28,8 +53,13 @@ model mst_collection {
   collection_name        String?
   collection_description String?
   collection_supply      Int?
+  collection_image_url   String?
+  collection_attr_url    String?
+  collection_banner_url  String?
+  collection_project_id  Int?
   
   // Relasi dengan Staker
+  project mst_project? @relation(fields: [collection_project_id], references: [project_id])
   mst_staker mst_staker[]
   mst_attributes_reward mst_attributes_reward[]
 }

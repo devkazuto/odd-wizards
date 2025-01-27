@@ -154,28 +154,7 @@ export default function Header() {
 
           {/* Navigation Links */}
           <div className="hidden md:!flex space-x-8">
-            <Link
-              href="/about"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/about" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              About
-            </Link>
-            <Link
-              href="/gallery"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/gallery" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Gallery
-            </Link>
-            {/* <Link
-              href="/stake"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E]" : (path == "/stake" ? "text-white" : "text-gray-400"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Stake
-            </Link> */}
-            <NavigationMenu>
+          <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="bg-transparent hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent">
                   <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-2xl font-bold", path == "/" ? "text-[#156E7E] hover:text-[#156E7E] hover:opacity-70" : (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
@@ -197,11 +176,32 @@ export default function Header() {
               </NavigationMenuList>
             </NavigationMenu>
             <Link
+              href="/about"
+              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/about" ? "text-white" : "text-gray-400 hover:text-white"))}
+            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+            >
+              Challenge
+            </Link>
+            <Link
               href="/raffle"
               className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
             // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
             >
               Raffle
+            </Link>
+            <Link
+              href="/game"
+              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/gallery" ? "text-white" : "text-gray-400 hover:text-white"))}
+            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+            >
+              Game
+            </Link>
+            <Link
+              href="/gallery"
+              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/gallery" ? "text-white" : "text-gray-400 hover:text-white"))}
+            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+            >
+              Gallery
             </Link>
           </div>
         </div>
