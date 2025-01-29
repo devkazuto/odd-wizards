@@ -55,25 +55,17 @@ export default function Stake({ searchParams }: paramsProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const { address } = useChain("stargaze");
     const [collectionModal, setCollectionModal] = useState<boolean>(false);
+    const [fileBanner, setFileBanner] = useState<File | undefined>();
+    const [fileTwitter, setFileTwitter] = useState<File | undefined>();
+    const [fileDiscord, setFileDiscord] = useState<File | undefined>();
 
     const {
         page,
-        setPage,
         pageLimit,
-        setPageLimit,
         search,
-        setSearch,
         sorting,
-        setSorting,
         pageCount,
-        setPageCount,
-        ttlRecords,
-        setTtlRecords,
         data,
-        setData,
-        addFilters,
-        params,
-        addSorting
     } = useDynamicTables<MstCollection>(searchParams);
     const router = useRouter();
     const columnDefs = columns(router, page, pageLimit);
@@ -85,23 +77,19 @@ export default function Stake({ searchParams }: paramsProps) {
     }, [address]);
 
     const defaultValues = {
-        startDate: new Date(),
-        endDate: new Date()
+        project_is_leaderboard: "Y"  
     };
 
     const formSchema = z.object({
-        priceUrl: z.string(),
-        startDate: z.date(),
-        endDate: z.date(),
-        price: z.any().refine(value => value !== null && value !== undefined && value !== '' && !isNaN(value) && value > 0, {
-            message: "Required",
-        }),
-        priceType: z.string(),
-        isLeaderboard: z.string().optional(),
-        maxTicket: z.any().refine(value => value !== null && value !== undefined && value !== '' && !isNaN(value) && value > 0, {
-            message: "Required",
-        }),
-        winner: z.string().optional()
+        project_name: z.string(),
+        project_description: z.string(),
+        project_banner: z.string(),
+        project_status: z.string(),
+        project_is_leaderboard: z.string(),
+        project_footer_discord: z.string(),
+        project_footer_twitter: z.string(),
+        project_footer_discord_color: z.string(),
+        project_footer_twitter_color: z.string()
     });
     type FormValue = z.infer<typeof formSchema>;
 
@@ -133,18 +121,8 @@ export default function Stake({ searchParams }: paramsProps) {
     };
 
     const createProject = async (data: FormValue) => {
-        const { collection, tokenId } = extractCollectionAndTokenId(form.watch("priceUrl"));
-        await axios.post("/api/raffle/create", {
-            price: data.price,
-            wallet_address: address,
-            start_date: data.startDate,
-            end_date: data.endDate,
-            max_ticket: data.maxTicket,
-            type: data.priceType,
-            win_address: data.winner,
-            collection_address: collection,
-            token_id: tokenId
-        });
+        // const { collection, tokenId } = extractCollectionAndTokenId(form.watch("priceUrl"));
+        await axios.post("/api/project/create", data);
     }
 
     return (
@@ -184,7 +162,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                             <div className="col-span-2">
                                                                 <FormField
                                                                     control={form.control}
-                                                                    name="priceUrl"
+                                                                    name="project_name"
                                                                     render={({ field }) => (
                                                                         <FormItem>
                                                                             <FormLabel className="flex items-center">
@@ -195,7 +173,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                                     <Input
                                                                                         type="text"
                                                                                         disabled={loading}
-                                                                                        placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                                        placeholder="Odds Wizard..."
                                                                                         className="w-full"
                                                                                         {...field}
                                                                                     />
@@ -211,7 +189,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                             <div className="col-span-2">
                                                                 <FormField
                                                                     control={form.control}
-                                                                    name="priceUrl"
+                                                                    name="project_description"
                                                                     render={({ field }) => (
                                                                         <FormItem>
                                                                             <FormLabel className="flex items-center">
@@ -222,7 +200,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                                     <Textarea
                                                                                         rows={3}
                                                                                         disabled={loading}
-                                                                                        placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                                        placeholder="Dive into the magic..."
                                                                                         className="w-full"
                                                                                         {...field}
                                                                                     />
@@ -239,7 +217,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="mr-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="isLeaderboard"
+                                                                        name="project_is_leaderboard"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
@@ -258,7 +236,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="ml-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="price"
+                                                                        name="project_status"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
@@ -292,7 +270,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="mr-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="endDate"
+                                                                        name="project_footer_discord_color"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
@@ -300,15 +278,12 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                                 </FormLabel>
                                                                                 <div className="relative ml-auto flex-1 md:grow-0">
                                                                                     <FormControl>
-                                                                                        <DateTimePicker
+                                                                                        <Input
+                                                                                            type="text"
+                                                                                            disabled={loading}
+                                                                                            placeholder="#fff..."
                                                                                             className="w-full"
-                                                                                            placeholder="MMMM DD, YYYY h:mm A ..."
-                                                                                            value={moment(field.value).format("YYYY-MM-DD HH:mm:ss")}
-                                                                                            onChangeDateTime={(value) => {
-                                                                                                const date = new Date(moment(value, "YYYY-MM-DD h:mm A").format());
-                                                                                                field.onChange(date);
-                                                                                                field.value = date;
-                                                                                            }}
+                                                                                            {...field}
                                                                                         />
                                                                                     </FormControl>
                                                                                 </div>
@@ -320,7 +295,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="ml-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="maxTicket"
+                                                                        name="project_footer_twitter_color"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
@@ -329,10 +304,10 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                                 <div className="relative ml-auto flex-1 md:grow-0">
                                                                                     <FormControl>
                                                                                         <Input
-                                                                                            min={1}
-                                                                                            type="number"
+                                                                                            type="text"
                                                                                             disabled={loading}
-                                                                                            placeholder="2500 ..."
+                                                                                            placeholder="#fff..."
+                                                                                            className="w-full"
                                                                                             {...field}
                                                                                         />
                                                                                     </FormControl>
@@ -345,15 +320,17 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="col-span-2">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="priceUrl"
+                                                                        name="project_banner"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
                                                                                     <div className="h-1 w-1 rounded-full bg-white mr-2" /> Banner Url: <span className="text-green-500">*</span>
                                                                                 </FormLabel>
-                                                                                <div className="relative ml-auto flex-1 md:grow-0">
+                                                                                <div className="relative max-w-[500px] ml-auto flex-1 md:grow-0">
                                                                                     <FormControl>
-                                                                                        <ImageUpload />
+                                                                                        <ImageUpload onImageUpload={(file) => {
+                                                                                            setFileBanner(file);
+                                                                                        }} />
                                                                                     </FormControl>
                                                                                 </div>
                                                                                 <FormMessage />
@@ -364,15 +341,17 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="mr-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="endDate"
+                                                                        name="project_footer_discord"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
                                                                                     <div className="h-1 w-1 rounded-full bg-white mr-2" /> Footer Discord <span className="text-green-500">*</span>
                                                                                 </FormLabel>
-                                                                                <div className="relative ml-auto flex-1 md:grow-0">
+                                                                                <div className="relative max-w-[230px] ml-auto flex-1 md:grow-0">
                                                                                     <FormControl>
-                                                                                        <ImageUpload />
+                                                                                        <ImageUpload onImageUpload={(file) => {
+                                                                                            setFileDiscord(file)
+                                                                                        }} />
                                                                                     </FormControl>
                                                                                 </div>
                                                                                 <FormMessage />
@@ -383,15 +362,17 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                 <div className="ml-4">
                                                                     <FormField
                                                                         control={form.control}
-                                                                        name="maxTicket"
+                                                                        name="project_footer_twitter"
                                                                         render={({ field }) => (
                                                                             <FormItem>
                                                                                 <FormLabel className="flex items-center">
                                                                                     <div className="h-1 w-1 rounded-full bg-white mr-2" /> Footer Twiter : <span className="text-green-500">*</span>
                                                                                 </FormLabel>
-                                                                                <div className="relative ml-auto flex-1 md:grow-0">
+                                                                                <div className="max-w-[230px] relative ml-auto flex-1 md:grow-0">
                                                                                     <FormControl>
-                                                                                        <ImageUpload />
+                                                                                        <ImageUpload onImageUpload={(file) => {
+                                                                                            setFileTwitter(file)
+                                                                                        }} />
                                                                                     </FormControl>
                                                                                 </div>
                                                                                 <FormMessage />
@@ -405,13 +386,13 @@ export default function Stake({ searchParams }: paramsProps) {
                                                             <TabsList className="flex">
                                                                 <TabsTrigger className="w-full" value="collection">Collection</TabsTrigger>
                                                                 {
-                                                                    form.watch("isLeaderboard") == "Y" && <TabsTrigger className="w-full" value="rewards">Rewards</TabsTrigger>
+                                                                    form.watch("project_is_leaderboard") == "Y" && <TabsTrigger className="w-full" value="rewards">Rewards</TabsTrigger>
                                                                 }
                                                             </TabsList>
                                                             <TabsContent value="collection">
                                                                 <Button type="button" onClick={() => setCollectionModal(true)} className="bg-green-500 hover:bg-green-600 text-black rounded-[10px]"><Plus className="mr-1" />Add Collection</Button>
                                                                 <div>
-                                                                    <DataTable sortingValue={sorting} searchValue={search} columns={columnDefs} data={data} pageCount={pageCount} />
+                                                                    <DataTable sortingValue={sorting} page={page} searchValue={search} columns={columnDefs} data={data} pageCount={pageCount} />
                                                                 </div>
                                                             </TabsContent>
                                                             <TabsContent value="rewards">Change your password here.</TabsContent>
