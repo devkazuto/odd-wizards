@@ -17,10 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import React from "react"
 import { DataTablePagination } from "./pagination-tables";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DataTableProps<TData, TValue> {
   sortingValue?: string,
@@ -28,8 +26,13 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   pageCount: number,
+  page?: number,
+  per_page?: number,
   setPage?: React.Dispatch<React.SetStateAction<number>>,
   setPageLimit?: React.Dispatch<React.SetStateAction<number>>,
+  onPageChange?: (page: number) => void,
+  onPerPageChange?: (perPage: number) => void,
+  onSortingChange?: (sorting: string) => void,
 }
 
 export function DataTable<TData, TValue>({
@@ -38,40 +41,18 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   pageCount,
-  setPage,
-  setPageLimit,
+  page = 1,
+  per_page = 10,
+  onPageChange,
+  onPerPageChange,
+  onSortingChange,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  // search params
-  const page = searchParams?.get("page") ?? "1" // default is page: 1
-  const per_page = searchParams?.get("per_page") ?? "10" // default 10 record per page
-
-  // create query string
-  const createQueryString = React.useCallback(
-    (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString())
-
-      for (const [key, value] of Object.entries(params)) {
-        if (value === null) {
-          newSearchParams.delete(key)
-        } else {
-          newSearchParams.set(key, String(value))
-        }
-      }
-
-      return newSearchParams.toString()
-    },
-    [searchParams]
-  )
 
   // handle server-side pagination
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
-      pageIndex: Number(page) - 1,
-      pageSize: Number(per_page),
+      pageIndex: page - 1,
+      pageSize: per_page,
     })
 
   const pagination = React.useMemo(
@@ -82,28 +63,23 @@ export function DataTable<TData, TValue>({
     [pageIndex, pageSize]
   )
 
+  // Update pagination when props change
   React.useEffect(() => {
     setPagination({
-      pageIndex: Number(page) - 1,
-      pageSize: Number(per_page),
+      pageIndex: page - 1,
+      pageSize: per_page,
     })
   }, [page, per_page])
 
-   // changed the route as well
+  // Notify parent components of pagination changes
   React.useEffect(() => {
-    if(setPage && setPageLimit){
-      setPage(pageIndex + 1)
-      setPageLimit(pageSize)
-    } else {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: pageIndex + 1,
-          per_page: pageSize,
-        })}`
-      )
+    if (onPageChange) {
+      onPageChange(pageIndex + 1)
     }
-
-  }, [pageIndex, pageSize])
+    if (onPerPageChange) {
+      onPerPageChange(pageSize)
+    }
+  }, [pageIndex, pageSize, onPageChange, onPerPageChange])
 
   const table = useReactTable({
     data,
@@ -118,82 +94,60 @@ export function DataTable<TData, TValue>({
     manualPagination: true,
   })
 
+  // Handle search and sorting
   React.useEffect(() => {
-    if (searchValue && searchValue.length > 0) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: searchValue,
-          sorting: sortingValue ?? null,
-        })}`,
-        {
-          scroll: false
-        }
-      );
-    }
-    if (searchValue?.length === 0 || searchValue === undefined) {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: null,
-          sorting: sortingValue ?? null,
-        })}`,
-        {
-          scroll: false
-        }
-      );
-    }
-
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }, [searchValue, sortingValue])
+    
+    if (onSortingChange && sortingValue) {
+      onSortingChange(sortingValue);
+    }
+  }, [searchValue, sortingValue, onSortingChange])
 
   return (
     <div className="rounded-md bg-background p-4 border">
       <div className="h-full grid overflow-x-auto">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
       <DataTablePagination table={table} />
     </div>
