@@ -8,16 +8,6 @@ import { MstCollection } from '@/types/collection';
 type ColumnsFunction = (router: ReturnType<typeof useRouter>, page: number, perpage: number) => ColumnDef<MstCollection>[];
 
 
-function ActionCell({ row }: any) {
-  let actions = row.original.actAction.split(';');
-
-  return (
-    actions.map((action: string, index: number) => (
-      <div key={index} className='w-[350px]'>{action}</div>
-    ))
-  )
-}
-
 export const columns: ColumnsFunction = (router, page, perpage) => [
   {
     id: 'select',
@@ -31,35 +21,19 @@ export const columns: ColumnsFunction = (router, page, perpage) => [
     enableHiding: false
   },
   {
-    accessorKey: 'actCreatedBy',
-    header: 'Username'
+    accessorKey: 'collection_code',
+    header: 'Collection ID'
   },
   {
-    accessorKey: 'roleName',
-    header: 'Role'
+    accessorKey: 'collection_name',
+    header: 'Collection Name'
   },
   {
-    accessorKey: 'unitName',
-    header: 'SBU'
+    accessorKey: 'collection_description',
+    header: 'Description'
   },
   {
-    accessorKey: 'locName',
-    header: 'Lokasi'
-  },
-  {
-    accessorKey: 'actModul',
-    header: 'Module'
-  },
-  {
-    accessorKey: 'actAction',
-    header: 'Aksi',
-    cell: ActionCell
-  },
-  {
-    accessorKey: 'actDate',
-    header: 'Tanggal',
-    cell: ({ row }) => (
-      <div>{row.original.collection_id}</div>
-    )
+    accessorKey: 'collection_supply',
+    header: 'Supply'
   },
 ];

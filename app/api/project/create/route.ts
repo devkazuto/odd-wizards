@@ -1,31 +1,99 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
 import { z } from 'zod';
+import { uploadFile } from '@/lib/utils';
+import { mst_collection } from '@prisma/client';
+import getConfig from '@/config/config';
+
+const config = getConfig();
 
 // Validation Schema
 const ProjectSchema = z.object({
+  project_code: z.string().min(1, 'Project name is required'),
   project_name: z.string().min(1, 'Project name is required'),
   project_description: z.string().optional(),
   project_banner: z.string().url().optional(),
-  project_status: z.string().optional().default('DRAFT'),
+  project_status: z.string().optional().default('N'),
   project_is_leaderboard: z.string().optional().default('N'),
   project_footer_discord: z.string().optional(),
   project_footer_twitter: z.string().optional(),
   project_footer_discord_color: z.string().optional(),
-  project_footer_twitter_color: z.string().optional()
+  project_footer_twitter_color: z.string().optional(),
+  collections: z.any()
 });
 
 // CREATE Project
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    
-    // Validate input
-    const validatedData = ProjectSchema.parse(body);
+    const { searchParams } = request.nextUrl;
+    const wallet_address = searchParams.get('wallet_address') || '';
 
+    if(config && !config.owners.includes(wallet_address)){
+      return NextResponse.json(
+        { 
+          message: 'Unauthorized to create a project', 
+          error: 'Wallet address is not authorized to create a project' 
+        }, 
+        { status: 403 }
+      );
+    }
+
+    const formData = await request.formData();
+
+    // Extract fields from formData
+    const projectData = {
+      project_code: formData.get('project_code') as string,
+      project_name: formData.get('project_name') as string,
+      project_description: formData.get('project_description') as string | undefined,
+      project_status: formData.get('project_status') as string | undefined,
+      project_is_leaderboard: formData.get('project_is_leaderboard') as string | undefined,
+      project_footer_discord_color: formData.get('project_footer_discord_color') as string | undefined,
+      project_footer_twitter_color: formData.get('project_footer_twitter_color') as string | undefined,
+    };
+
+    // Validate input
+    const validatedData = ProjectSchema.parse(projectData);
+
+    const collections = formData.get("collections") as string | null;
+
+    // Handle file uploads if needed
+    const fileBanner = formData.get("project_banner") as File | null;
+    const fileTwitter = formData.get("project_footer_twitter") as File | null;
+    const fileDiscord = formData.get("project_footer_discord") as File | null;
+
+    // Here you can add logic to handle file uploads, e.g., uploading to a cloud storage service
+    // For now, we'll just log the files
+    if (fileBanner) {
+      console.log('Banner file received:', fileBanner.name);
+      const pathBanner = await uploadFile(fileBanner);
+      validatedData.project_banner = pathBanner;
+    }
+    if (fileTwitter) {
+      console.log('Twitter file received:', fileTwitter.name);
+      const pathTwitter = await uploadFile(fileTwitter);
+      validatedData.project_footer_twitter = pathTwitter;
+    }
+    if (fileDiscord) {
+      console.log('Discord file received:', fileDiscord.name);
+      const pathDiscord = await uploadFile(fileDiscord);
+      validatedData.project_footer_discord = pathDiscord;
+    }
+
+    // Create project in the database
     const project = await prisma.mst_project.create({
       data: validatedData
     });
+
+    if(collections){
+      const collectionsParse = JSON.parse(collections);
+      for(let collection of collectionsParse){
+        collection.collection_project_id = project.project_id;
+        collection.collection_supply = Number(collection.collection_supply);
+        await prisma.mst_collection.create({
+          data: collection
+        });
+      }
+    }
 
     return NextResponse.json(
       { 
@@ -56,7 +124,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
 // READ Projects
 export async function GET(request: NextRequest) {
   try {

@@ -23,6 +23,7 @@ model mst_users {
 
 model mst_project {
   project_id             Int    @id @default(autoincrement())
+  project_code           String?
   project_name           String?
   project_description    String?
   project_banner         String?

@@ -22,32 +22,30 @@ interface CollectionModalProps {
     isOpen: boolean;
     onClose: () => void;
     loading: boolean;
+    doAddCollection: (data: any) => void;
 }
 
 export default function CollectionModal({
     isOpen,
     onClose,
-    loading
+    loading,
+    doAddCollection
 }: CollectionModalProps) {
 
     const defaultValues = {
-        startDate: new Date(),
-        endDate: new Date()
     };
 
     const formSchema = z.object({
-        priceUrl: z.string(),
-        startDate: z.date(),
-        endDate: z.date(),
-        price: z.any().refine(value => value !== null && value !== undefined && value !== '' && !isNaN(value) && value > 0, {
+        collection_code: z.string().min(1, "Collection ID is required"),
+        collection_address: z.string().min(1, "Collection Address is required"),
+        collection_name: z.string().min(1, "Collection Name is required"),
+        collection_description: z.string().min(1, "Description is required"),
+        collection_supply: z.any().refine(value => value !== null && value !== undefined && value !== '' && !isNaN(value) && value > 0, {
             message: "Required",
         }),
-        priceType: z.string(),
-        isLeaderboard: z.string().optional(),
-        maxTicket: z.any().refine(value => value !== null && value !== undefined && value !== '' && !isNaN(value) && value > 0, {
-            message: "Required",
-        }),
-        winner: z.string().optional()
+        // collection_image_url: z.string(),
+        // collection_attr_url:  z.string(),
+        // collection_banner_url: z.string(),
     });
     type FormValue = z.infer<typeof formSchema>;
 
@@ -56,8 +54,9 @@ export default function CollectionModal({
         defaultValues
     });
 
-    const onSubmit = () => {
-
+    const onSubmit = (data: Record<string, any>) => {
+        doAddCollection(data);
+        onClose();
     }
 
     return (
@@ -66,19 +65,18 @@ export default function CollectionModal({
                 <h1 className="mr-4 font-londrina text-xl text-green-500 font-bold md:text-2xl xl:text-2xl">
                     Collection:
                 </h1>
-                <ScrollArea className='h-full max-h-[70vh]'>
-                    <div className="flex w-full bg-black text-white">
-                        <Form {...form}>
-                            <form
-                                onSubmit={form.handleSubmit(onSubmit)}
-                                className="w-full space-y-4"
-                            >
-                                <div className="flex flex-col gap-x-8 px-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}
+                        className="w-full space-y-4"
+                    >
+                        <ScrollArea className='w-full h-full max-h-[60vh]'>
+                            <div className="flex w-full bg-black text-white">
+                                <div className="w-full flex flex-col gap-x-8 px-4">
                                     <div className="my-2">
                                         <div className="col-span-2">
                                             <FormField
                                                 control={form.control}
-                                                name="priceUrl"
+                                                name="collection_code"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="flex items-center">
@@ -89,7 +87,7 @@ export default function CollectionModal({
                                                                 <Input
                                                                     type="text"
                                                                     disabled={loading}
-                                                                    placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                    placeholder="oddswizard..."
                                                                     className="w-full"
                                                                     {...field}
                                                                 />
@@ -105,7 +103,7 @@ export default function CollectionModal({
                                         <div className="col-span-2">
                                             <FormField
                                                 control={form.control}
-                                                name="priceUrl"
+                                                name="collection_address"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="flex items-center">
@@ -116,7 +114,7 @@ export default function CollectionModal({
                                                                 <Input
                                                                     type="text"
                                                                     disabled={loading}
-                                                                    placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                    placeholder="stars..."
                                                                     className="w-full"
                                                                     {...field}
                                                                 />
@@ -132,7 +130,7 @@ export default function CollectionModal({
                                         <div className="col-span-2">
                                             <FormField
                                                 control={form.control}
-                                                name="priceUrl"
+                                                name="collection_name"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="flex items-center">
@@ -143,7 +141,7 @@ export default function CollectionModal({
                                                                 <Input
                                                                     type="text"
                                                                     disabled={loading}
-                                                                    placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                    placeholder="Odds Wizard..."
                                                                     className="w-full"
                                                                     {...field}
                                                                 />
@@ -159,7 +157,7 @@ export default function CollectionModal({
                                         <div className="col-span-2">
                                             <FormField
                                                 control={form.control}
-                                                name="priceUrl"
+                                                name="collection_description"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="flex items-center">
@@ -170,7 +168,7 @@ export default function CollectionModal({
                                                                 <Textarea
                                                                     rows={3}
                                                                     disabled={loading}
-                                                                    placeholder="https://www.stargaze.zone/m/oddswizard/5263"
+                                                                    placeholder="Dive into the magic..."
                                                                     className="w-full"
                                                                     {...field}
                                                                 />
@@ -186,7 +184,7 @@ export default function CollectionModal({
                                         <div className="col-span-2">
                                             <FormField
                                                 control={form.control}
-                                                name="priceUrl"
+                                                name="collection_supply"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="flex items-center">
@@ -195,10 +193,10 @@ export default function CollectionModal({
                                                         <div className="relative ml-auto flex-1 md:grow-0">
                                                             <FormControl>
                                                                 <Input
-                                                                    type="text"
+                                                                    min={1}
+                                                                    type="number"
                                                                     disabled={loading}
-                                                                    placeholder="10000"
-                                                                    className="w-full"
+                                                                    placeholder="2500 ..."
                                                                     {...field}
                                                                 />
                                                             </FormControl>
@@ -209,36 +207,16 @@ export default function CollectionModal({
                                             />
                                         </div>
                                     </div>
-                                    <div className='my-2'>
-                                        <div className="col-span-2">
-                                            <FormField
-                                                control={form.control}
-                                                name="priceUrl"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel className="flex items-center">
-                                                            <div className="h-1 w-1 rounded-full bg-white mr-2" /> Banner Url: <span className="text-green-500">*</span>
-                                                        </FormLabel>
-                                                        <div className="relative ml-auto flex-1 md:grow-0">
-                                                            <FormControl>
-                                                                <ImageUpload />
-                                                            </FormControl>
-                                                        </div>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
-                            </form>
-                        </Form>
-                    </div>
-                </ScrollArea>
-                <div className='flex justify-end'>
-                    <Button className="bg-green-500 hover:bg-green-600 text-black rounded-[10px]">Save</Button>
-                </div>
+
+                            </div>
+                        </ScrollArea>
+                        <div className='flex justify-end'>
+                            <Button className="bg-green-500 hover:bg-green-600 text-black rounded-[10px]">Save</Button>
+                        </div>
+                    </form>
+                </Form>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 }
