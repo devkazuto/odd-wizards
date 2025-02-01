@@ -449,7 +449,7 @@ export default function Stake({ searchParams }: paramsProps) {
                                                                     {/* <DataTable columns={columnDefs} data={data} pageCount={pageCount} /> */}
                                                                     {
                                                                         listCollection?.map((item: any, index: number) => {
-                                                                            return <div className="bg-[#171717] p-4 rounded-[20px] flex items-center gap-x-4">
+                                                                            return <div key={item.collection_code} className="bg-[#171717] p-4 rounded-[20px] flex items-center gap-x-4">
                                                                                 <div className="grid w-full">
                                                                                     <div className="flex items-center justify-between w-full">
                                                                                         <span className="text-2xl font-bold">{item.collection_name}</span>
