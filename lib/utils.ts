@@ -13,6 +13,7 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { GasPrice } from "@cosmjs/stargate";
 import { OPERATOR_CONSTANTS } from '@/constants/filterConstant';
+import { UTApi } from 'uploadthing/server';
 
 const config = getConfig();
 
@@ -632,70 +633,70 @@ export function extractCollectionAndTokenId(url: string) {
   const match = url?.match(regex);
 
   if (match) {
-      return {
-          collection: match[1],
-          tokenId: match[2],
-      };
+    return {
+      collection: match[1],
+      tokenId: match[2],
+    };
   } else {
-      // throw new Error("URL format is invalid");
-      return {
-          collection: undefined,
-          tokenId: undefined,
-      };
+    // throw new Error("URL format is invalid");
+    return {
+      collection: undefined,
+      tokenId: undefined,
+    };
   }
 }
 
 export async function transferNFT(
-  mnemonic: string, 
-  contractAddress: string, 
-  recipientAddress: string, 
+  mnemonic: string,
+  contractAddress: string,
+  recipientAddress: string,
   tokenId: string
 ) {
   try {
-      const rpcEndpoint = config?.rpc_url ?? ""; // Ganti dengan RPC Stargaze yang valid
-      // Create wallet instance from mnemonic
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-          prefix: "stars" // Stargaze address prefix
-      });
+    const rpcEndpoint = config?.rpc_url ?? ""; // Ganti dengan RPC Stargaze yang valid
+    // Create wallet instance from mnemonic
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+      prefix: "stars" // Stargaze address prefix
+    });
 
-      // Get the wallet address
-      const [firstAccount] = await wallet.getAccounts();
-      console.log("Sender address:", firstAccount.address);
+    // Get the wallet address
+    const [firstAccount] = await wallet.getAccounts();
+    console.log("Sender address:", firstAccount.address);
 
-      // Create signing client
-      const client = await SigningCosmWasmClient.connectWithSigner(
-          rpcEndpoint,
-          wallet,
-          {
-              gasPrice: GasPrice.fromString("0.025ustars")
-          }
-      );
+    // Create signing client
+    const client = await SigningCosmWasmClient.connectWithSigner(
+      rpcEndpoint,
+      wallet,
+      {
+        gasPrice: GasPrice.fromString("0.025ustars")
+      }
+    );
 
-      // Prepare transfer message
-      const transferMsg = {
-          transfer_nft: {
-              recipient: recipientAddress,
-              token_id: tokenId
-          }
-      };
+    // Prepare transfer message
+    const transferMsg = {
+      transfer_nft: {
+        recipient: recipientAddress,
+        token_id: tokenId
+      }
+    };
 
-      // Execute transfer
-      const result = await client.execute(
-          firstAccount.address,
-          contractAddress,
-          transferMsg,
-          "auto", // automatic gas estimation
-          "",     // memo
-          []      // funds
-      );
+    // Execute transfer
+    const result = await client.execute(
+      firstAccount.address,
+      contractAddress,
+      transferMsg,
+      "auto", // automatic gas estimation
+      "",     // memo
+      []      // funds
+    );
 
-      console.log("Transfer successful!");
-      console.log("Transaction hash:", result.transactionHash);
-      return result;
+    console.log("Transfer successful!");
+    console.log("Transaction hash:", result.transactionHash);
+    return result;
 
   } catch (error) {
-      console.error("Error during transfer:", error);
-      throw error;
+    console.error("Error during transfer:", error);
+    throw error;
   }
 }
 
@@ -750,4 +751,15 @@ export const buildSearch = (data: any, params: any) => {
   }
 
   return filterStr;
+}
+
+export const uploadFile = async (file: File) => {
+  const utapi = new UTApi({
+    token: process.env.UPLOADTHING_TOKEN // Gunakan environment variable
+  });
+
+  // uploadFiles mengembalikan Promise, jadi perlu await
+  const uploadResult = await utapi.uploadFiles(file);
+
+  return uploadResult.data?.url;
 }

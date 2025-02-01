@@ -49,7 +49,7 @@ const ImageUpload: React.FC<ImageUploadPreviewProps> = ({
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="w-full mx-auto">
       <div className="mb-4">
         {!preview ? (
           <div className="relative">
