@@ -166,7 +166,7 @@ export default function Header() {
                     <div className="grid gap-2 w-[250px] p-4 !bg-white">
                       {
                         projects.map((project, index) => {
-                          return <div>
+                          return <div key={index}> 
                             {
                               project.project_status == "N" ?
                                 <div className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
