@@ -1,23 +1,46 @@
 "use client"
 import Header from "@/components/layout/header";
 import CustomGradualSpacing from "@/components/CustomGradouselSpacing";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "@/components/layout/footer";
 import StakeSection from "@/components/home/StakeSection";
-export default function Stake({ params }: { params: { collection: string } }) {
+import axios from "axios";
+import { mst_project } from "@prisma/client";
+import MultipleStakeSection from "@/components/home/MultipleStakeSection";
+export default function Stake({ params }: { params: { projectid: string } }) {
+
+    const [isMultiCollection, setIsMultiCollection] = useState<boolean>(true);
+    const [project, setProject] = useState<mst_project | undefined>();
+
+    useEffect(() => {
+        async function fetchData() {
+            let resp = await axios.get(`/api/project/${params.projectid}`);
+            const respProject = resp.data.data ?? undefined;
+            setProject(respProject);
+            setIsMultiCollection(respProject?.collections?.length > 1);
+        }
+
+        fetchData();
+    }, []);
 
     return (
         <div className="relative bg-black w-full">
             <Header />
-            <div className="bg-black w-full h-[175px] md:h-full relative overflow-hidden">
+            <div className="bg-black w-full h-[175px] md:h-[70vh] relative overflow-hidden">
                 <div className="absolute top-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-black to-transparent z-10" />
                 <div className="absolute bottom-0 w-full h-[100px] md:h-[250px] bg-gradient-to-b from-transparent to-black z-10" />
                 {/* <div className="absolute top-0 left-0 right-0 bottom-0 "> */}
-                <div className="md:hidden bg-[url('/images/stake/banner-odds-mobile.png')] bg-cover w-full h-full"></div>
-                <video autoPlay loop muted className="hidden md:!flex w-full h-full scale-150 md:!scale-100">
+                {/* <div className="md:hidden bg-[url('/images/stake/banner-odds-mobile.png')] bg-cover w-full h-full"></div> */}
+                {/* <video autoPlay loop muted className="hidden md:!flex w-full h-full scale-150 md:!scale-100">
                     <source src="/images/stake/banner-odds.mp4" type="video/mp4" />
                     <img src="/images/stake/banner-odds.png" className="w-full" />
-                </video>
+                </video> */}
+                <div
+                    className={`bg-cover w-full h-full`}
+                    style={{
+                        backgroundImage: `url('${project?.project_banner ?? "/images/stake/banner-odds-mobile.png"}')`
+                    }}
+                ></div>
                 {/* </div> */}
             </div>
             <div className="relative">
@@ -34,7 +57,11 @@ export default function Stake({ params }: { params: { collection: string } }) {
             </div>
             {/* <div className="w-full h-[150px] bg-black" /> */}
             <div className="relative">
-                <StakeSection collection={params.collection} />
+                {
+                    isMultiCollection ?
+                        <MultipleStakeSection projectid={params.projectid} /> :
+                        <StakeSection projectid={params.projectid} />
+                }
             </div>
             <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-12 md:py-16">
                 <Footer className="my-0" />

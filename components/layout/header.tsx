@@ -25,6 +25,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { mst_project } from "@prisma/client";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -38,6 +39,7 @@ export default function Header() {
   const { isOpened, setOpen } = useNavbarMobile();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [rewardModal, setRewardModal] = useState<boolean>(false);
+  const [projects, setProjects] = useState<mst_project[] | []>([]);
   const { toast } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
@@ -50,6 +52,8 @@ export default function Header() {
         let resp = await axios.get(`/api/user/${address}?collection_address=${config?.collection_address}`);
         setUser(resp.data?.data?.user);
         setStaker(resp.data?.data?.staker);
+        const projectResp = await axios.get(`/api/project/list`);
+        setProjects(projectResp.data.data ?? []);
       }
       hideLoading();
     }
@@ -154,22 +158,28 @@ export default function Header() {
 
           {/* Navigation Links */}
           <div className="hidden md:!flex space-x-8">
-          <NavigationMenu>
+            <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="bg-transparent hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent">
                   <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-2xl font-bold", path == "/" ? "text-[#156E7E] hover:text-[#156E7E] hover:opacity-70" : (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
                   <NavigationMenuContent className="p-0">
-                    <div className="grid gap-2 w-[200px] p-4 !bg-white">
-                      <Link href="/stake/oddswizards" className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
-                        <span className="col-span-2 mx-auto">🧙‍♂️</span>
-                        <span className="text-[#156E7E] col-span-8">Odd Wizards</span>
-                      </Link>
-                      {/* <Link href="/stake"> */}
-                        <div className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
-                          <img src="/images/badkids.png" className="h-[15px] col-span-2 mx-auto" />
-                          <span className="text-[#156E7E] opacity-30 col-span-8">Bad Kids (Soon)</span>
-                        </div>
-                      {/* </Link> */}
+                    <div className="grid gap-2 w-[250px] p-4 !bg-white">
+                      {
+                        projects.map((project, index) => {
+                          return <div>
+                            {
+                              project.project_status == "N" ?
+                                <div className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
+                                  <div className="text-[#156E7E] opacity-30 col-span-8 flex">{project.project_name} (Soon)</div>
+                                </div>
+                                :
+                                <Link href="/stake/oddswizards" className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
+                                  <span className="text-[#156E7E] col-span-8">{project.project_name}</span>
+                                </Link>
+                            }
+                          </div>
+                        })
+                      }
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
