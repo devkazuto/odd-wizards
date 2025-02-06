@@ -5,11 +5,11 @@ import StakeCardMobile from "../StakeCardMobile";
 import { BoxStatStake } from "../BoxStatStake";
 
 export interface StakeSectionProps {
-  collection: string
+  projectid: string
 }
 
 const StakeSection = ({
-  collection
+  projectid
 }: StakeSectionProps) => {
   return (
     <div className="relative">
@@ -23,7 +23,7 @@ const StakeSection = ({
       </div>
       <div className="h-[245px] md:!h-[265px]" />
       {/* <BoxLeaderboard /> */}
-      <BoxStatStake collection={collection} />
+      <BoxStatStake collection={projectid} />
     </div>
   );
 };
