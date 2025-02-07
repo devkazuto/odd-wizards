@@ -9,7 +9,7 @@ import { mst_project } from "@prisma/client";
 import MultipleStakeSection from "@/components/home/MultipleStakeSection";
 export default function Stake({ params }: { params: { projectid: string } }) {
 
-    const [isMultiCollection, setIsMultiCollection] = useState<boolean>(true);
+    const [isMultiCollection, setIsMultiCollection] = useState<boolean>(false);
     const [project, setProject] = useState<any | undefined>();
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function Stake({ params }: { params: { projectid: string } }) {
                 {
                     isMultiCollection ?
                         <MultipleStakeSection project={project} collections={project?.collections ?? []} rewards={project?.rewards} projectid={params.projectid} /> :
-                        <StakeSection projectid={params.projectid} />
+                        project?.collections[0] && <StakeSection collection={project?.collections[0]} projectid={params.projectid} />
                 }
             </div>
             <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-12 md:py-16">

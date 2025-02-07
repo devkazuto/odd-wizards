@@ -3,19 +3,22 @@ import { BoxLeaderboard } from "@/components/BoxLaederboard";
 import StakeCard from "@/components/StakeCard";
 import StakeCardMobile from "../StakeCardMobile";
 import { BoxStatStake } from "../BoxStatStake";
+import { mst_collection } from "@prisma/client";
 
 export interface StakeSectionProps {
-  projectid: string
+  projectid: string,
+  collection: mst_collection
 }
 
 const StakeSection = ({
-  projectid
+  projectid,
+  collection
 }: StakeSectionProps) => {
   return (
     <div className="relative">
       <div className="absolute md:top-0 left-6 right-6 md:left-20 md:right-20">
         <div className="hidden md:!flex w-full">
-          <StakeCard />
+          <StakeCard collection={collection} />
         </div>
         <div className="flex md:!hidden w-full">
           <StakeCardMobile />
