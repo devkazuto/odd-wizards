@@ -7,7 +7,7 @@ import { useChain, useWallet } from "@cosmos-kit/react";
 import ConnectButton from "@/components/ConnectButton";
 import axios, { AxiosError } from "axios";
 import getConfig from "@/config/config";
-import { mst_staker } from "@prisma/client";
+import { mst_collection, mst_staker } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { promiseToast, useToast } from "./ui/use-toast";
 import { useClaim } from "@/hooks/useClaim";
@@ -16,7 +16,13 @@ import confetti from "canvas-confetti";
 import { BorderBeam } from "./ui/border-beam";
 import InfoModal from "./modal/info-modal";
 
-const MultipleStakeCard: FC = () => {
+export interface MultipleStakeCardProps {
+  projectCode?: string
+}
+
+const MultipleStakeCard = ({
+  projectCode,
+}: MultipleStakeCardProps) => {
 
   const [staker, setStaker] = useState<mst_staker | undefined>(undefined);
   const [isFetch, setIsFetch] = useState<boolean>(false);
@@ -27,7 +33,6 @@ const MultipleStakeCard: FC = () => {
   const { toast } = useToast();
   const { claim, setClaim } = useClaim();
   const claimRef = useRef<HTMLButtonElement>(null);
-  const [infoModal, setInfoModal] = useState<boolean>(false);
 
   useEffect(() => {
     setIsFetch(false);
@@ -115,7 +120,6 @@ const MultipleStakeCard: FC = () => {
 
   return (
     <div className="w-full px-6 md:!px-20 lg:px-20 gap-x-4">
-      <InfoModal isOpen={infoModal} onClose={() => {setInfoModal(false)}} loading={false} />
       <div className="w-full">
         {/* <p className="text-xs md:!text-lg text-gray-400 leading-tight">guide and assist you in exploring the cosmos.</p> */}
         <div className="relative mx-auto mt-4 md:!mx-0 md:!mt-4">
@@ -135,7 +139,7 @@ const MultipleStakeCard: FC = () => {
                       onClick={doStakeAndClaim}
                       className="w-full px-8 py-3 h-max text-[15px] md:!text-xl font-bold text-black rounded-xl bg-green-500 hover:bg-green-400 hover:text-black"
                     >Stake and Claim</Button>) :
-                    (<StakeButton />)
+                    (<StakeButton projectCode={projectCode} />)
                 }
               </div>) : (
                 <Button

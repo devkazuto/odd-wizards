@@ -7,19 +7,33 @@ import { getLeaderboard } from '@/lib/soft-staking-service';
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = request.nextUrl;
-        const collection_address = searchParams.get('collection_address');
+        const project_code = searchParams.get('project_code');
         const staker_address = searchParams.get('wallet_address');
         const size = parseInt(searchParams.get('size') || '10'); // Default size 10
         const page = parseInt(searchParams.get('page') || '0'); // Default page 0
 
-        if (!collection_address) {
+        if (!project_code) {
             return NextResponse.json(
-                { message: 'collection_address is required' },
+                { message: 'project_code is required' },
                 { status: 400 }
             );
         }
 
-        const leaderboard = await getLeaderboard(collection_address, staker_address, page, size);
+        const project = await prisma.mst_project.findFirst({
+            where: { project_code: project_code },
+        });
+
+        if(!project){
+            return NextResponse.json(
+                {
+                    message: 'Project not found',
+                    data: null
+                },
+                { status: 400 }
+            );
+        }
+
+        const leaderboard = await getLeaderboard(project.project_id, staker_address, page, size);
 
         // Handle BigInt serialization
         const leaderboardWithBigIntAsString = leaderboard.map((item: any) => ({

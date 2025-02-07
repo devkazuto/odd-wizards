@@ -10,7 +10,7 @@ import MultipleStakeSection from "@/components/home/MultipleStakeSection";
 export default function Stake({ params }: { params: { projectid: string } }) {
 
     const [isMultiCollection, setIsMultiCollection] = useState<boolean>(true);
-    const [project, setProject] = useState<mst_project | undefined>();
+    const [project, setProject] = useState<any | undefined>();
 
     useEffect(() => {
         async function fetchData() {
@@ -44,22 +44,26 @@ export default function Stake({ params }: { params: { projectid: string } }) {
                 {/* </div> */}
             </div>
             <div className="relative">
-                <div className="bg-[url('/images/wizard.gif')] bg-cover bg-center w-[100px] h-[100px] md:w-[175px] md:h-[175px] absolute -top-14 md:!-top-24 left-1/2 transform -translate-x-1/2 rounded-full z-20" />
+                <div
+                style={{
+                    backgroundImage: `url('${project?.project_profile_image}')`
+                }} 
+                className="bg-cover bg-center w-[100px] h-[100px] md:w-[175px] md:h-[175px] absolute -top-14 md:!-top-24 left-1/2 transform -translate-x-1/2 rounded-full z-20" />
             </div>
             <div className="flex flex-col items-center justify-center mt-14 md:!mt-28 px-5 md:px-20">
                 <CustomGradualSpacing
                     className="font-display text-center text-4xl md:!text-6xl font-black md:leading-[5rem]"
-                    text="Odds Wizard"
+                    text={project?.project_name ?? ""}
                 />
                 <div className="mt-2 mb-6 md:mt-4 md:mb-10 px-5 md:px-32">
-                    <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">Dive into the magic of Odds World, a mystical spot where rebellious yet big-hearted and passionate wizards hang out in the Cosmos. They&apos;re all about critical thinking and are super driven to succeed.</p>
+                    <p className="text-sm md:!text-xl text-gray-400 leading-none text-center">{project?.project_description}</p>
                 </div>
             </div>
             {/* <div className="w-full h-[150px] bg-black" /> */}
             <div className="relative">
                 {
                     isMultiCollection ?
-                        <MultipleStakeSection projectid={params.projectid} /> :
+                        <MultipleStakeSection project={project} collections={project?.collections ?? []} rewards={project?.rewards} projectid={params.projectid} /> :
                         <StakeSection projectid={params.projectid} />
                 }
             </div>

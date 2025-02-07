@@ -4,10 +4,10 @@ import prisma from '@/prisma/prisma';
 // READ Single Collection
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { projectid: string } }
 ) {
   try {
-    const code = params.id;
+    const code = params.projectid;
 
     const project = await prisma.mst_project.findFirst({
       where: { project_code: code },

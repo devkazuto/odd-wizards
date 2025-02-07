@@ -11,8 +11,15 @@ import { useClaim } from "@/hooks/useClaim";
 import Link from "next/link";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import { mst_project } from "@prisma/client";
 
-const Leaderboard = () => {
+export interface LeaderboardProps {
+  project: mst_project
+}
+
+const Leaderboard = ({
+  project
+}: LeaderboardProps) => {
   const rankEmojis = ["🥇", "🥈", "🥉"];
 
   // const [visibleItems, setVisibleItems] = useState(4); // Jumlah item yang ditampilkan

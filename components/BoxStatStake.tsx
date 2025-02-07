@@ -31,8 +31,11 @@ export const BoxStatStake = ({
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const resp = await axios.get(`/api/soft-staking/point?wallet_address=${address}&collection_address=${collection}`);
-      setStat(resp.data.data);
+      try {
+        const resp = await axios.get(`/api/soft-staking/point?wallet_address=${address}&collection_address=${collection}`);
+        setStat(resp.data.data);
+      } catch (error) {
+      }
       setLoading(false);
     }
 

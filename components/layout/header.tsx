@@ -52,9 +52,11 @@ export default function Header() {
         let resp = await axios.get(`/api/user/${address}?collection_address=${config?.collection_address}`);
         setUser(resp.data?.data?.user);
         setStaker(resp.data?.data?.staker);
-        const projectResp = await axios.get(`/api/project/list`);
-        setProjects(projectResp.data.data ?? []);
       }
+
+      const projectResp = await axios.get(`/api/project/list`);
+      setProjects(projectResp.data.data ?? []);
+
       hideLoading();
     }
 
@@ -173,7 +175,7 @@ export default function Header() {
                                   <div className="text-[#156E7E] opacity-30 col-span-8 flex">{project.project_name} (Soon)</div>
                                 </div>
                                 :
-                                <Link href="/stake/oddswizards" className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
+                                <Link href={`/stake/${project.project_code}`} className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
                                   <span className="text-[#156E7E] col-span-8">{project.project_name}</span>
                                 </Link>
                             }

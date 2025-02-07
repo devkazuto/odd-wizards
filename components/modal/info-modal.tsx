@@ -20,14 +20,17 @@ import { formatAddress } from '@/lib/utils';
 import { Copy } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
 import Link from 'next/link';
+import { mst_collection } from '@prisma/client';
 
 interface AlertModalProps {
+    collection: mst_collection;
     isOpen: boolean;
     onClose: () => void;
     loading: boolean;
 }
 
 export default function InfoModal({
+    collection,
     isOpen,
     onClose,
     loading
@@ -62,14 +65,14 @@ export default function InfoModal({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader> */}
                 <div className="w-full bg-black text-white">
-                    <span className='font-bold text-xl'>Odds Wizard</span>
-                    <p className='text-gray-400 text-xs md:!text-base mt-2'>ODDS is a mystical garden where the most peculiar beings gather and play within the Cosmos. Starting with the Odds Wizard, the first entity to step into the ODDS, paving the way for an ever-growing collection of oddities, waiting to be discovered.</p>
+                    <span className='font-bold text-xl'>{collection?.collection_name}</span>
+                    <p className='text-gray-400 text-xs md:!text-base mt-2'>{collection?.collection_description}</p>
                     <Separator className="my-4" />
                     <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-base'>
                         <span>Contract Address:</span>
                         <div className='flex gap-x-1 items-center text-xs md:!text-base'>
-                            <span>{formatAddress("stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7")}</span>
-                            <span onClick={() => { handleCopy("stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7")}} className='cursor-pointer'><Copy size={16} /></span>
+                            <span>{formatAddress(collection?.collection_address ?? "")}</span>
+                            <span onClick={() => { handleCopy(collection.collection_address ?? "")}} className='cursor-pointer'><Copy size={16} /></span>
                         </div>
                     </div>
                     <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-base'>
