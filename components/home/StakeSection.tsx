@@ -21,7 +21,7 @@ const StakeSection = ({
           <StakeCard collection={collection} />
         </div>
         <div className="flex md:!hidden w-full">
-          <StakeCardMobile />
+          <StakeCardMobile collection={collection} />
         </div>
       </div>
       <div className="h-[245px] md:!h-[265px]" />
