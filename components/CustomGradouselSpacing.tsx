@@ -39,7 +39,7 @@ export default function GradualSpacing({
       className="flex justify-start"
     >
       <AnimatePresence>
-        {isInView && text.split("").map((char, i) => (
+        {isInView && text?.split("").map((char, i) => (
           <motion.h1
             key={i}
             initial="hidden"

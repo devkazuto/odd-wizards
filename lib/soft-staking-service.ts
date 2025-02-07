@@ -102,7 +102,7 @@ export async function getTotalPoints(address: string, collection_address: string
     };
 }
 
-export async function getLeaderboard(collection_address: string, staker_address: string | null, page: number, size: number) {
+export async function getLeaderboard(project_id: number, staker_address: string | null, page: number, size: number) {
     // const leaderboard: any = await prisma.$queryRaw`
     //         WITH leaderboard_points AS (
     //             SELECT
@@ -159,7 +159,7 @@ export async function getLeaderboard(collection_address: string, staker_address:
         FROM mst_staker ms
         LEFT JOIN mst_users mu ON mu.user_address = ms.staker_address
         LEFT JOIN mst_collection mc ON mc.collection_id = ms.staker_collection_id
-        WHERE mc.collection_address = ${collection_address}
+        WHERE mc.collection_project_id = ${project_id}
         AND ms.staker_nft_staked > 0
     )
     SELECT 

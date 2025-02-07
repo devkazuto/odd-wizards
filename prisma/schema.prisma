@@ -29,6 +29,8 @@ model mst_project {
   project_banner         String?
   project_status         String?
   project_is_leaderboard String? @default("N")
+  project_icon           String?
+  project_profile_image  String?
   project_footer_discord String?
   project_footer_twitter String?
   project_footer_discord_color String?
@@ -58,6 +60,11 @@ model mst_collection {
   collection_attr_url    String?
   collection_banner_url  String?
   collection_project_id  Int?
+  collection_creator     String?
+  collection_creator_name String?
+  collection_created_date DateTime?
+  collection_royalties   Int?
+  collection_chain       String?
   
   // Relasi dengan Staker
   project mst_project? @relation(fields: [collection_project_id], references: [project_id])
