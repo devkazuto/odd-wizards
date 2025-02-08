@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
-import { getTotalPoints } from '@/lib/soft-staking-service';
 
 export async function GET(request: NextRequest) {
     try {

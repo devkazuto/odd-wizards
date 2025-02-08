@@ -7,72 +7,76 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const {
             staker_address,
-            collection_address,
+            project_code,
         } = body;
 
-        const collection = await prisma.mst_collection.findFirst({
-            where: { collection_address: collection_address },
+        const project = await prisma.mst_project.findFirst({
+            where: {
+                project_code: project_code
+            },
             include: {
-                mst_staker: false
+                collections: true
             }
-        });
+        })
 
-        if (!collection) {
+        if (!project) {
             return NextResponse.json(
-                { message: 'Collection not found' },
+                { message: 'project not found' },
                 { status: 400 }
             );
         }
 
-        const staker = await prisma.mst_staker.findFirst({
-            where: { staker_address: staker_address, staker_collection_id: collection.collection_id }
+        const stakers = await prisma.mst_staker.findMany({
+            where: {
+                staker_project_id: project.project_id
+            }
         })
 
-        if (!staker) {
+        if (stakers.length == 0) {
             return NextResponse.json(
                 { message: 'Staker not found' },
                 { status: 400 }
             );
         }
 
-        const resp = await getTotalPoints(staker_address, collection_address);
+        const resp = await getTotalPoints(staker_address, project.project_id);
 
-        if(resp.point == 0){
+        if (resp.point == 0) {
             return NextResponse.json(
                 { message: 'No points available to claim' },
                 { status: 400 }
             );
         }
 
-        await prisma.trn_point.create({
-            data: {
-                point_amount: resp.point,
-                point_nft_staked: resp.totalNft,
-                point_staker_id: staker.staker_id,
-                point_claim_date: new Date()
-            }
-        });
-
-        if(resp.point >= 1){
-            await prisma.mst_staker.update({
-                where: { staker_id: staker.staker_id },
+        for (let staker of stakers) {
+            await prisma.trn_point.create({
                 data: {
-                    staker_lastclaim_date: new Date(),
-                    staker_nft_staked: resp.totalNft,
-                    staker_total_points: (staker.staker_total_points ?? 0) + resp.point
+                    point_amount: resp.point,
+                    point_nft_staked: resp.totalNft,
+                    point_staker_id: staker.staker_id,
+                    point_claim_date: new Date()
                 }
-            });    
+            });
+
+            if (resp.point >= 1) {
+                await prisma.mst_staker.update({
+                    where: { staker_id: staker.staker_id },
+                    data: {
+                        staker_lastclaim_date: new Date(),
+                        staker_nft_staked: resp.totalNft,
+                        staker_total_points: (staker.staker_total_points ?? 0) + resp.point
+                    }
+                });
+            }
         }
 
-        const stakerTotalPoints = staker.staker_total_points
-            ? staker.staker_total_points.toString()
-            : null;
+        const stakerTotalPoints = stakers.map(staker => staker.staker_total_points?.toString() ?? 0);
 
         return NextResponse.json(
             {
                 message: 'Claim successfully',
                 data: {
-                    staker: { ...staker, staker_total_points: stakerTotalPoints },
+                    staker: { ...stakers, staker_total_points: stakerTotalPoints },
                     point: resp.point
                 }
             },
