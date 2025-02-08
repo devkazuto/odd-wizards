@@ -10,9 +10,14 @@ export async function GET(request: NextRequest) {
                     not: "C"
                 }
             },
-            orderBy: {
-                project_status: 'desc'
-            }
+            orderBy: [
+                {
+                    project_status: 'desc'
+                },
+                {
+                    project_seqn: 'asc'
+                }
+            ]
          });
 
         return NextResponse.json(
