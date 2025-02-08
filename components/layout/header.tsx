@@ -157,7 +157,13 @@ export default function Header() {
               />
             </Link>
           </div>
-
+          <Link
+              href="/about"
+              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/about" ? "text-white" : "text-gray-400 hover:text-white"))}
+            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+            >
+              Challenge
+            </Link>
           {/* Navigation Links */}
           <div className="hidden md:!flex space-x-8">
             <NavigationMenu>
@@ -188,32 +194,11 @@ export default function Header() {
               </NavigationMenuList>
             </NavigationMenu>
             <Link
-              href="/about"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/about" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Challenge
-            </Link>
-            <Link
               href="/raffle"
               className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
             // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
             >
               Raffle
-            </Link>
-            <Link
-              href="/game"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/gallery" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Game
-            </Link>
-            <Link
-              href="/gallery"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/gallery" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Gallery
             </Link>
           </div>
         </div>

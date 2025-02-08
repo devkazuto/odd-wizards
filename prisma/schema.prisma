@@ -35,6 +35,9 @@ model mst_project {
   project_footer_twitter String?
   project_footer_discord_color String?
   project_footer_twitter_color String?
+  project_seqn           Int?
+
+  stakers mst_staker[]
   rewards mst_reward[]
   collections mst_collection[]
 }
@@ -65,6 +68,7 @@ model mst_collection {
   collection_created_date DateTime?
   collection_royalties   Int?
   collection_chain       String?
+  collection_seqn        Int?
   
   // Relasi dengan Staker
   project mst_project? @relation(fields: [collection_project_id], references: [project_id])
@@ -82,7 +86,9 @@ model mst_staker {
   updated_date            DateTime? @updatedAt
   staker_total_points     Int?
   staker_red_flag         String?
+  staker_project_id       Int?
   
+  projects  mst_project? @relation(fields: [staker_project_id], references: [project_id])
   // Relasi dengan Collection dan Point
   collection mst_collection? @relation(fields: [staker_collection_id], references: [collection_id])
   // Relasi dengan User
