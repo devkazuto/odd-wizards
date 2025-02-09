@@ -160,7 +160,7 @@ export default function Home() {
           </div>
           <div>
             <h1 className="text-3xl text-white font-black">Raffles</h1>
-            <p className="leading-7 text-gray-500 mt-2">Gather points in abundance and join the lottery, Try your luck to secure those enticing prizes, Remember to revisit the raffle to see who's participating.</p>
+            <p className="leading-7 text-gray-500 mt-2">Gather points in abundance and join the lottery, Try your luck to secure those enticing prizes, Remember to revisit the raffle to see who&apos;s participating.</p>
             <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/Odds-Garden.png')] bg-cover bg-center">
             </div>
           </div>
@@ -182,7 +182,7 @@ export default function Home() {
               <span className="text-xl text-gray-400">Odds is</span>
             </FaqContainer>
             <FaqContainer number="01" title="How to become a Partner?">
-              <span className="text-xl text-gray-400">If you're a founder and owned project, submit here: <Link className="text-blue-500" href="https://x.com/artnesh" target="_blank" >https://x.com/artnesh</Link></span>
+              <span className="text-xl text-gray-400">If you&apos;re a founder and owned project, submit here: <Link className="text-blue-500" href="https://x.com/artnesh" target="_blank" >https://x.com/artnesh</Link></span>
             </FaqContainer>
           </div>
         </div>
