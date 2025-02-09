@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { mst_project } from "@prisma/client";
 import axios from "axios";
 import ChallengeCard from "@/components/challenge/ChallengeCard";
+import Loading from "@/components/Loading";
 
 interface projectType extends mst_project {
     rewards?: any[];
@@ -12,16 +13,19 @@ interface projectType extends mst_project {
 
 export default function About() {
 
+    const [loading, setLoading] = useState<boolean>(true);
     const [challenges, setChallenges] = useState<projectType[] | []>([]);
 
     useEffect(() => {
-        async function fetchData(){
+        async function fetchData() {
+            setLoading(true);
             const resp = await axios.get("/api/project/challenge");
             setChallenges(resp.data.data);
-        }  
+            setLoading(false);
+        }
 
         fetchData();
-    });
+    }, []);
 
     return (
         <div className="relative w-full min-h-screen bg-[url('/images/Cosmos.gif')] bg-cover bg-center">
@@ -29,13 +33,19 @@ export default function About() {
             <Header />
             <div className="relative pt-28">
                 <h1 className="text-5xl text-center font-black">Challenges</h1>
-                <div className="my-10 grid grid-cols-2 md:grid-cols-3 gap-8 px-32">
-                    {
-                        challenges.map((project, index) => {
-                            return <ChallengeCard key={index} project={project} />
-                        })
-                    }
-                </div>
+                {loading ? (
+                    <div className="flex justify-center mt-10">
+                        <Loading />
+                    </div>
+                ) : (
+                    <div className="my-10 grid grid-cols-2 md:grid-cols-3 gap-8 px-32">
+                        {
+                            challenges.map((project, index) => {
+                                return <ChallengeCard key={index} project={project} />
+                            })
+                        }
+                    </div>
+                )}
             </div>
             <Footer className="my-0 md:!my-0 py-8" />
         </div>
