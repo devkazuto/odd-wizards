@@ -12,7 +12,8 @@ export async function GET(
     const project = await prisma.mst_project.findFirst({
       where: { project_code: code },
       include: {
-        collections: true
+        collections: true,
+        rewards: true
       }
     });
 
