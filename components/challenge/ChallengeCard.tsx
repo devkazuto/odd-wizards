@@ -13,6 +13,7 @@ const ChallengeCard = ({
     project
 }: ChallengeCardProps) => {
 
+    const [data, setData] = useState<any>(project);
     const [timeLeft, setTimeLeft] = useState<string>("");
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const ChallengeCard = ({
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [project])
+    }, [data])
 
     const calculateTimeLeft = () => {
 
