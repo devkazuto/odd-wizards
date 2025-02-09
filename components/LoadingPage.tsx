@@ -27,7 +27,7 @@ const LoadingPage = () => {
             {
                 (path == "/" || path == "/raffle") && (
                     <div className={cn(isLoading ? "absolute inset-0 flex items-center justify-center bg-black/90 z-[999999]" : "hidden")}>
-                        <MorphingText texts={texts} />;
+                        <MorphingText texts={texts} />
                     </div>
                 )
             }

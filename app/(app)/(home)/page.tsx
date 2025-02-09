@@ -5,39 +5,69 @@ import CustomGradualSpacing from "@/components/CustomGradouselSpacing";
 import Marquee from "react-fast-marquee";
 import CollectionCard, { CollectionCardType } from "@/components/CollectionCard";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { AvatarCircles } from "@/components/ui/avatas-circle";
+import FaqContainer from "@/components/home/FaqContainer";
 
+const avatars = [
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/16860528",
+    profileUrl: "https://github.com/dillionverma",
+  },
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/20110627",
+    profileUrl: "https://github.com/tomonarifeehan",
+  },
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/106103625",
+    profileUrl: "https://github.com/BankkRoll",
+  },
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/59228569",
+    profileUrl: "https://github.com/safethecode",
+  },
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/59442788",
+    profileUrl: "https://github.com/sanjay-mali",
+  },
+  {
+    imageUrl: "https://avatars.githubusercontent.com/u/89768406",
+    profileUrl: "https://github.com/itsarghyadas",
+  },
+];
 const collections: CollectionCardType[] = [
   {
-      id: "rebbits",
-      address: "stars12se30zklzhjf84ky669lrtx0wdlsk92lg4nad7yufk9d8qp08n2q8m58cw",
-      image: "/images/Rebbits.png",
-      imageGif: "/images/Rebbits.gif",
-      name: "Rebbits",
-      link: "https://www.stargaze.zone/m/rebbits/tokens"
+    id: "rebbits",
+    address: "stars12se30zklzhjf84ky669lrtx0wdlsk92lg4nad7yufk9d8qp08n2q8m58cw",
+    image: "/images/Rebbits.png",
+    imageGif: "/images/Rebbits.gif",
+    name: "Rebbits",
+    link: "https://www.stargaze.zone/m/rebbits/tokens"
   },
   {
-      id: "oddswizard",
-      address: "stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7",
-      image: "/images/Odds-Wizard.png",
-      imageGif: "/images/Odds-Wizard.gif",
-      name: "Odds Wizard",
-      link: "https://www.stargaze.zone/m/oddswizard/tokens"
+    id: "oddswizard",
+    address: "stars1vjxr6hlkjkh0z5u9cnktftdqe8trhu4agcc0p7my4pejfffdsl5sd442c7",
+    image: "/images/Odds-Wizard.png",
+    imageGif: "/images/Odds-Wizard.gif",
+    name: "Odds Wizard",
+    link: "https://www.stargaze.zone/m/oddswizard/tokens"
   },
   {
-      id: "steamland",
-      address: "stars1jf25kwveccgyp0cz5ae5wyvve8m8j8qpyr0mvul2t09e84yrplvscef9xa",
-      image: "/images/Steamland.png",
-      imageGif: "/images/Steamland.gif",
-      name: "Steamland",
-      link: "https://www.stargaze.zone/m/steamland/tokens"
+    id: "steamland",
+    address: "stars1jf25kwveccgyp0cz5ae5wyvve8m8j8qpyr0mvul2t09e84yrplvscef9xa",
+    image: "/images/Steamland.png",
+    imageGif: "/images/Steamland.gif",
+    name: "Steamland",
+    link: "https://www.stargaze.zone/m/steamland/tokens"
   },
   {
-      id: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
-      address: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
-      image: "/images/Bad-kids.png",
-      imageGif: "/images/Bad-kids.gif",
-      name: "Bad Kids",
-      link: "https://www.stargaze.zone/m/stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420/tokens"
+    id: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
+    address: "stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420",
+    image: "/images/Bad-kids.png",
+    imageGif: "/images/Bad-kids.gif",
+    name: "Bad Kids",
+    link: "https://www.stargaze.zone/m/stars19jq6mj84cnt9p7sagjxqf8hxtczwc8wlpuwe4sh62w45aheseues57n420/tokens"
   }
 ]
 
@@ -45,22 +75,47 @@ const collections: CollectionCardType[] = [
 export default function Home() {
   return (
     <div className="relative bg-black w-full overflow-hidden">
-      <div className="relative">
+      <div className="bg-[url('/images/blur-home.png')] bg-cover bg-center px-10 pt-24">
         <Header />
         {/* <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full scale-125" /> */}
-        <video autoPlay
+        {/* <video autoPlay
           loop
           muted
           playsInline className="md:!hidden w-full h-full">
           <source src="/images/mobile-home.mp4" type="video/mp4" />
-        </video>
+        </video> */}
         {/* <img src="/images/wizard.gif" className="md:!hidden h-screen w-full" /> */}
-        <video autoPlay
+        {/* <video autoPlay
           loop
           muted
           playsInline className="hidden md:!block w-full h-full">
           <source src="/images/Home-Odds.mp4" type="video/mp4" />
-        </video>
+        </video> */}
+        <div className="relative h-screen bg-[url('/images/Odds-Garden.png')] rounded-[20px]">
+          <div className="absolute left-0 bottom-0 z-1 w-full h-[200px] bg-gradient-to-b from-transparent to-black/80" />
+          <div className="absolute bottom-10 w-full px-6">
+            <div className="flex gap-2">
+              <Link href="#">
+                <img src="/images/x.png" className="h-[35px]" />
+              </Link>
+              <Link href="#">
+                <img src="/images/discord.png" className="h-[35px]" />
+              </Link>
+            </div>
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="flex items-center gap-3 mt-4">
+                  <div className={cn("w-6 h-6 flex items-center justify-center rounded-full blinker bg-green-500/50")}>
+                    <div className={cn("w-4 h-4 rounded-full bg-green-500")} />
+                  </div>
+                  <h1 className="text-2xl font-black">111 Seals Minted</h1>
+                </div>
+                <span className="opacity-70 text-lg font-bold">Whitelist phase 1 ends in 12h 29m 22s</span>
+              </div>
+              <Button className="h-12 px-8 rounded-[10px] text-lg bg-white text-black font-black hover:bg-white">Mint Now</Button>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center my-10 px-20">
         <CustomGradualSpacing
@@ -82,6 +137,56 @@ export default function Home() {
           </div>
         ))}
       </Marquee>
+      <div className="my-20 text-center">
+        <h1 className="text-center text-[27px] md:!text-6xl font-black ">3.351 Odds People!</h1>
+        <span className="text-lg text-gray-400">Stay Connected, from all over the world</span>
+        <div className="mx-autov mt-4">
+          <AvatarCircles className="justify-center" numPeople={99} avatarUrls={avatars} />
+        </div>
+      </div>
+      <div className="my-20 px-36">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6">
+          <div>
+            <h1 className="text-3xl text-white font-black">Challenge</h1>
+            <p className="leading-7 text-gray-500 mt-2">Join the fun and compete alongside fellow holders, Win exciting prizes in this spirited contest, Track your achievements with an interactive leaderboard.</p>
+            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/Odds-Garden.png')] bg-cover bg-center">
+            </div>
+          </div>
+          <div>
+            <h1 className="text-3xl text-white font-black">Stake</h1>
+            <p className="leading-7 text-gray-500 mt-2">Bet your beloved NFTs to up your game, Enhance your odds for exciting rewards, Discover the unique attractions of Odds Garden together.</p>
+            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/Odds-Garden.png')] bg-cover bg-center">
+            </div>
+          </div>
+          <div>
+            <h1 className="text-3xl text-white font-black">Raffles</h1>
+            <p className="leading-7 text-gray-500 mt-2">Gather points in abundance and join the lottery, Try your luck to secure those enticing prizes, Remember to revisit the raffle to see who's participating.</p>
+            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/Odds-Garden.png')] bg-cover bg-center">
+            </div>
+          </div>
+          <div>
+            <h1 className="text-3xl text-white font-black">Upcoming Features</h1>
+            <ul className="list-disc ml-4 mt-2">
+              <li className="leading-7 text-gray-500">Dashboard</li>
+              <li className="leading-7 text-gray-500">Games</li>
+              <li className="leading-7 text-gray-500">Exchange - Odds Point to $STARS/USDC</li>
+            </ul>
+            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/Odds-Garden.png')] bg-cover bg-center">
+            </div>
+          </div>
+        </div>
+        <div className="my-20">
+          <h1 className="text-5xl text-center font-black">FAQ</h1>
+          <div className="mt-4">
+            <FaqContainer number="01" title="What is Odds Garden?">
+              <span className="text-xl text-gray-400">Odds is</span>
+            </FaqContainer>
+            <FaqContainer number="01" title="How to become a Partner?">
+              <span className="text-xl text-gray-400">If you're a founder and owned project, submit here: <Link className="text-blue-500" href="https://x.com/artnesh" target="_blank" >https://x.com/artnesh</Link></span>
+            </FaqContainer>
+          </div>
+        </div>
+      </div>
       <Footer className="my-0" />
     </div>
   );

@@ -47,7 +47,7 @@ export default function ConnectButton({ showProfile = true, className }: Connect
         {wallet.status != WalletStatus.Connected ? (
             <Button
                 variant="ghost"
-                className={cn("px-8 py-3 h-max font-black text-black rounded-xl bg-white hover:bg-white hover:text-black", className)}
+                className={cn("px-6 py-2 h-max font-black text-black rounded-xl bg-white hover:bg-white hover:text-black", className)}
                 onClick={handleConnectWallet}
                 aria-label="Connect"
             >
@@ -87,17 +87,17 @@ export default function ConnectButton({ showProfile = true, className }: Connect
         ) : (
             <div className="flex items-center gap-x-3">
                 <Button
-                    className="px-5 py-3 h-max font-black text-black rounded-xl bg-white hover:bg-white hover:text-black"
+                    className="px-5 py-2 h-max font-black text-black rounded-xl bg-white hover:bg-white hover:text-black"
                     onClick={handleDisconnectWallet}
                     aria-label={address}
                 >
                     <span className="text-sm md:!text-2xl font-black">{formatAddress(address)}</span>
                 </Button>
-                <div className="w-[60px] h-[60px] rounded-full overflow-hidden">
+                <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                     <Link href={`/p/${address}`} >
                         <img hidden={!showProfile} src={user?.user_image_url ?? DEFAULT_IMAGE_PROFILE} onError={(e: any) => {
                             e.target.src = DEFAULT_IMAGE_PROFILE;
-                        }} className="w-[60px] h-[60px] rounded-full hover:scale-105" />
+                        }} className="w-[50px] h-[50px] rounded-full hover:scale-105" />
                     </Link>
                 </div>
             </div>

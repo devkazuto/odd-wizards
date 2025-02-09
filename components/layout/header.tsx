@@ -133,7 +133,7 @@ export default function Header() {
   }, [address]);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 flex items-center justify-between md:px-10 py-5 bg-transparent z-50">
+    <nav className="absolute top-0 left-0 right-0 flex items-center justify-between md:px-14 py-5 bg-transparent z-50">
       <RewardModalModal isOpen={rewardModal} setOpen={setRewardModal} onClose={() => { }} wallet={address} />
       <div className="container mx-auto flex items-center justify-between w-full">
         {/* Logo and Links */}
@@ -143,7 +143,7 @@ export default function Header() {
             <Link
               href="/"
               aria-label="Home"
-              className="group rounded-[12px] md:rounded-[20px] overflow-hidden w-[50px] md:w-[75px] h-[40px] md:h-[60px] flex items-center justify-center"
+              className="group rounded-[12px] md:rounded-[16px] overflow-hidden w-[50px] md:w-[65px] h-[40px] md:h-[50px] flex items-center justify-center"
             >
               <img
                 src="/images/logo.png"
@@ -158,8 +158,8 @@ export default function Header() {
             </Link>
           </div>
           <Link
-              href="/about"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/about" ? "text-white" : "text-gray-400 hover:text-white"))}
+              href="/challenge"
+              className={cn("text-xl font-bold transition-transform ", (path == "/challenge" ? "text-white" : "text-gray-400 hover:text-white"))}
             // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
             >
               Challenge
@@ -169,7 +169,7 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="bg-transparent hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent">
-                  <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-2xl font-bold", path == "/" ? "text-[#156E7E] hover:text-[#156E7E] hover:opacity-70" : (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-xl font-bold", (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
                   <NavigationMenuContent className="p-0">
                     <div className="grid gap-2 w-[250px] p-4 !bg-white">
                       {
@@ -177,12 +177,14 @@ export default function Header() {
                           return <div key={index}> 
                             {
                               project.project_status == "N" ?
-                                <div className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
-                                  <div className="text-[#156E7E] opacity-30 col-span-8 flex">{project.project_name} (Soon)</div>
+                                <div className="grid grid-cols-12 items-center hover:scale-105 hover:font-semibold">
+                                  <span className="col-span-2">{project.project_icon}</span>
+                                  <div className="text-[#156E7E] opacity-30 col-span-10 flex">{project.project_name} (Soon)</div>
                                 </div>
                                 :
-                                <Link href={`/stake/${project.project_code}`} className="grid grid-cols-10 items-center hover:scale-105 hover:font-semibold">
-                                  <span className="text-[#156E7E] col-span-8">{project.project_name}</span>
+                                <Link href={`/stake/${project.project_code}`} className="grid grid-cols-12 items-center hover:scale-105 hover:font-semibold">
+                                  <span className="col-span-2">{project.project_icon}</span>
+                                  <span className="text-[#156E7E] col-span-10">{project.project_name}</span>
                                 </Link>
                             }
                           </div>
@@ -195,7 +197,7 @@ export default function Header() {
             </NavigationMenu>
             <Link
               href="/raffle"
-              className={cn("text-2xl font-bold transition-transform ", path == "/" ? "text-[#156E7E] hover:opacity-70" : (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
+              className={cn("text-xl font-bold transition-transform ", (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
             // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
             >
               Raffle

@@ -36,6 +36,7 @@ model mst_project {
   project_footer_discord_color String?
   project_footer_twitter_color String?
   project_seqn           Int?
+  project_leaderboard_enddate DateTime?
 
   stakers mst_staker[]
   rewards mst_reward[]
