@@ -98,7 +98,8 @@ export default function Home() {
 
   return (
     <div className="relative bg-black w-full overflow-hidden">
-      <div className="bg-[url('/images/blur-home.png')] bg-cover bg-center px-10 pt-24">
+      <div className="relative bg-[url('/images/blur-home.png')] bg-cover bg-center px-10 pt-24">
+        <div className="absolute left-0 bottom-0 z-1 w-full h-[100px] bg-gradient-to-b from-transparent to-black/50" />
         <Header />
         {/* <div className="bg-[url('/images/wizard.gif')] md:!hidden bg-cover bg-center h-[500px] w-full scale-125" /> */}
         {/* <video autoPlay
@@ -114,9 +115,10 @@ export default function Home() {
           playsInline className="hidden md:!block w-full h-full">
           <source src="/images/Home-Odds.mp4" type="video/mp4" />
         </video> */}
-        {/* <Banner items={[]} /> */}
-        <div className="relative h-screen bg-[url('/images/Odds-Garden.png')] bg-center bg-cover bg-no-repeat rounded-[20px]">
-          <div className="absolute left-0 bottom-0 z-1 w-full h-[350px] bg-gradient-to-b from-transparent to-black/80" />
+        <div className="relative h-[calc(100vh-100px)]">
+          <Banner items={[]} />
+        </div>
+        {/* <div className="relative h-screen bg-[url('/images/Odds-Garden.png')] bg-center bg-cover bg-no-repeat rounded-[20px]">
           <div className="absolute bottom-24 w-full px-6">
             <div className="flex gap-2">
               <Link href="#">
@@ -139,7 +141,7 @@ export default function Home() {
               <Button className="h-12 px-8 rounded-[10px] text-lg bg-white text-black font-black hover:bg-white">Go to Launchpad</Button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col items-center justify-center my-10 mt-24 px-20">
         <CustomGradualSpacing

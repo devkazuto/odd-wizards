@@ -17,15 +17,15 @@ const Banner = ({ items }: BannerProps) => {
     const OPTIONS: EmblaOptionsType = { loop: true };
     const plugin = React.useRef(Autoplay({ delay: 10000, stopOnInteraction: false }));
 
-    return <div className="w-full h-full">
+    return <div className="w-full h-full rounded-[30px]">
         <Carousel
             opts={OPTIONS}
             plugins={[plugin.current]}
-            className="w-full h-full"
+            className="w-full h-full rounded-[30px]"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
         >
-            <CarouselContent className="w-full h-full -ml-2">
+            <CarouselContent className="w-full h-full -ml-2 rounded-[30px]">
                 {/* {items?.map((item, index) => ( */}
                 <CarouselItem >
                     <div className="relative w-full h-full">
@@ -34,6 +34,7 @@ const Banner = ({ items }: BannerProps) => {
                             objectFit="cover"
                             src="/images/Odds-Garden.png"
                             alt=""
+                            className="rounded-[30px]"
                         />
                         <div className="absolute bottom-0 left-0 z-5 bg-gradient-to-b from-transparent via-black-75 to-black w-full p-10 pb-18 pl-16">
                             <div className="flex gap-2">

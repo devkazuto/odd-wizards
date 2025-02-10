@@ -158,23 +158,23 @@ export default function Header() {
             </Link>
           </div>
           <Link
-              href="/challenge"
-              className={cn("text-xl font-bold transition-transform ", (path == "/challenge" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Challenge
-            </Link>
+            href="/challenge"
+            className={cn("text-xl font-bold transition-transform ", (path == "/challenge" ? "text-white" : "text-gray-400 hover:text-white"))}
+          // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+          >
+            Challenge
+          </Link>
           {/* Navigation Links */}
           <div className="hidden md:!flex space-x-8">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="bg-transparent hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent">
-                  <NavigationMenuTrigger className={cn("bg-transparent pt-1 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-xl font-bold", (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className={cn("bg-transparent py-0 px-0 hover:!bg-transparent focus:!bg-transparent data-[active]:!bg-transparent data-[state=open]:!bg-transparent text-xl font-bold", (path == "/stake" ? "text-white hover:text-white" : "text-gray-400 hover:text-gray-400 hover:text-white"))}>Stake</NavigationMenuTrigger>
                   <NavigationMenuContent className="p-0">
                     <div className="grid gap-2 w-[250px] p-4 !bg-white">
                       {
                         projects.map((project, index) => {
-                          return <div key={index}> 
+                          return <div key={index}>
                             {
                               project.project_status == "N" ?
                                 <div className="grid grid-cols-12 items-center hover:scale-105 hover:font-semibold">
@@ -195,16 +195,15 @@ export default function Header() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <Link
-              href="/raffle"
-              className={cn("text-xl font-bold transition-transform ", (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
-            // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
-            >
-              Raffle
-            </Link>
           </div>
+          <Link
+            href="/raffle"
+            className={cn("text-xl font-bold transition-transform ", (path == "/raffle" ? "text-white" : "text-gray-400 hover:text-white"))}
+          // style={{ textShadow: 'rgb(100 100 100 / 50%) 0px 0px 12px' }}
+          >
+            Raffle
+          </Link>
         </div>
-
         {/* Connect Wallet Button */}
         <div className="hidden md:!block">
           <ConnectButton />
