@@ -4,7 +4,7 @@ import { useState } from "react";
 export interface FaqContainerProps {
     number: string,
     title: string,
-    children: React.ReactNode
+    children?: React.ReactNode
 }
 
 const FaqContainer = ({
@@ -19,13 +19,13 @@ const FaqContainer = ({
         <div className="flex items-start gap-x-4">
             <span className="text-2xl font-bold text-white">{number}</span>
             <div>
-                <span className="text-2xl font-bold text-white">{title}</span>
+                <span className="text-2xl font-semibold text-white">{title}</span>
                 <div hidden={!open} className="mt-4">
                     {children}
                 </div>
             </div>
         </div>
-        <div onClick={() => setOpen(!open)} className="cursor-pointer text-2xl pt-1">
+        <div hidden={!children} onClick={() => setOpen(!open)} className="cursor-pointer text-2xl pt-1">
             {
                 open ? <X strokeWidth={5} /> : <Plus strokeWidth={5} />
             }

@@ -212,7 +212,8 @@ const RaffleCardCustom = ({ data }: RaffleCardCustomProps) => {
 
     const doWinner = async () => {
         await axios.post("/api/raffle/draw", {
-            raffle_id: raffle.raffle_id
+            raffle_id: raffle.raffle_id,
+            wallet_address: address
         });
         updateRaffle();
     }
