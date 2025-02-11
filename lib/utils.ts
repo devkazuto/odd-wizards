@@ -595,6 +595,230 @@ export async function getToken(collectionAddr: string, tokenId: string) {
 }
 
 
+export async function getLaunchpad(address: string, walletAddress?: string) {
+  if (!config) throw Error("Config not found");
+
+  const query = `query MinterV2($address: String!, $walletAddress: String) {
+    collection(address: $address) {
+      __typename
+      contractAddress
+      contractUri
+      name
+      description
+      website
+      isExplicit
+      minterAddress
+      featured
+      floor {
+        amount
+        amountUsd
+        denom
+        symbol
+        __typename
+      }
+      creator {
+        address
+        name {
+          name
+          records {
+            name
+            value
+            verified
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      royaltyInfo {
+        sharePercent
+        __typename
+      }
+      minterV2(walletAddress: $walletAddress) {
+        ...MinterV2Fields
+        __typename
+      }
+      startTradingTime
+      media {
+        ...MediaFields
+        __typename
+      }
+    }
+  }
+
+  fragment MinterV2Fields on MinterV2 {
+    minterType
+    minterAddress
+    mintableTokens
+    mintedTokens
+    airdroppedTokens
+    numTokens
+    currentStage {
+      id
+      name
+      type
+      presaleType
+      status
+      startTime
+      endTime
+      salePrice {
+        denom
+        symbol
+        amount
+        amountUsd
+        __typename
+      }
+      discountPrice {
+        denom
+        symbol
+        amount
+        amountUsd
+        __typename
+      }
+      burnConditions {
+        collectionAddress
+        amountToBurn
+        __typename
+      }
+      addressTokenCounts {
+        limit
+        mintable
+        minted
+        __typename
+      }
+      stageCounts {
+        limit
+        mintable
+        minted
+        __typename
+      }
+      numMembers
+      isMember
+      proofs
+      __typename
+    }
+    mintStages {
+      discountPrice {
+        amount
+        amountUsd
+        denom
+        symbol
+        __typename
+      }
+      salePrice {
+        amount
+        amountUsd
+        denom
+        symbol
+        __typename
+      }
+      burnConditions {
+        collectionAddress
+        amountToBurn
+        __typename
+      }
+      status
+      type
+      id
+      presaleType
+      startTime
+      endTime
+      name
+      isMember
+      numMembers
+      proofs
+      addressTokenCounts {
+        limit
+        mintable
+        minted
+        __typename
+      }
+      stageCounts {
+        limit
+        mintable
+        minted
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+
+  fragment MediaFields on Media {
+    type
+    url
+    height
+    width
+    visualAssets {
+      xs {
+        type
+        url
+        height
+        width
+        staticUrl
+        __typename
+      }
+      sm {
+        type
+        url
+        height
+        width
+        staticUrl
+        __typename
+      }
+      md {
+        type
+        url
+        height
+        width
+        staticUrl
+        __typename
+      }
+      lg {
+        type
+        url
+        height
+        width
+        staticUrl
+        __typename
+      }
+      xl {
+        type
+        url
+        height
+        width
+        staticUrl
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }`;
+
+  try {
+    const response = await fetch(config.graphql_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          address,
+          walletAddress
+        },
+        operationName: 'MinterV2'
+      })
+    });
+
+    const data = await response.json();
+    return data.data.collection;
+  } catch (error) {
+    console.error('Error fetching launchpad data:', error);
+    throw error;
+  }
+}
+
 export function formatToStars(value?: string | number): number {
   if (!value) return 0;
   let number = typeof value === 'string' ? parseFloat(value) : value;

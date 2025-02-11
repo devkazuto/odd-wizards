@@ -6,7 +6,6 @@ import { WalletStatus } from '@cosmos-kit/core';
 import { useChain, useWallet } from "@cosmos-kit/react";
 import ConnectButton from "@/components/ConnectButton";
 import axios, { AxiosError } from "axios";
-import getConfig from "@/config/config";
 import { mst_collection, mst_staker } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { promiseToast, useToast } from "./ui/use-toast";
@@ -27,7 +26,6 @@ const MultipleStakeCard = ({
   const [staker, setStaker] = useState<mst_staker | undefined>(undefined);
   const [isFetch, setIsFetch] = useState<boolean>(false);
   // const [point, setPoints] = useState<number>(0);
-  const config = getConfig();
   const wallet = useWallet();
   const { address } = useChain("stargaze"); // Use the 'stargaze' chain from your Cosmos setup
   const { toast } = useToast();
@@ -59,7 +57,7 @@ const MultipleStakeCard = ({
       setClaim(false);
       promiseToast(axios.post("/api/soft-staking/claim", {
         staker_address: address,
-        collection_address: config?.collection_address
+        project_code: projectCode
       }), {
         loading: {
           title: "Processing...",

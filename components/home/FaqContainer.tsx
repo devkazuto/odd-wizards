@@ -15,11 +15,11 @@ const FaqContainer = ({
 
     const [open, setOpen] = useState<boolean>(false);
 
-    return (<div className="mt-4 flex items-start justify-between rounded-[10px] p-6 bg-neutral-900 border-2 border-[#323237]">
+    return (<div onClick={() => setOpen(!open)} className="mt-4 cursor-pointer flex items-start justify-between rounded-[10px] p-6 bg-neutral-900 border-2 border-[#323237]">
         <div className="flex items-start gap-x-4">
-            <span className="text-2xl font-bold text-white">{number}</span>
+            <span className="text-2xl font-bold text-[#A1A1AA]">{number}</span>
             <div>
-                <span className="text-2xl font-semibold text-white">{title}</span>
+                <span className="text-2xl font-semibold text-[#A1A1AA]">{title}</span>
                 <div hidden={!open} className="mt-4">
                     {children}
                 </div>

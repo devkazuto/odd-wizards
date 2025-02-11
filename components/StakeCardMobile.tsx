@@ -6,7 +6,6 @@ import { WalletStatus } from '@cosmos-kit/core';
 import { useChain, useWallet } from "@cosmos-kit/react";
 import ConnectButton from "@/components/ConnectButton";
 import axios, { AxiosError } from "axios";
-import getConfig from "@/config/config";
 import { mst_collection, mst_staker } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { promiseToast, useToast } from "./ui/use-toast";
@@ -17,17 +16,18 @@ import { BorderBeam } from "./ui/border-beam";
 import InfoModal from "./modal/info-modal";
 
 export interface StakeCardMobileProps {
-    collection: mst_collection
+    collection: mst_collection,
+    projectid: string
   }
 
 const StakeCardMobile = ({
-    collection
+    collection,
+    projectid
 }: StakeCardMobileProps) => {
 
     const [staker, setStaker] = useState<mst_staker | undefined>(undefined);
     const [isFetch, setIsFetch] = useState<boolean>(false);
     // const [point, setPoints] = useState<number>(0);
-    const config = getConfig();
     const wallet = useWallet();
     const { address } = useChain("stargaze"); // Use the 'stargaze' chain from your Cosmos setup
     const { toast } = useToast();
@@ -39,7 +39,7 @@ const StakeCardMobile = ({
         setIsFetch(false);
         async function fetchData() {
             try {
-                let resp = await axios.get(`/api/soft-staking/available-point?wallet_address=${address}&collection_address=${config?.collection_address}`)
+                let resp = await axios.get(`/api/soft-staking/available-point?wallet_address=${address}&project_code=${projectid}`)
                 let data = resp.data.data;
                 // setPoints(data.points);
                 setStaker(data.staker);
@@ -60,7 +60,7 @@ const StakeCardMobile = ({
             setClaim(false);
             promiseToast(axios.post("/api/soft-staking/claim", {
                 staker_address: address,
-                collection_address: config?.collection_address
+                project_code: projectid
             }), {
                 loading: {
                     title: "Processing...",

@@ -18,10 +18,10 @@ const StakeSection = ({
     <div className="relative">
       <div className="absolute md:top-0 left-6 right-6 md:left-20 md:right-20">
         <div className="hidden md:!flex w-full">
-          <StakeCard collection={collection} />
+          <StakeCard collection={collection} projectid={projectid} />
         </div>
         <div className="flex md:!hidden w-full">
-          <StakeCardMobile collection={collection} />
+          <StakeCardMobile collection={collection} projectid={projectid} />
         </div>
       </div>
       <div className="h-[245px] md:!h-[265px]" />

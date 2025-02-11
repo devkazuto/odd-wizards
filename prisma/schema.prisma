@@ -167,3 +167,14 @@ model trn_participant {
   raffle  trn_raffle?   @relation(fields: [participant_raffle_id], references: [raffle_id])
   user    mst_users?    @relation(fields: [participant_address], references: [user_address])
 }
+
+model mst_banners {
+  banner_id           Int @id @default(autoincrement())
+  banner_image        String?
+  banner_status       String?
+  banner_collection_address String?
+  banner_website      String?
+  banner_twiter       String?
+  banner_discord      String?
+  banner_seqn         Int?
+}
