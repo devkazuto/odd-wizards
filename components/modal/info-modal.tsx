@@ -107,7 +107,7 @@ export default function InfoModal({
                         <span>Home chain:</span>
                         <span>{collection.collection_chain}</span>
                     </div>
-                    <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-basemd:!text-base'>
+                    <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-base'>
                         <span>Royalties:</span>
                         <span>{collection.collection_royalties}%</span>
                     </div>
