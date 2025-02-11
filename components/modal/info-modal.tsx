@@ -21,6 +21,7 @@ import { Copy } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
 import Link from 'next/link';
 import { mst_collection } from '@prisma/client';
+import moment from 'moment';
 
 interface AlertModalProps {
     collection: mst_collection;
@@ -57,6 +58,12 @@ export default function InfoModal({
         }
     }
 
+    const formatCreatedDate = (date: Date | undefined | null) => {
+        if(!date) return "";
+        const momentDate = moment(date);
+        return momentDate.format('MMMM D, YYYY h:mm A');
+    }
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-[95%] md:!max-w-xl rounded-xl bg-black">
@@ -81,12 +88,12 @@ export default function InfoModal({
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Link href={"https://www.stargaze.zone/p/artnesh/tokens"} target='_blank'>
-                                            <span className='cursor-pointer text-green-500 text-xs md:!text-base'>artnesh</span>
+                                        <Link href={`https://www.stargaze.zone/p/${collection.collection_creator_name ?? collection.collection_creator}/tokens`} target='_blank'>
+                                            <span className='cursor-pointer text-green-500 text-xs md:!text-base'>{collection.collection_creator_name}</span>
                                         </Link>
                                     </TooltipTrigger>
                                     <TooltipContent className='bg-black border border-[#323237] text-xs md:!text-base'>
-                                        <p>{formatAddress("stars130tcpz6l0j9f382prlj67r29jmr25cgpacmd7r")}</p>
+                                        <p>{formatAddress(collection.collection_creator ?? "")}</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -94,15 +101,15 @@ export default function InfoModal({
                     </div>
                     <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-base'>
                         <span>Created:</span>
-                        <span>December 15, 2024 10:07 AM</span>
+                        <span>{formatCreatedDate(collection.collection_created_date)}</span>
                     </div>
                     <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-base'>
                         <span>Home chain:</span>
-                        <span>Stargaze</span>
+                        <span>{collection.collection_chain}</span>
                     </div>
                     <div className='flex justify-between my-2 text-gray-400 text-xs md:!text-basemd:!text-base'>
                         <span>Royalties:</span>
-                        <span>5%</span>
+                        <span>{collection.collection_royalties}%</span>
                     </div>
                 </div>
             </DialogContent>

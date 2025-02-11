@@ -128,13 +128,13 @@ const Leaderboard = ({
                     </p>
                   </Link>
                   <div className="text-left md:!hidden text-white">
-                    <p className="text-[12px] md:text-[20px] font-bold">{formatDecimal(item.total_points, 2)} $WZRD</p>
+                    <p className="text-[12px] md:text-[20px] font-bold">{formatDecimal(item.total_points, 2)} ${project.project_symbol}</p>
                   </div>
                 </div>
               </div>
               <div className="hidden md:!flex items-center justify-end text-center">
                 <p className="text-[10px] md:text-[20px] font-bold">
-                  {formatDecimal(item.total_points, 2)} $WZRD
+                  {formatDecimal(item.total_points, 2)} ${project.project_symbol}
                 </p>
               </div>
               <div className="flex items-center justify-end text-center">

@@ -13,32 +13,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Banner from "@/components/home/Banner";
 
-const avatars = [
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/16860528",
-    profileUrl: "https://github.com/dillionverma",
-  },
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/20110627",
-    profileUrl: "https://github.com/tomonarifeehan",
-  },
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/106103625",
-    profileUrl: "https://github.com/BankkRoll",
-  },
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/59228569",
-    profileUrl: "https://github.com/safethecode",
-  },
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/59442788",
-    profileUrl: "https://github.com/sanjay-mali",
-  },
-  {
-    imageUrl: "https://avatars.githubusercontent.com/u/89768406",
-    profileUrl: "https://github.com/itsarghyadas",
-  },
-];
 const collections: CollectionCardType[] = [
   {
     id: "rebbits",
@@ -77,20 +51,24 @@ const collections: CollectionCardType[] = [
 
 export default function Home() {
 
+  const [banners, setBanners] = useState<any[] | []>([]);
   const [avatars, setAvatars] = useState<any[] | []>([]);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    async function fetchData(){
+    async function fetchData() {
       const resp = await axios.get("/api/user/list");
       const { users, total } = resp.data.data;
       setTotal(total);
       setAvatars(users.map((user: any) => {
         return {
           imageUrl: user.user_image_url,
-          profileUrl: "/p/"+user.user_address
+          profileUrl: "/p/" + user.user_address
         }
       }));
+
+      const respBanners = await axios.get("/api/banners");
+      setBanners(respBanners.data.data);
     }
 
     fetchData();
@@ -116,7 +94,7 @@ export default function Home() {
           <source src="/images/Home-Odds.mp4" type="video/mp4" />
         </video> */}
         <div className="relative h-[calc(100vh-100px)]">
-          <Banner items={[]} />
+          <Banner items={banners} />
         </div>
         {/* <div className="relative h-screen bg-[url('/images/Odds-Garden.png')] bg-center bg-cover bg-no-repeat rounded-[20px]">
           <div className="absolute bottom-24 w-full px-6">
@@ -167,37 +145,37 @@ export default function Home() {
         <div className="bg-[url('/images/Epigraph.gif')] bg-cover bg-center py-12 rounded-[50px]">
           <h1 className="text-center text-[27px] md:!text-5xl font-black ">{formatAmount(total)} Odds People!</h1>
           <span className="text-lg text-white">Stay Connected, from all over the world</span>
-          <div className="mx-autov mt-4">
-            <AvatarCircles className="justify-center mx-auto bg-black p-4 max-w-max rounded-[100px]" numPeople={99} avatarUrls={avatars} />
+          <div className="mx-auto mt-4">
+            <AvatarCircles className="justify-center mx-auto p-4 max-w-max rounded-[100px]" numPeople={99} avatarUrls={avatars} />
           </div>
         </div>
       </div>
       <div className="my-20 px-36">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-10">
           <div>
-            <h1 className="text-4xl text-white font-bold">Challenge</h1>
-            <p className="leading-7 text-lg text-gray-500 mt-2">Join the fun and compete alongside fellow holders, Win exciting prizes in this spirited contest, Track your achievements with an interactive leaderboard.</p>
+            <h1 className="text-3xl text-white font-bold">Challenge</h1>
+            <p className="leading-7 text-lg text-gray-500 mt-2">Participate on the Staking Challenge and compete with fellow holders. Climb the leaderboard by staking as much NFTs as you can, track your rank, be on top 100, and win exciting prizes.</p>
             <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/challenge.png')] bg-cover bg-center">
             </div>
           </div>
           <div>
-            <h1 className="text-4xl text-white font-bold">Stake</h1>
-            <p className="leading-7 text-lg text-gray-500 mt-2">Bet your beloved NFTs to up your game, Enhance your odds for exciting rewards, Discover the unique attractions of Odds Garden together.</p>
+            <h1 className="text-3xl text-white font-bold">Stake</h1>
+            <p className="leading-7 text-lg text-gray-500 mt-2">Enhance your NFTs value by staking on Odds Garden, offering you a fresh experience to earn points, use them to try unique features within the website, and gather even more benefits.</p>
             <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/stake.png')] bg-cover bg-center">
             </div>
           </div>
           <div>
-            <h1 className="text-4xl text-white font-bold">Raffles</h1>
-            <p className="leading-7 text-lg text-gray-500 mt-2">Gather points in abundance and join the lottery, Try your luck to secure those enticing prizes, Remember to revisit the raffle to see who&apos;s participating.</p>
+            <h1 className="text-3xl text-white font-bold">Raffles</h1>
+            <p className="leading-7 text-lg text-gray-500 mt-2">Try your luck on raffle, collect as many tickets as possible for a chance to win valueable NFTs. Don&apos;t forget to check the Raffle page to see the participants and the lucky winners.</p>
             <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/raffle.png')] bg-cover bg-center">
             </div>
           </div>
           <div>
-            <h1 className="text-4xl text-white font-bold">Upcoming Features</h1>
+            <h1 className="text-3xl text-white font-bold">Upcoming Features</h1>
             <ul className="list-disc ml-4 mt-2">
-              <li className="leading-7 text-lg text-gray-500">Dashboard</li>
-              <li className="leading-7 text-lg text-gray-500">Games</li>
-              <li className="leading-7 text-lg text-gray-500">Exchange - Odds Point to $STARS/USDC</li>
+              <li className="leading-7 text-lg text-gray-500">Dashboard - Seamless experience.</li>
+              <li className="leading-7 text-lg text-gray-500">Games - More fun and rewarding.</li>
+              <li className="leading-7 text-lg text-gray-500">Exchange - Convert Odds Points into $STARS/USDC.</li>
             </ul>
             <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/coming-soon.png')] bg-cover bg-center">
             </div>
@@ -207,13 +185,16 @@ export default function Home() {
           <h1 className="text-5xl text-center font-black">FAQ</h1>
           <div className="mt-4">
             <FaqContainer number="01" title="What is Odds Garden?">
-              <span className="text-xl text-white">Odds Garden is a growing and innovative <b>NFT staking platform</b>, inspired by a mystical garden where extraordinary beings gather to play within the cosmos. Here, your NFTs are more than just a visual collection—you can use them to <b>join exciting challenges, earn exclusive benefits, and unlock new possibilities</b> as the world of ODDS continues to expand, offering bigger opportunities for holders.</span>
+              <span className="text-xl text-[#A1A1AA]">Odds Garden is a growing and innovative NFTs staking platform, where art, tech, and community unite to unlock endless possibilities, offering bigger opportunities for holders. The future is ODDS, where imagination meets innovation.</span>
             </FaqContainer>
-            <FaqContainer number="01" title="How to become a Partner?">
-              <span className="text-xl text-white">If you&apos;re a founder and owned project, submit here: <Link className="text-blue-500" href="https://x.com/artnesh" target="_blank" >https://x.com/artnesh</Link></span>
+            <FaqContainer number="02" title="What can you do?">
+              <span className="text-xl text-[#A1A1AA]">Explore Odds Garden and experience a whole new level of Stake, Raffle, and Challenges like never before. You can participate on competitions, earn exclusive benefits, and discover new possibilities as the world of ODDS continues to expand.</span>
             </FaqContainer>
-            <FaqContainer number="03" title="Who are the team?">
-              <span className="text-xl text-white"></span>
+            <FaqContainer number="03" title="It says &quot;Powered by Stargaze&quot; what&apos;s Stargaze?">
+              <div className="grid gap-4">
+                <span className="text-xl text-[#A1A1AA]">Stargaze is the only NFT platform that offers minting and trading with ZERO gas. Mint and trade NFTs on the app chain made for NFTs. Secured and governed by $STARS.</span>
+                <Link href="https://docs.stargaze.zone/introduction/what-is-stargaze" target="_blank" className="text-xl text-[#A1A1AA] font-bold">Read more about Stargaze</Link>
+              </div>
             </FaqContainer>
           </div>
         </div>

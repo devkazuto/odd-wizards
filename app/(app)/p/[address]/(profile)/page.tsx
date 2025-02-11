@@ -35,7 +35,7 @@ export default function Profile({ params }: { params: { address: string } }) {
 
         async function fetchData() {
             setLoading(true);
-            let resp = await axios.get(`/api/user/${params.address}?collection_address=${config?.collection_address}`);
+            let resp = await axios.get(`/api/user/${params.address}`);
             const data = resp.data.data;
             setStaker(data);
             setUser(data.user);
