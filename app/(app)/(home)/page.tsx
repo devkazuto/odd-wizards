@@ -142,11 +142,22 @@ export default function Home() {
         ))}
       </Marquee>
       <div className="my-28 text-center px-28">
-        <div className="bg-[url('/images/Epigraph.gif')] bg-cover bg-center py-12 rounded-[50px]">
-          <h1 className="text-center text-[27px] md:!text-5xl font-black ">{formatAmount(total)} Odds People!</h1>
-          <span className="text-lg text-white">Stay Connected, from all over the world</span>
-          <div className="mx-auto mt-4">
-            <AvatarCircles className="justify-center mx-auto p-4 max-w-max rounded-[100px]" numPeople={99} avatarUrls={avatars} />
+        <div className="group relative h-72 flex items-center justify-center overflow-hidden rounded-3xl">
+          {/* Background div that zooms */}
+          <div className="absolute inset-0 bg-[url('/images/Epigraph.gif')] bg-cover bg-center transition-transform duration-300 ease-in-out group-hover:scale-110">
+          </div>
+
+          {/* Content div that stays static */}
+          <div className="relative z-10 max-w-max max-h-max">
+            <h1 className="text-center text-5xl font-black">{formatAmount(total)} Odds People!</h1>
+            <span className="text-lg text-white">Stay Connected, from all over the world</span>
+            <div className="mx-auto mt-4">
+              <AvatarCircles
+                className="justify-center mx-auto p-4 max-w-max rounded-full"
+                numPeople={99}
+                avatarUrls={avatars}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -155,19 +166,22 @@ export default function Home() {
           <div>
             <h1 className="text-3xl text-white font-bold">Challenge</h1>
             <p className="leading-7 text-lg text-gray-500 mt-2">Participate on the Staking Challenge and compete with fellow holders. Climb the leaderboard by staking as much NFTs as you can, track your rank, be on top 100, and win exciting prizes.</p>
-            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/challenge.png')] bg-cover bg-center">
+            <div className="rounded-[25px] w-full h-[250px] mt-4 overflow-hidden">
+              <div className="bg-[url('/images/home/challenge.png')] bg-cover bg-center w-full h-full hover:scale-105 transition-all duration-300 ease-in-out" />
             </div>
           </div>
           <div>
             <h1 className="text-3xl text-white font-bold">Stake</h1>
             <p className="leading-7 text-lg text-gray-500 mt-2">Enhance your NFTs value by staking on Odds Garden, offering you a fresh experience to earn points, use them to try unique features within the website, and gather even more benefits.</p>
-            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/stake.png')] bg-cover bg-center">
+            <div className="rounded-[25px] w-full h-[250px] mt-4 overflow-hidden">
+              <div className="bg-[url('/images/home/stake.png')] bg-cover bg-center w-full h-full hover:scale-105 transition-all duration-300 ease-in-out" />
             </div>
           </div>
           <div>
             <h1 className="text-3xl text-white font-bold">Raffles</h1>
             <p className="leading-7 text-lg text-gray-500 mt-2">Try your luck on raffle, collect as many tickets as possible for a chance to win valueable NFTs. Don&apos;t forget to check the Raffle page to see the participants and the lucky winners.</p>
-            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/raffle.png')] bg-cover bg-center">
+            <div className="rounded-[25px] w-full h-[250px] mt-4 overflow-hidden">
+              <div className="bg-[url('/images/home/raffle.png')] bg-cover bg-center w-full h-full hover:scale-105 transition-all duration-300 ease-in-out" />
             </div>
           </div>
           <div>
@@ -177,7 +191,8 @@ export default function Home() {
               <li className="leading-7 text-lg text-gray-500">Games - More fun and rewarding.</li>
               <li className="leading-7 text-lg text-gray-500">Exchange - Convert Odds Points into $STARS/USDC.</li>
             </ul>
-            <div className="rounded-[25px] w-full h-[250px] mt-4 bg-[url('/images/home/coming-soon.png')] bg-cover bg-center">
+            <div className="rounded-[25px] w-full h-[250px] mt-4 overflow-hidden">
+              <div className="bg-[url('/images/home/coming-soon.png')] bg-cover bg-center w-full h-full hover:scale-105 transition-all duration-300 ease-in-out" />
             </div>
           </div>
         </div>
@@ -193,7 +208,7 @@ export default function Home() {
             <FaqContainer number="03" title="It says &quot;Powered by Stargaze&quot; what&apos;s Stargaze?">
               <div className="grid gap-4">
                 <span className="text-xl text-[#A1A1AA]">Stargaze is the only NFT platform that offers minting and trading with ZERO gas. Mint and trade NFTs on the app chain made for NFTs. Secured and governed by $STARS.</span>
-                <Link href="https://docs.stargaze.zone/introduction/what-is-stargaze" target="_blank" className="text-xl text-[#A1A1AA] font-bold">Read more about Stargaze</Link>
+                <Link href="https://docs.stargaze.zone/introduction/what-is-stargaze" target="_blank" className="text-xl text-[#DB2877]">Read more about Stargaze</Link>
               </div>
             </FaqContainer>
           </div>

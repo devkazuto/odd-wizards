@@ -125,6 +125,7 @@ model mst_attributes_reward {
 model trn_distribusi_reward {
   distribusi_id           Int       @id @default(autoincrement())
   distribusi_collection   Int?
+  distribusi_project_id   Int?
   distribusi_reward       String?
   distribusi_wallet       String?
   distribusi_is_claimed   String?   @default("N")
@@ -180,4 +181,5 @@ model mst_banners {
   banner_twiter       String?
   banner_discord      String?
   banner_seqn         Int?
+  banner_type         String?
 }

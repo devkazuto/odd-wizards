@@ -9,14 +9,6 @@ export async function GET(request: NextRequest, { params }: { params: { wallet: 
     try {
         const { wallet } = params;
         const { searchParams } = request.nextUrl;
-        const collection_address = searchParams.get('collection_address');
-
-        if (!collection_address) {
-            return NextResponse.json(
-                { message: 'collection_address is required' },
-                { status: 400 }
-            );
-        }
 
         // Check if user exists
         let user = await prisma.mst_users.findUnique({
@@ -25,20 +17,13 @@ export async function GET(request: NextRequest, { params }: { params: { wallet: 
             }
         });
 
-        const collection = await prisma.mst_collection.findFirst({
-            where: { collection_address: collection_address },
-            include: {
-                mst_staker: false
-            }
-        });
-
-        if (!collection) throw Error("Collection not found");
+        const collections = await prisma.mst_collection.findMany();
 
         // If user doesn't exist, create new user
         if (!user) {
             const resp: OwnedTokensResponse = await fetchStargazeTokens({
                 owner: wallet,
-                collectionAddress: collection_address as string,
+                collectionAddress: collections.map((collection) => collection.collection_address).join(","),
                 limit: 1,
                 offset: 0
             });
@@ -54,65 +39,42 @@ export async function GET(request: NextRequest, { params }: { params: { wallet: 
             });
         }
 
-        const staker = await prisma.mst_staker.findFirst({
-            where: { staker_address: wallet, staker_collection_id: collection.collection_id }
-        });
 
-        if (staker && collection_address) {
-            updateNftOwner(wallet, collection_address);
+        for(let collection of collections){
+            const staker = await prisma.mst_staker.findFirst({
+                where: { staker_address: wallet, staker_collection_id: collection.collection_id }
+            });
+    
+            if (staker && collection.collection_address) {
+                updateNftOwner(wallet, collection.collection_address);
+            }
         }
 
         const distribusiWinner = await prisma.trn_distribusi_reward.findFirst({
             where: {
-                distribusi_collection: collection.collection_id,
-                distribusi_wallet: wallet
+                distribusi_wallet: wallet,
+                distribusi_is_claimed: "N"
             }
         });
 
-        let is_winner = "N";
-        if (distribusiWinner && distribusiWinner?.distribusi_is_claimed != "Y") {
-            const distribusiStart = distribusiWinner.distribusi_start;
-            const distribusiEnd = distribusiWinner.distribusi_end;
-            const now = new Date();
-
-            // Check if start date exists and current time is after start date
-            // if (distribusiStart && now.getTime() > distribusiStart.getTime()) {
-            //     // If end date is null OR current time is before end date
-            //     if (!distribusiEnd || now.getTime() < distribusiEnd.getTime()) {
-            is_winner = "Y";
-            // }
-            // }
-        }
-
-        // const leaderboard = await getLeaderboard(collection_address, wallet, 0, 1);
-        // // Handle BigInt serialization
-        // const leaderboardWithBigIntAsString = leaderboard.map((item: any) => ({
-        //     ...item,
-        //     total_points: item.total_points.toString(),
-        //     ranking: item.ranking.toString()
-        // }));
-
-        // if(staker){
-        //     staker.staker_total_points = leaderboardWithBigIntAsString.length > 0 ? leaderboardWithBigIntAsString[0].total_points : 0;
-        // }
-
         const associatedName = await getAssosiatedName(wallet);
 
-        const stakerTotalPoints = staker?.staker_total_points
-            ? staker.staker_total_points.toString()
-            : null;
-
-        const userTotalPoints = user?.user_total_points
-            ? user.user_total_points.toString()
-            : null;
+        const stakers = await prisma.mst_staker.findMany({
+            where: {
+                staker_address: wallet
+            },
+            include: {
+                projects: true
+            }
+        });
 
         return NextResponse.json(
             {
                 message: 'successfully',
                 data: {
                     associated: associatedName,
-                    user: { ...user, user_total_points: userTotalPoints, is_winner: is_winner },
-                    staker: { ...staker, staker_total_points: stakerTotalPoints },
+                    user: { ...user, is_winner: distribusiWinner ? "Y" : "N" },
+                    staker: stakers,
                 }
             },
             { status: 200 }
