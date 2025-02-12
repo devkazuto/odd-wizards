@@ -291,7 +291,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                                                         {/* <img src="/images/Icon/wzrd.png" className="w-6 h-6" /> */}
                                                         <span className="text-[13px] md:text-base">
                                                             {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
-                                                            {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
+                                                            {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
                                                         </span>
                                                     </div>
                                                 })

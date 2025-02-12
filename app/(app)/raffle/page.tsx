@@ -28,6 +28,7 @@ export default function Stake() {
     const [raffles, setRaffles] = useState<Raffle[]>([]);
     const [history, setHistory] = useState<Item[]>([]);
     const [page, setPage] = useState<number>(1);
+    const [stakers, setStakers] = useState<any>();
     const [hasMore, setHasMore] = useState<boolean>(true);
     const { address } = useChain("stargaze");
     const LIMIT = 8;
@@ -58,7 +59,7 @@ export default function Stake() {
             const notifcations: Item[] = data.map((item: any) => {
                 return {
                     name: `Bought Raffle Ticket`,
-                    description: `just bought ${item.participant_amount} ticket${ item.participant_amount > 1 ? "s" : ""}`,
+                    description: `just bought ${item.participant_amount} ticket${item.participant_amount > 1 ? "s" : ""}`,
                     img: item.user.user_image_url,
                     wallet: formatAddress(item.user.user_address),
                     reward: item.raffle.rewards[0]?.reward_name,
@@ -92,8 +93,16 @@ export default function Stake() {
     }, []);
 
     useEffect(() => {
+        async function fetchData() {
+            if (address) {
+                let resp = await axios.get(`/api/user/${address}`);
+                const data = resp.data.data;
+                setStakers(data.staker);
+            }
+        }
 
-    }, [user]);
+        fetchData();
+    }, [address]);
 
     return (
         <div className="relative bg-black w-full">
@@ -155,41 +164,44 @@ export default function Stake() {
                     {address && user && (
                         <div className="flex justify-center mt-4 md:!mt-8">
                             <div className="w-full md:!w-[750px]">
-                                <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
-                                        <div className="flex items-center gap-4">
-                                            <div className="hidden md:!flex w-[40px] h-[40px] md:w-[70px] md:h-[70px] bg-amber-200 rounded-full items-center justify-center">
-                                                <Link href={`/p/${user?.user_address}`}>
-                                                    <img
-                                                        src={user?.user_image_url ?? DEFAULT_IMAGE_PROFILE}
-                                                        alt={user?.user_address ?? ""}
-                                                        className="rounded-full object-cover w-full h-full"
-                                                        onError={(e: any) => {
-                                                            e.target.src = DEFAULT_IMAGE_PROFILE;
-                                                        }}
-                                                    />
-                                                </Link>
-                                            </div>
-                                            <div>
-                                                <span className="text-[13px] md:text-[20px] text-white">Address</span>
-                                                <Link href={`https://www.stargaze.zone/p/${user?.user_address}`} target="_blank" className="text-center text-[#DB2877]">
-                                                    <p className="text-[12px] md:text-[20px] font-bold">
-                                                        {formatAddress(user?.user_address)}
-                                                    </p>
-                                                </Link>
-                                            </div>
+                                <div className="mx-auto flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[85px] max-w-max rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+                                    <div className="flex items-center gap-4">
+                                        <div className="hidden md:!flex w-[40px] h-[40px] md:w-[70px] md:h-[70px] bg-amber-200 rounded-full items-center justify-center">
+                                            <Link href={`/p/${user?.user_address}`}>
+                                                <img
+                                                    src={user?.user_image_url ?? DEFAULT_IMAGE_PROFILE}
+                                                    alt={user?.user_address ?? ""}
+                                                    className="rounded-full object-cover w-full h-full"
+                                                    onError={(e: any) => {
+                                                        e.target.src = DEFAULT_IMAGE_PROFILE;
+                                                    }}
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div>
+                                            <span className="text-[13px] md:text-[16px] text-white">Address</span>
+                                            <Link href={`https://www.stargaze.zone/p/${user?.user_address}`} target="_blank" className="text-center text-[#DB2877]">
+                                                <p className="text-[12px] md:text-[16px] font-bold">
+                                                    {formatAddress(user?.user_address)}
+                                                </p>
+                                            </Link>
                                         </div>
                                     </div>
-                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+                                </div>
+                                <div className="flex items-center gap-4 mt-4">
+                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center p-4 px-8 h-[68px] md:h-[85px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
                                         <div className="flex items-center gap-4">
-                                            <div className="hidden md:flex">
-                                                <img src="/images/Icon/wzrd.png" className="h-[35px] md:!h-[55px]" alt="WZRD Token" />
-                                            </div>
                                             <div className="block">
-                                                <span className="text-[12px] md:text-[20px] text-white">Token</span>
-                                                <p className="text-[10px] md:text-[20px] font-bold text-white">
-                                                    {formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
-                                                </p>
+                                                <span className="text-[12px] md:text-[16px] text-white">Token</span>
+                                                <div className="flex items-center gap-x-4">
+                                                    {
+                                                        stakers?.map((staker: any, index: number) => {
+                                                            return <p key={index} className="text-[10px] md:text-[16px] font-bold text-white">
+                                                                {formatDecimal(staker?.staker_total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
+                                                            </p>
+                                                        })
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
