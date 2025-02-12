@@ -37,6 +37,7 @@ import { MagicCard } from "@/components/ui/magic-card";
 import { cn, extractCollectionAndTokenId, formatDecimal, getToken } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowUp, ChevronUp, ChevronDown } from "lucide-react";
+import { mst_project } from "@prisma/client";
 
 export default function Stake() {
     const config = getConfig();
@@ -47,12 +48,23 @@ export default function Stake() {
     const [timeLeft, setTimeLeft] = useState<string>("");
     const [status, setStatus] = useState<'not_started' | 'active' | 'expired'>('active');
     const [token, setToken] = useState<any>();
+    const [listType, setListType] = useState<string[] | []>([]);
 
     useEffect(() => {
         if (config && address && !config.owners.includes(address)) {
             window.location.href = '/raffle';
         }
     }, [address]);
+
+    useEffect(() => {
+        async function fetchData(){
+            const resp = await axios.get("/api/project/list");
+            const projects = resp.data.data ?? [];
+            setListType(projects.map((project: mst_project) => project.project_symbol));
+        }
+
+        fetchData();
+    }, []);
 
     const defaultValues = {
         startDate: new Date(),
@@ -285,7 +297,11 @@ export default function Stake() {
                                                                                     <SelectContent>
                                                                                         <SelectGroup>
                                                                                             <SelectLabel>Choose Token</SelectLabel>
-                                                                                            <SelectItem value="WZRD">$WZRD</SelectItem>
+                                                                                            {
+                                                                                                listType?.map((type, index) => {
+                                                                                                    return <SelectItem key={index} value={type}>${type}</SelectItem>
+                                                                                                })
+                                                                                            }
                                                                                         </SelectGroup>
                                                                                     </SelectContent>
                                                                                 </Select>
