@@ -73,7 +73,7 @@ export default function Stake({ params }: { params: { projectid: string } }) {
                     {
                         isMultiCollection ?
                             <MultipleStakeSection project={project} collections={project?.collections ?? []} rewards={project?.rewards} projectid={params.projectid} /> :
-                            project?.collections[0] && <StakeSection collection={project?.collections[0]} projectid={params.projectid} />
+                            project?.collections[0] && <StakeSection project={project} collection={project?.collections[0]} projectid={params.projectid} />
                     }
                 </div>
             )}

@@ -30,7 +30,7 @@ const MultipleStakeSection = ({
 
     return (
         <div className="relative">
-            <BoxStatStake collection={projectid} />
+            <BoxStatStake project={project} collection={projectid} />
             <div>
                 <div className="hidden md:!flex w-full">
                     <MultipleStakeCard projectCode={project?.project_code ?? "-"} />

@@ -129,6 +129,35 @@ const Banner = ({ items }: BannerProps) => {
         }
     };
 
+    const renderMedia = (banner: any) => {
+        const mediaUrl = banner.banner_image ?? "/images/Odds-Garden.png";
+        
+        if (banner.banner_type == 'V') {
+            return (
+                <video 
+                    className="w-full h-full object-cover rounded-[30px] hover:scale-105 transition-all duration-300 ease-in-out"
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline
+                >
+                    <source src={mediaUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            );
+        }
+
+        return (
+            <Image
+                layout="fill"
+                objectFit="cover"
+                src={mediaUrl}
+                alt=""
+                className="rounded-[30px] hover:scale-105 transition-all duration-300 ease-in-out"
+            />
+        );
+    };
+
     return (
         <div className="w-full h-full rounded-[30px]">
             <Carousel
@@ -140,15 +169,9 @@ const Banner = ({ items }: BannerProps) => {
             >
                 <CarouselContent className="w-full h-full -ml-2 rounded-[30px]">
                     {items?.map((banner, index) => (
-                        <CarouselItem key={banner.id}>
-                            <div className="relative w-full h-full">
-                                <Image
-                                    layout="fill"
-                                    objectFit="cover"
-                                    src={banner.banner_image ?? "/images/Odds-Garden.png"}
-                                    alt=""
-                                    className="rounded-[30px]"
-                                />
+                        <CarouselItem key={banner.id} className="rounded-[30px]">
+                            <div className="relative w-full h-full rounded-[30px] overflow-hidden">
+                                {renderMedia(banner)}
                                 <div className="absolute bottom-0 left-0 z-5 bg-gradient-to-b from-transparent via-black-75 to-black w-full p-10 pb-18 pl-16">
                                     <div className="flex gap-2">
                                         <Link hidden={!banner.banner_twiter} href={banner.banner_twiter ?? "#"}>

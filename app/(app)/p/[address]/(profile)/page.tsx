@@ -25,7 +25,7 @@ import NumberTicker from "@/components/ui/number-ticker";
 export default function Profile({ params }: { params: { address: string } }) {
     const config = getConfig();
     const [user, setUser] = useState<mst_users>();
-    const [staker, setStaker] = useState<any>();
+    const [stakers, setStakers] = useState<any>();
     const [associated, setAssociated] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const componentRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export default function Profile({ params }: { params: { address: string } }) {
             setLoading(true);
             let resp = await axios.get(`/api/user/${params.address}`);
             const data = resp.data.data;
-            setStaker(data);
+            setStakers(data.staker);
             setUser(data.user);
             setAssociated(data.associated.names.length > 0 ? data.associated.names[0] : undefined);
             setLoading(false);
@@ -95,10 +95,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                 const encodedTweetText = encodeURIComponent(tweetText);
                 const mobileTweetUrl = `twitter://post?message=${encodedTweetText}`; // Mobile app scheme
                 const webTweetUrl = `https://x.com/intent/tweet?text=${encodedTweetText}`;
-    
+
                 // Detect if the user is on mobile
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
+
                 if (isMobile) {
                     window.location.href = mobileTweetUrl;
                 } else {
@@ -108,12 +108,12 @@ export default function Profile({ params }: { params: { address: string } }) {
                     link.target = '_blank';
                     // link.rel = 'noopener noreferrer'; // Security best practice for target="_blank"
                     document.body.appendChild(link);
-    
+
                     // Trigger click and remove element
                     link.click();
                     document.body.removeChild(link);
                 }
-    
+
                 return {
                     title: "Success!",
                     description: "Share Success"
@@ -124,7 +124,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                 description: error?.response?.data?.message || 'Internal server error.'
             })
         });
-    };    
+    };
 
     const prepareTweet = async () => {
         try {
@@ -284,18 +284,18 @@ export default function Profile({ params }: { params: { address: string } }) {
                                 <span className="text-gray-400">Token</span>
                                 {
                                     loading ? <Loading /> : (
-                                        <div className="mt-1 flex items-center gap-x-4">
-                                            <div className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
-                                                <img src="/images/Icon/wzrd.png" className="w-6 h-6" />
-                                                <span className="text-[13px] md:text-base">
-                                                    {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
-                                                    {formatDecimal(staker?.staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker?.staker_total_points ?? 0, 2)} $WZRD
-                                                </span>
-                                            </div>
-                                            {/* <div className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold w-[200px] flex items-center gap-x-4 blur-[1.5px]">
-                                                <img src="/images/Icon/wzrd.png" className="w-6 h-6" />
-                                                <span>Soon..</span>
-                                            </div> */}
+                                        <div className="mt-1 grid md:flex items-center gap-4">
+                                            {
+                                                stakers?.map((staker: any, index: number) => {
+                                                    return <div key={index} className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
+                                                        {/* <img src="/images/Icon/wzrd.png" className="w-6 h-6" /> */}
+                                                        <span className="text-[13px] md:text-base">
+                                                            {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
+                                                            {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
+                                                        </span>
+                                                    </div>
+                                                })
+                                            }
                                         </div>
                                     )
                                 }
@@ -386,11 +386,18 @@ export default function Profile({ params }: { params: { address: string } }) {
 
                                 <div className="mt-8 px-2">
                                     <span className="text-gray-400">Token</span>
-                                    <div className="mt-4 gap-x-4">
-                                        <div className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
-                                            <img src="/images/Icon/wzrd.png" className="w-8 h-8" />
-                                            <span className="-mt-3 text-[13px] md:text-base">{staker?.staker?.staker_nft_staked ?? 0} NFTs/{formatDecimal(staker?.staker?.staker_total_points ?? 0)} $WZRD</span>
-                                        </div>
+                                    <div className="grid md:flex items-center mt-4 gap-4">
+                                        {
+                                            stakers?.map((staker: any, index: number) => {
+                                                return <div key={index} className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
+                                                    {/* <img src="/images/Icon/wzrd.png" className="w-6 h-6" /> */}
+                                                    <span className="text-[13px] md:text-base">
+                                                        {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
+                                                        {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
+                                                    </span>
+                                                </div>
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>

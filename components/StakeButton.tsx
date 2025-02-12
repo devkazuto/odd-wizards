@@ -6,13 +6,16 @@ import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useClaim } from "@/hooks/useClaim";
 import confetti from "canvas-confetti";
+import { cn } from "@/lib/utils";
 
 export interface StakeSliderProps {
   projectCode?: string,
+  className?: string
 }
 
 const StakeSlider = ({
   projectCode,
+  className
 }: StakeSliderProps ) => {
   const [sliderPosition, setSliderPosition] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -166,11 +169,11 @@ const StakeSlider = ({
     <div>
       <div
         ref={sliderRef}
-        className={`
+        className={cn(`
           relative w-full h-16 bg-black rounded-2xl flex items-center overflow-hidden
           ${isDragging ? 'cursor-grabbing' : 'cursor-default'}
           touch-none
-        `}
+        `, className)}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={() => {
