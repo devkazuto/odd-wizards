@@ -6,9 +6,7 @@ export async function GET(request: NextRequest) {
 
         const projects = await prisma.mst_project.findMany({
             where: {
-                project_status: {
-                    not: "C"
-                },
+                project_status: 'P',
                 project_is_leaderboard: "Y"
             },
             include: {

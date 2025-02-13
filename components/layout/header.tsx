@@ -178,7 +178,7 @@ export default function Header() {
                             {
                               project.project_status == "N" ?
                                 <div className="grid grid-cols-12 items-center hover:scale-105 hover:font-semibold">
-                                  <span className="col-span-2">{project.project_icon}</span>
+                                  <span className="col-span-2 opacity-30">{project.project_icon}</span>
                                   <div className="text-[#156E7E] opacity-30 col-span-10 flex">{project.project_name} (Soon)</div>
                                 </div>
                                 :

@@ -135,7 +135,7 @@ const Banner = ({ items }: BannerProps) => {
         if (banner.banner_type == 'V') {
             return (
                 <video 
-                    className="w-full h-full object-cover rounded-[30px] hover:scale-105 transition-all duration-300 ease-in-out"
+                    className="w-full h-full object-cover rounded-[30px] hover:scale-[102%] transition-all duration-300 ease-in-out"
                     autoPlay 
                     loop 
                     muted 
@@ -153,7 +153,7 @@ const Banner = ({ items }: BannerProps) => {
                 objectFit="cover"
                 src={mediaUrl}
                 alt=""
-                className="rounded-[30px] hover:scale-105 transition-all duration-300 ease-in-out"
+                className="rounded-[30px] hover:scale-[102%] transition-all duration-300 ease-in-out"
             />
         );
     };
@@ -196,6 +196,7 @@ const Banner = ({ items }: BannerProps) => {
                                         <Link 
                                             hidden={!banner?.launchpad} 
                                             href={`https://www.stargaze.zone/l/${banner?.launchpad?.contractUri ?? banner?.launchpad?.contractAddress}`}
+                                            target="_blank"
                                         >
                                             <Button className="h-12 px-8 rounded-[10px] text-lg bg-white text-black font-black hover:bg-white">
                                                 Go to Launchpad
@@ -207,8 +208,8 @@ const Banner = ({ items }: BannerProps) => {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-5 absolute z-15 bg-black bg-opacity-50 border-0 h-10 w-10 hover:bg-black hover:bg-opacity-75" />
-                <CarouselNext className="right-5 z-15 bg-black bg-opacity-50 border-0 h-10 w-10 hover:bg-black hover:bg-opacity-75" />
+                <CarouselPrevious className="-left-10 absolute z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-blue-500 hover:text-white hover:bg-black hover:bg-opacity-75" />
+                <CarouselNext className="-right-10 z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-blue-500 hover:white hover:bg-black hover:bg-opacity-75" />
             </Carousel>
         </div>
     );

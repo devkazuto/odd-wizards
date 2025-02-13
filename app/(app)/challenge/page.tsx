@@ -38,12 +38,16 @@ export default function About() {
                         <Loading />
                     </div>
                 ) : (
-                    <div className="my-10 grid grid-cols-2 md:grid-cols-3 gap-8 px-32">
-                        {
-                            challenges.map((project, index) => {
-                                return <ChallengeCard key={index} project={project} />
-                            })
-                        }
+                    <div className="my-10 px-32">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+                            <div className="col-span-full flex flex-wrap justify-center gap-8">
+                                {
+                                    challenges.map((project, index) => {
+                                        return <ChallengeCard key={index} project={project} />
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
