@@ -65,8 +65,8 @@ export async function GET(request: NextRequest) {
             {
                 message: 'Get points successfully',
                 data: {
-                    point: totalStake,
-                    totalStake: stakerTotalPoints
+                    point: stakerTotalPoints,
+                    totalStake: totalStake
                 }
             },
             { status: 200 }
