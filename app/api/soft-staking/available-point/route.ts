@@ -44,6 +44,13 @@ export async function GET(request: NextRequest) {
             }
         })
 
+        if (stakers.length == 0) {
+            return NextResponse.json(
+                { message: 'Staker not found' },
+                { status: 400 }
+            );
+        }
+
         const resp = await getTotalPoints(staker_address, project.project_id);
 
         // if (resp.point == 0) {
