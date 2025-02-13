@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import { ScrollArea } from "../scroll-area";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export interface ChallengeCardProps {
     project: mst_project & {
@@ -19,6 +20,7 @@ const ChallengeCard = ({
     const [data, setData] = useState<any>(project);
     const [timeLeft, setTimeLeft] = useState<string>("");
     const [isFlipped, setIsFlipped] = useState<boolean>(false);
+    const [isEnded, setIsEnded] = useState<boolean>(false);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -51,8 +53,10 @@ const ChallengeCard = ({
         };
 
         if (now > endTime) {
-            return "";
+            setIsEnded(true);
+            return "Ended";
         } else {
+            setIsEnded(false);
             return "End in " + formatTime(endTime - now);
         }
     };
@@ -67,8 +71,8 @@ const ChallengeCard = ({
             <div className="w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
                 <div className="flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="w-4 h-4 flex items-center justify-center rounded-full blinker bg-green-500/50">
-                            <div className="w-2 h-2 rounded-full bg-green-500" />
+                        <div className={cn("w-4 h-4 flex items-center justify-center rounded-full blinker", isEnded ? "bg-red-500/50" : "bg-green-500/50")}>
+                            <div className={cn("w-2 h-2 rounded-full", isEnded ? "bg-red-500" : "bg-green-500")} />
                         </div>
                         <span>{timeLeft}</span>
                     </div>
