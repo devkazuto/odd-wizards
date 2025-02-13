@@ -53,7 +53,10 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const stakerTotalPoints = stakers.map(staker => staker.staker_total_points?.toString() ?? 0);
+        const stakerTotalPoints = stakers.reduce(
+            (sum, staker) => sum + (staker.staker_total_points || 0),
+            0
+        );
 
         return NextResponse.json(
             {

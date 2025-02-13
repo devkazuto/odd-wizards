@@ -97,6 +97,8 @@ export async function getTotalPoints(address: string, project_id: number) {
             });
         });
 
+        attrreward.push(...attributes_rewards.filter(reward => !reward.attr_key && !reward.attr_val));
+
         console.log("attrreward", attrreward.length);
 
         const points = attrreward?.reduce((sum, reward) =>
