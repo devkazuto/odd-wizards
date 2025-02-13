@@ -60,18 +60,32 @@ export async function POST(request: NextRequest) {
             });
 
             if (resp.point >= 1) {
+
+                let staker = await prisma.mst_staker.findUnique({
+                    where: {
+                        staker_id: data.staker_id
+                    }
+                });
+
                 await prisma.mst_staker.update({
                     where: { staker_id: data.staker_id },
                     data: {
                         staker_lastclaim_date: new Date(),
                         staker_nft_staked: resp.totalNft,
-                        staker_total_points: (data.points ?? 0) + resp.point
+                        staker_total_points: (staker?.staker_total_points ?? 0) + resp.point
                     }
                 });
             }
         }
 
-        const stakerTotalPoints = stakers.map(staker => staker.staker_total_points?.toString() ?? 0);
+        const stakersResp = await prisma.mst_staker.findMany({
+            where: {
+                staker_address: staker_address,
+                staker_project_id: project.project_id
+            }
+        });
+
+        const stakerTotalPoints = stakersResp.map(staker => staker.staker_total_points?.toString() ?? 0);
 
         return NextResponse.json(
             {

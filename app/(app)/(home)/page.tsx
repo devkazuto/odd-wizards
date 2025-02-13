@@ -67,7 +67,8 @@ export default function Home() {
         }
       }));
 
-      const respBanners = await axios.get("/api/banners");
+      const timestamp = new Date().getTime();
+      const respBanners = await axios.get(`/api/banners?t=${timestamp}`);
       setBanners(respBanners.data.data);
     }
 

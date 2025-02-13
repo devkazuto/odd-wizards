@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
 import { getLaunchpad } from '@/lib/utils';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
     try {
@@ -35,7 +36,14 @@ export async function GET(request: NextRequest) {
                 message: 'Get Banners successfully',
                 data: bannersWithLaunchpad,
             },
-            { status: 200 }
+            { 
+                status: 200,
+                headers: {
+                  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                  'Pragma': 'no-cache',
+                  'Expires': '0'
+                }
+            }
         );
     } catch (error) {
         console.error('Get Banners Error:', error);
