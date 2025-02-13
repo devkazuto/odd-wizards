@@ -64,7 +64,7 @@ const ChallengeCard = ({
     return (
         <ReactCardFlip isFlipped={isFlipped}>
             {/* Front Card */}
-            <div className="w-full min-w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
+            <div className="w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
                 <div className="flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
                         <div className="w-4 h-4 flex items-center justify-center rounded-full blinker bg-green-500/50">
@@ -102,11 +102,11 @@ const ChallengeCard = ({
             </div>
 
             {/* Back Card */}
-            <div className="w-full min-w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
+            <div className="w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
                 <ScrollArea className="flex-1 mb-4">
                     <div className="grid gap-2">
                         <div className="grid bg-[#323237] rounded-[10px] p-4">
-                            <span className="text-white">TIER RULES:</span>
+                            <span className="text-white font-semibold">TIER RULES:</span>
                             {rules?.map((item, idx) => (
                                 <div key={idx} className="text-white">
                                     {item.startsWith('-') ? (
@@ -120,7 +120,7 @@ const ChallengeCard = ({
 
                         {periodes && (
                             <div className="grid bg-[#323237] rounded-[10px] p-4">
-                                <span className="text-white">CHALLENGE PERIOD:</span>
+                                <span className="text-white font-semibold">CHALLENGE PERIOD:</span>
                                 {periodes?.map((item, idx) => (
                                     <div key={idx} className="text-white">
                                         {item.startsWith('-') ? (
@@ -135,7 +135,7 @@ const ChallengeCard = ({
 
                         {notes && (
                             <div className="grid bg-[#323237] rounded-[10px] p-4">
-                                <span className="text-white">NOTE:</span>
+                                <span className="text-white font-semibold">NOTE:</span>
                                 {notes?.map((item, idx) => (
                                     <div key={idx} className="text-white">
                                         {item.startsWith('-') ? (
