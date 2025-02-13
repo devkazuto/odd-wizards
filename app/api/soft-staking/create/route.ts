@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
         }
 
         let countToken = 0;
+        console.log("collections", project.collections);
         for (let collection of project.collections) {
 
             if (!collection.collection_address) continue;
@@ -62,12 +63,16 @@ export async function POST(request: NextRequest) {
                 }
             });
 
+            console.log("collection", collection.collection_name);
+            console.log("staker", staker);
+
             if (!staker) {
                 staker = await prisma.mst_staker.create({
                     data: {
                         staker_address,
                         staker_collection_id: collection.collection_id,
-                        staker_total_points: 0
+                        staker_total_points: 0,
+                        staker_project_id: project.project_id
                     }
                 });
             }
