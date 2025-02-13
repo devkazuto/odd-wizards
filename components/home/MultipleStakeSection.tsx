@@ -20,7 +20,10 @@ const MultipleStakeSection = ({
     rewards
 }: MultipleStakeSectionProps) => {
 
-    const imageList = rewards?.map((item) => {
+    const imageList = rewards?.sort((a, b) => {
+        // Compare reward_rank values
+        return (a.reward_rank ?? 0) - (b.reward_rank ?? 0);
+    }).map((item) => {
         return {
             name: item.reward_name ?? "",
             src: item.reward_image_url ?? "",
