@@ -95,6 +95,17 @@ export async function getTotalPoints(address: string, project_id: number) {
                 if (matchingReward) {
                     attrreward.push(matchingReward);
                 }
+
+                if(!matchingReward){
+                    const matchingKeyReward = attributes_rewards.find(reward =>
+                        reward.attr_key == trait.name &&
+                        (reward.attr_val == undefined || reward.attr_val == null)
+                    );
+
+                    if(matchingKeyReward){
+                        attrreward.push(matchingKeyReward);
+                    }
+                }
             });
         });
 
