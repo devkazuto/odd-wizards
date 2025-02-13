@@ -70,7 +70,8 @@ export async function getTotalPoints(address: string, project_id: number) {
         })
 
         if (!staker) {
-            throw Error("Staker not found");
+            // throw Error("Staker not found");
+            continue;
         }
 
         const attributes_rewards = await prisma.mst_attributes_reward.findMany({
