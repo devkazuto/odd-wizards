@@ -40,7 +40,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <main className="h-screen w-full bg-black">
         <ChainProviderWrapper>
           <HeaderMobile />
-          {/* <MobileComingSoon /> */}
+          <MobileComingSoon />
           {/* <Header /> */}
           {/* <NavPrice /> */}
           <ScrollArea className="w-full h-screen">

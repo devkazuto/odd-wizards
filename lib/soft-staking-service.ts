@@ -60,6 +60,7 @@ export async function getTotalPoints(address: string, project_id: number) {
 
     let totalNft = 0;
     let totalPoint = 0;
+    let listPoints = [];
 
     for (let collection of project?.collections) {
 
@@ -119,11 +120,16 @@ export async function getTotalPoints(address: string, project_id: number) {
 
         totalNft += allTokens.length;
         totalPoint += points;
+        listPoints.push({
+            staker_id: staker.staker_id,
+            points: points
+        });
     }
 
     return {
         totalNft: totalNft,
-        point: totalPoint
+        point: totalPoint,
+        listPoints: listPoints
     };
 }
 

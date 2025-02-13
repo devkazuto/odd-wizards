@@ -19,6 +19,7 @@ import Particles from "@/components/ui/particles";
 import RaffleCardCustom from "@/components/raffle/RaffleCardCustom";
 import { AnimatedList } from "@/components/ui/animated-list";
 import { Item, Notification } from "@/components/Notification";
+import { mst_project } from "@prisma/client";
 
 export default function Stake() {
     const config = getConfig();
@@ -102,33 +103,35 @@ export default function Stake() {
 
                 setTokens(
                     Object.values(
-                      data.staker.reduce((acc: any, staker: any) => {
-                        const projectId = staker.staker_project_id ?? 0;
-                        const project = staker.projects; // Getting the related project data
-                  
-                        if (!acc[projectId]) {
-                          acc[projectId] = {
-                            project_id: projectId,
-                            project_symbol: project?.project_symbol ?? '',
-                            project_symbol_img: project?.project_symbol_img ?? '',
-                            total_nft_staked: 0,
-                            total_points: 0
-                          };
-                        }
-                  
-                        acc[projectId].total_nft_staked += staker.staker_nft_staked ?? 0;
-                        acc[projectId].total_points += staker.staker_total_points ?? 0;
-                  
-                        return acc;
-                      }, {} as Record<number, {
-                        project_id: number;
-                        project_symbol: string;
-                        project_symbol_img: string;
-                        total_nft_staked: number;
-                        total_points: number;
-                      }>)
+                        data.staker.filter((item: mst_project) => {
+                            return item.project_code == 'oddswizard'
+                        }).reduce((acc: any, staker: any) => {
+                            const projectId = staker.staker_project_id ?? 0;
+                            const project = staker.projects; // Getting the related project data
+
+                            if (!acc[projectId]) {
+                                acc[projectId] = {
+                                    project_id: projectId,
+                                    project_symbol: project?.project_symbol ?? '',
+                                    project_symbol_img: project?.project_symbol_img ?? '',
+                                    total_nft_staked: 0,
+                                    total_points: 0
+                                };
+                            }
+
+                            acc[projectId].total_nft_staked += staker.staker_nft_staked ?? 0;
+                            acc[projectId].total_points += staker.staker_total_points ?? 0;
+
+                            return acc;
+                        }, {} as Record<number, {
+                            project_id: number;
+                            project_symbol: string;
+                            project_symbol_img: string;
+                            total_nft_staked: number;
+                            total_points: number;
+                        }>)
                     )
-                  );
+                );
 
             }
         }
@@ -196,44 +199,41 @@ export default function Stake() {
                     {address && user && (
                         <div className="flex justify-center mt-4 md:!mt-8">
                             <div className="w-full md:!w-[750px]">
-                                <div className="mx-auto flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[85px] max-w-max rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
-                                    <div className="flex items-center gap-4">
-                                        <div className="hidden md:!flex w-[40px] h-[40px] md:w-[70px] md:h-[70px] bg-amber-200 rounded-full items-center justify-center">
-                                            <Link href={`/p/${user?.user_address}`}>
-                                                <img
-                                                    src={user?.user_image_url ?? DEFAULT_IMAGE_PROFILE}
-                                                    alt={user?.user_address ?? ""}
-                                                    className="rounded-full object-cover w-full h-full"
-                                                    onError={(e: any) => {
-                                                        e.target.src = DEFAULT_IMAGE_PROFILE;
-                                                    }}
-                                                />
-                                            </Link>
-                                        </div>
-                                        <div>
-                                            <span className="text-[13px] md:text-[16px] text-white">Address</span>
-                                            <Link href={`https://www.stargaze.zone/p/${user?.user_address}`} target="_blank" className="text-center text-[#DB2877]">
-                                                <p className="text-[12px] md:text-[16px] font-bold">
-                                                    {formatAddress(user?.user_address)}
-                                                </p>
-                                            </Link>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center justify-between p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+                                        <div className="flex items-center gap-4">
+                                            <div className="hidden md:!flex w-[40px] h-[40px] md:w-[70px] md:h-[70px] bg-amber-200 rounded-full items-center justify-center">
+                                                <Link href={`/p/${user?.user_address}`}>
+                                                    <img
+                                                        src={user?.user_image_url ?? DEFAULT_IMAGE_PROFILE}
+                                                        alt={user?.user_address ?? ""}
+                                                        className="rounded-full object-cover w-full h-full"
+                                                        onError={(e: any) => {
+                                                            e.target.src = DEFAULT_IMAGE_PROFILE;
+                                                        }}
+                                                    />
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <span className="text-[13px] md:text-[20px] text-white">Address</span>
+                                                <Link href={`https://www.stargaze.zone/p/${user?.user_address}`} target="_blank" className="text-center text-[#DB2877]">
+                                                    <p className="text-[12px] md:text-[20px] font-bold">
+                                                        {formatAddress(user?.user_address)}
+                                                    </p>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex items-center gap-4 mt-4">
-                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center p-4 px-8 h-[68px] md:h-[85px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
+                                    <div className="flex bg-[#18181B] border-2 border-[#323237] flex-grow items-center p-4 px-8 h-[68px] md:h-[105px] w-full rounded-[15px] md:rounded-[25px] text-[#A1A1AA]">
                                         <div className="flex items-center gap-4">
+                                            <div className="hidden md:flex">
+                                                <img src="/images/Icon/wzrd.png" className="h-[35px] md:!h-[55px]" alt="WZRD Token" />
+                                            </div>
                                             <div className="block">
-                                                <span className="text-[12px] md:text-[16px] text-white">Token</span>
-                                                <div className="flex items-center gap-x-4">
-                                                    {
-                                                        tokens?.map((staker: any, index: number) => {
-                                                            return <p key={index} className="text-[10px] md:text-[16px] font-bold text-white">
-                                                                {formatDecimal(staker?.total_points ?? 0, 2)} ${staker?.project_symbol}
-                                                            </p>
-                                                        })
-                                                    }
-                                                </div>
+                                                <span className="text-[12px] md:text-[20px] text-white">Token</span>
+                                                <p className="text-[10px] md:text-[20px] font-bold text-white">
+                                                    {formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
+                                                </p>
                                             </div>
                                         </div>
                                     </div>

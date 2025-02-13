@@ -165,7 +165,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-10">
           <div>
             <h1 className="text-3xl text-white font-bold">Challenge</h1>
-            <p className="leading-7 text-lg text-gray-500 mt-2">Participate on the Staking Challenge and compete with fellow holders. Climb the leaderboard by staking as much NFTs as you can, track your rank, be on top 100, and win exciting prizes.</p>
+            <p className="leading-7 text-lg text-gray-500 mt-2">Participate on the Staking Challenge and compete with fellow holders. Climb the leaderboard by staking as much NFTs as you can, track your rank, and win exciting prizes.</p>
             <div className="rounded-[25px] w-full h-[250px] mt-4 overflow-hidden">
               <div className="bg-[url('/images/home/challenge.png')] bg-cover bg-center w-full h-full hover:scale-105 transition-all duration-300 ease-in-out" />
             </div>

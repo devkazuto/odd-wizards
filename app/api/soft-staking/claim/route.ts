@@ -49,23 +49,23 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        for (let staker of stakers) {
+        for (let data of resp.listPoints) {
             await prisma.trn_point.create({
                 data: {
                     point_amount: resp.point,
                     point_nft_staked: resp.totalNft,
-                    point_staker_id: staker.staker_id,
+                    point_staker_id: data.staker_id,
                     point_claim_date: new Date()
                 }
             });
 
             if (resp.point >= 1) {
                 await prisma.mst_staker.update({
-                    where: { staker_id: staker.staker_id },
+                    where: { staker_id: data.staker_id },
                     data: {
                         staker_lastclaim_date: new Date(),
                         staker_nft_staked: resp.totalNft,
-                        staker_total_points: (staker.staker_total_points ?? 0) + resp.point
+                        staker_total_points: (data.points ?? 0) + resp.point
                     }
                 });
             }

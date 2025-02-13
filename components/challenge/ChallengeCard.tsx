@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import { ScrollArea } from "../scroll-area";
+import Link from "next/link";
 
 export interface ChallengeCardProps {
     project: mst_project & {
@@ -63,7 +64,7 @@ const ChallengeCard = ({
     return (
         <ReactCardFlip isFlipped={isFlipped}>
             {/* Front Card */}
-            <div className="w-full h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
+            <div className="w-full min-w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
                 <div className="flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
                         <div className="w-4 h-4 flex items-center justify-center rounded-full blinker bg-green-500/50">
@@ -83,16 +84,25 @@ const ChallengeCard = ({
                         🏆 Number of Winners: <span className="text-white">{project?.rewards ? project?.rewards.length : 0}</span>
                     </p>
                 </div>
-                <Button
-                    onClick={() => setIsFlipped(true)}
-                    className="rounded-[8px] bg-[#323237] w-full hover:bg-[#323237] mt-auto"
-                >
-                    Read more
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button
+                        onClick={() => setIsFlipped(true)}
+                        className="rounded-[8px] bg-[#323237] w-full hover:bg-[#323237] mt-auto"
+                    >
+                        Read more
+                    </Button>
+                    <Link href={`/stake/${project.project_code}`}>
+                        <Button
+                            className="rounded-[8px] bg-[#323237] w-full hover:bg-[#323237] mt-auto"
+                        >
+                            Join Now
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             {/* Back Card */}
-            <div className="w-full h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
+            <div className="w-full min-w-[300px] h-[500px] flex flex-col rounded-[20px] p-4 bg-neutral-900 border-2 border-[#323237]">
                 <ScrollArea className="flex-1 mb-4">
                     <div className="grid gap-2">
                         <div className="grid bg-[#323237] rounded-[10px] p-4">
@@ -139,6 +149,7 @@ const ChallengeCard = ({
                         )}
                     </div>
                 </ScrollArea>
+
                 <Button
                     onClick={() => setIsFlipped(false)}
                     className="rounded-[8px] bg-[#323237] w-full hover:bg-[#323237] mt-auto"
