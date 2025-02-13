@@ -35,9 +35,12 @@ model mst_project {
   project_footer_twitter String?
   project_footer_discord_color String?
   project_footer_twitter_color String?
+  project_discord_url    String?
+  project_twitter_url    String?
   project_seqn           Int?
   project_leaderboard_enddate DateTime?
   project_symbol         String?
+  project_symbol_img     String?
   project_chellange_tierrule String?
   project_chellange_periode String?
   project_chellange_note    String?

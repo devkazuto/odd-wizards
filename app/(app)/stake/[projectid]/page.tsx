@@ -78,7 +78,7 @@ export default function Stake({ params }: { params: { projectid: string } }) {
                 </div>
             )}
             <div className="bg-[url('/images/bg-line-grid.png')] bg-cover bg-center h-full py-12 md:py-16">
-                <Footer twitterColor={project?.project_footer_twitter_color} discordColor={project?.project_footer_discord_color} discordImage={project?.project_footer_discord} twitterImage={project?.project_footer_twitter} className="my-0" />
+                <Footer twitterUrl={project?.project_footer_twitter_url} discordUrl={project?.project_footer_discord_url} discordImage={project?.project_footer_discord} twitterImage={project?.project_footer_twitter} className="my-0" />
             </div>
         </div >
     );
