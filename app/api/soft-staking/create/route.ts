@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
 
         const stakers = await prisma.mst_staker.findMany({
             where: {
+                staker_address: staker_address,
                 staker_project_id: project.project_id
             }
         });
