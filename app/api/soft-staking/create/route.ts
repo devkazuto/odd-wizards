@@ -42,14 +42,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const collections = await prisma.mst_collection.findMany({
-            where: {
-                collection_project_id: project.project_id
-            }
-        });
-
         let countToken = 0;
-        for (let collection of collections) {
+        for (let collection of project.collections) {
 
             if (!collection.collection_address) continue;
 
@@ -90,29 +84,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const stakers = await prisma.mst_staker.findMany({
-            where: {
-                staker_address: staker_address,
-                staker_project_id: project.project_id
-            }
-        });
-
-        if (stakers.length == 0) {
-            return NextResponse.json(
-                { message: 'Staker not found' },
-                { status: 400 }
-            );
-        }
-
-        const stakerTotalPoints = stakers.reduce(
-            (sum, staker) => sum + (staker.staker_total_points || 0),
-            0
-        );
-
         return NextResponse.json(
             {
-                message: 'Stake created successfully',
-                data: { ...stakers, staker_total_points: stakerTotalPoints },
+                message: 'Stake created successfully'
             },
             { status: 201 }
         );
