@@ -46,12 +46,12 @@ export async function GET(request: NextRequest) {
 
         const resp = await getTotalPoints(staker_address, project.project_id);
 
-        if (resp.point == 0) {
-            return NextResponse.json(
-                { message: 'No points available to claim' },
-                { status: 400 }
-            );
-        }
+        // if (resp.point == 0) {
+        //     return NextResponse.json(
+        //         { message: 'No points available to claim' },
+        //         { status: 400 }
+        //     );
+        // }
 
         const stakerTotalPoints = stakers.reduce(
             (sum, staker) => sum + (staker.staker_total_points || 0),
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
                 message: 'Get available points successfully',
                 data: {
                     staker: { ...stakers, staker_total_points: stakerTotalPoints },
-                    points: resp.point
+                    points: resp.point ?? 0
                 }
             },
             { status: 200 }

@@ -35,7 +35,7 @@ export const BoxStatStake = ({
     async function fetchData() {
       setLoading(true);
       try {
-        const resp = await axios.get(`/api/soft-staking/point?wallet_address=${address}&collection_address=${collection}`);
+        const resp = await axios.get(`/api/soft-staking/point?wallet_address=${address}&project_code=${project?.project_code}`);
         setStat(resp.data.data);
       } catch (error) {
       }
