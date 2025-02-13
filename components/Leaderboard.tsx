@@ -1,6 +1,5 @@
 "use client";
 
-import getConfig from "@/config/config";
 import { DEFAULT_IMAGE_PROFILE } from "@/constants";
 import { cn, formatAddress, formatDecimal } from "@/lib/utils";
 import { LeaderboardItem } from "@/types/leaderboard";
@@ -27,7 +26,6 @@ const Leaderboard = ({
   const [page, setPage] = useState(0); // Halaman untuk pagination
   const [hasMore, setHasMore] = useState(true); // Menandakan apakah masih ada data untuk dimuat
   const [loading, setLoading] = useState<boolean>(false);
-  const config = getConfig();
   const { claim } = useClaim();
 
   // Fungsi untuk mengambil data leaderboard
@@ -38,7 +36,7 @@ const Leaderboard = ({
     async function fetchData() {
       setLoading(true);
       try {
-        const resp = await axios.get(`/api/soft-staking/leaderboard?collection_address=${config?.collection_address}&page=${page}`, {
+        const resp = await axios.get(`/api/soft-staking/leaderboard?project_code=${project?.project_code}&page=${page}`, {
           signal,
         });
         const data = resp.data.data ?? [];
@@ -67,7 +65,7 @@ const Leaderboard = ({
       setLoading(true);
       setPage(0);
       try {
-        const resp = await axios.get(`/api/soft-staking/leaderboard?collection_address=${config?.collection_address}&page=0`);
+        const resp = await axios.get(`/api/soft-staking/leaderboard?project_code=${project?.project_code}&page=0`);
         const data = resp.data.data ?? [];
         setLeaderboard(data);
         setHasMore(data.length > 0);
