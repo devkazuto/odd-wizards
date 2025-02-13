@@ -21,11 +21,13 @@ import Loading from "@/components/Loading";
 import { promiseToast } from "@/components/ui/use-toast";
 import { mst_users } from "@prisma/client";
 import NumberTicker from "@/components/ui/number-ticker";
+import { sum } from "@cosmos-kit/core";
 
 export default function Profile({ params }: { params: { address: string } }) {
     const config = getConfig();
     const [user, setUser] = useState<mst_users>();
     const [stakers, setStakers] = useState<any>();
+    const [tokens, setTokens] = useState<any[] | []>([]);
     const [associated, setAssociated] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const componentRef = useRef<HTMLDivElement>(null);
@@ -40,6 +42,34 @@ export default function Profile({ params }: { params: { address: string } }) {
             setStakers(data.staker);
             setUser(data.user);
             setAssociated(data.associated.names.length > 0 ? data.associated.names[0] : undefined);
+
+            setTokens(
+                Object.values(
+                  data.staker.reduce((acc: any, staker: any) => {
+                    const projectId = staker.staker_project_id ?? 0; // Fallback to 0 if null
+              
+                    // Initialize group if it doesn't exist
+                    if (!acc[projectId]) {
+                      acc[projectId] = {
+                        project_id: projectId,
+                        total_nft_staked: 0,
+                        total_points: 0
+                      };
+                    }
+              
+                    // Add to running totals
+                    acc[projectId].total_nft_staked += staker.staker_nft_staked ?? 0;
+                    acc[projectId].total_points += staker.staker_total_points ?? 0;
+              
+                    return acc;
+                  }, {} as Record<number, {
+                    project_id: number;
+                    total_nft_staked: number;
+                    total_points: number;
+                  }>)
+                )
+              );
+
             setLoading(false);
         }
 
@@ -286,12 +316,12 @@ export default function Profile({ params }: { params: { address: string } }) {
                                     loading ? <Loading /> : (
                                         <div className="mt-1 grid md:flex items-center gap-4">
                                             {
-                                                stakers?.map((staker: any, index: number) => {
+                                                tokens?.map((staker: any, index: number) => {
                                                     return <div key={index} className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
                                                         <img src={staker?.projects?.project_symbol_img} className="w-6 h-6" />
                                                         <span className="text-[13px] md:text-base">
                                                             {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
-                                                            {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
+                                                            {formatDecimal(staker?.total_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
                                                         </span>
                                                     </div>
                                                 })
@@ -388,12 +418,12 @@ export default function Profile({ params }: { params: { address: string } }) {
                                     <span className="text-gray-400">Token</span>
                                     <div className="grid md:flex items-center mt-4 gap-4">
                                         {
-                                            stakers?.map((staker: any, index: number) => {
+                                            tokens?.map((staker: any, index: number) => {
                                                 return <div key={index} className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
                                                     <img src={staker?.projects?.project_symbol_img} className="w-6 h-6" />
                                                     <span className="text-[13px] md:text-base">
                                                         {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
-                                                        {formatDecimal(staker?.staker_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.staker_total_points ?? 0, 2)} $WZRD
+                                                        {formatDecimal(staker?.total_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.total_points ?? 0, 2)} $WZRD
                                                     </span>
                                                 </div>
                                             })
