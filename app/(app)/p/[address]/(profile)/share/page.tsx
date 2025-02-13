@@ -42,24 +42,27 @@ export default function Profile({ params }: { params: { address: string } }) {
             setTokens(
                 Object.values(
                   data.staker.reduce((acc: any, staker: any) => {
-                    const projectId = staker.staker_project_id ?? 0; // Fallback to 0 if null
+                    const projectId = staker.staker_project_id ?? 0;
+                    const project = staker.projects; // Getting the related project data
               
-                    // Initialize group if it doesn't exist
                     if (!acc[projectId]) {
                       acc[projectId] = {
                         project_id: projectId,
+                        project_symbol: project?.project_symbol ?? '',
+                        project_symbol_img: project?.project_symbol_img ?? '',
                         total_nft_staked: 0,
                         total_points: 0
                       };
                     }
               
-                    // Add to running totals
                     acc[projectId].total_nft_staked += staker.staker_nft_staked ?? 0;
                     acc[projectId].total_points += staker.staker_total_points ?? 0;
               
                     return acc;
                   }, {} as Record<number, {
                     project_id: number;
+                    project_symbol: string;
+                    project_symbol_img: string;
                     total_nft_staked: number;
                     total_points: number;
                   }>)
@@ -185,10 +188,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                                             {
                                                 tokens?.map((staker: any, index: number) => {
                                                     return <div key={index} className="p-4 bg-[#18181B] border border-[#323237] rounded-2xl font-bold max-w-max flex items-center gap-x-4">
-                                                        <img src={staker?.projects?.project_symbol_img} className="w-6 h-6" />
+                                                        <img src={staker?.project_symbol_img} className="w-6 h-6" />
                                                         <span className="text-[13px] md:text-base">
                                                             {/* <NumberTicker value={staker?.staker?.staker_nft_staked ?? 0} decimalPlaces={2} /> NFTs/<NumberTicker value={staker?.staker?.staker_total_points ?? 0} decimalPlaces={2} /> $WZRD */}
-                                                            {formatDecimal(staker?.total_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
+                                                            {formatDecimal(staker?.total_nft_staked ?? 0, 2)} NFTs/{formatDecimal(staker?.total_points ?? 0, 2)} ${staker?.project_symbol}
                                                         </span>
                                                     </div>
                                                 })

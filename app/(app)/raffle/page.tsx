@@ -29,6 +29,7 @@ export default function Stake() {
     const [history, setHistory] = useState<Item[]>([]);
     const [page, setPage] = useState<number>(1);
     const [stakers, setStakers] = useState<any>();
+    const [tokens, setTokens] = useState<any[] | []>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const { address } = useChain("stargaze");
     const LIMIT = 8;
@@ -98,6 +99,37 @@ export default function Stake() {
                 let resp = await axios.get(`/api/user/${address}`);
                 const data = resp.data.data;
                 setStakers(data.staker);
+
+                setTokens(
+                    Object.values(
+                      data.staker.reduce((acc: any, staker: any) => {
+                        const projectId = staker.staker_project_id ?? 0;
+                        const project = staker.projects; // Getting the related project data
+                  
+                        if (!acc[projectId]) {
+                          acc[projectId] = {
+                            project_id: projectId,
+                            project_symbol: project?.project_symbol ?? '',
+                            project_symbol_img: project?.project_symbol_img ?? '',
+                            total_nft_staked: 0,
+                            total_points: 0
+                          };
+                        }
+                  
+                        acc[projectId].total_nft_staked += staker.staker_nft_staked ?? 0;
+                        acc[projectId].total_points += staker.staker_total_points ?? 0;
+                  
+                        return acc;
+                      }, {} as Record<number, {
+                        project_id: number;
+                        project_symbol: string;
+                        project_symbol_img: string;
+                        total_nft_staked: number;
+                        total_points: number;
+                      }>)
+                    )
+                  );
+
             }
         }
 
@@ -195,9 +227,9 @@ export default function Stake() {
                                                 <span className="text-[12px] md:text-[16px] text-white">Token</span>
                                                 <div className="flex items-center gap-x-4">
                                                     {
-                                                        stakers?.map((staker: any, index: number) => {
+                                                        tokens?.map((staker: any, index: number) => {
                                                             return <p key={index} className="text-[10px] md:text-[16px] font-bold text-white">
-                                                                {formatDecimal(staker?.staker_total_points ?? 0, 2)} ${staker?.projects?.project_symbol}
+                                                                {formatDecimal(staker?.total_points ?? 0, 2)} ${staker?.project_symbol}
                                                             </p>
                                                         })
                                                     }
