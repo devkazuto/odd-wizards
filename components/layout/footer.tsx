@@ -32,7 +32,7 @@ export const Footer = ({
           </div>
           <img src={ discordImage ?? "/images/discord-wizard.png" } className="h-[70px] md:h-[100px]" />
         </div> */}
-        <img src={discordImage ?? "/images/footer-discord.png" } className="w-full h-[70px] md:h-[100px]" />
+        <img src={discordImage ?? "/images/footer-discord.png" } className="w-full md:h-[100px]" />
       </Link>
       <Link href={ twitterUrl ?? "https://x.com/artnesh"} target="_blank" className="group hover:scale-110 transition-all duration-200 ease-in-out">
         {/* <div className={cn("rounded-xl flex gap-2 items-center shadow-md")} 
@@ -46,7 +46,7 @@ export const Footer = ({
           </div>
           <img src={ twitterImage ?? "/images/x-wizard.png" } className="h-[70px] md:h-[100px]" />
         </div> */}
-        <img src={twitterImage ?? "/images/footer-twitter.png" } className="w-full h-[70px] md:h-[100px]" />
+        <img src={twitterImage ?? "/images/footer-twitter.png" } className="w-full md:h-[100px]" />
       </Link>
     </footer>
   );
