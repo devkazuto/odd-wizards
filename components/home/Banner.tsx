@@ -208,8 +208,8 @@ const Banner = ({ items }: BannerProps) => {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="-left-10 absolute z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-blue-500 hover:text-white hover:bg-black hover:bg-opacity-75" />
-                <CarouselNext className="-right-10 z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-blue-500 hover:white hover:bg-black hover:bg-opacity-75" />
+                <CarouselPrevious className="-left-10 absolute z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-gray-500 hover:text-white hover:bg-black hover:bg-opacity-75" />
+                <CarouselNext className="-right-10 z-15 bg-transparent bg-opacity-50 border-0 h-10 w-10 text-gray-500 hover:white hover:bg-black hover:bg-opacity-75" />
             </Carousel>
         </div>
     );
