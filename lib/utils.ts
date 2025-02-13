@@ -796,10 +796,13 @@ export async function getLaunchpad(address: string, walletAddress?: string) {
   }`;
 
   try {
-    const response = await fetch(config.graphql_url, {
+    const response = await fetch(`${config.graphql_url}?t=${new Date().getTime()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache', // Untuk kompatibilitas dengan HTTP/1.0
+        'Expires': '0' // Untuk memastikan browser lama juga tidak menyimpan cache
       },
       body: JSON.stringify({
         query,
@@ -813,10 +816,10 @@ export async function getLaunchpad(address: string, walletAddress?: string) {
 
     const data = await response.json();
     return data.data.collection;
-  } catch (error) {
+} catch (error) {
     console.error('Error fetching launchpad data:', error);
     throw error;
-  }
+}
 }
 
 export function formatToStars(value?: string | number): number {

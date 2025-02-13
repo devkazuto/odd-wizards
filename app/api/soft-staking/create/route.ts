@@ -63,9 +63,6 @@ export async function POST(request: NextRequest) {
                 }
             });
 
-            console.log("collection", collection.collection_name);
-            console.log("staker", staker);
-
             if (!staker) {
                 staker = await prisma.mst_staker.create({
                     data: {
