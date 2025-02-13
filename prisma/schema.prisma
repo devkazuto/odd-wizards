@@ -27,6 +27,7 @@ model mst_project {
   project_name           String?
   project_description    String?
   project_banner         String?
+  priject_banner_type    String?
   project_status         String?
   project_is_leaderboard String? @default("N")
   project_icon           String?
